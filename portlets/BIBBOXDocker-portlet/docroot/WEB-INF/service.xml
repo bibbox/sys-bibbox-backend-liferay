@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+<service-builder package-path="at.graz.meduni.bibbox.liferay.portlet">
+	<author>Robert Reihs</author>
+	<namespace>bibboxdocker</namespace>
+
+	<entity name="DockerContainer" local-service="true" remote-service="true">
+
+		<!-- PK fields -->
+		<column name="dockerContainerId" type="long" primary="true" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="startCommand" type="String" />
+		<column name="toolName" type="String" />
+		<column name="instance" type="String" />
+		<column name="port" type="String" />
+		<column name="url" type="String" />
+		<column name="subdomain" type="String" />
+		<column name="ip" type="String" />
+		
+		<column name="displayName" type="String" />
+		<column name="displayToolName" type="String" />
+		<column name="category" type="String" />
+		<column name="tool" type="String" />
+		<column name="description" type="String" />
+		<column name="company" type="String" />
+		<column name="platform" type="String" />
+		<column name="license" type="String" />
+		<column name="toolDescription" type="String" />
+		<column name="logourl" type="String" />
+		
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="dockerContainerId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="DockerContainer" return-type="DockerContainer">
+			<finder-column name="toolName" />
+			<finder-column name="instance" />
+		</finder>
+		<finder name="DockerContainerInstances" return-type="Collection">
+			<finder-column name="toolName" />
+		</finder>
+	</entity>
+</service-builder>

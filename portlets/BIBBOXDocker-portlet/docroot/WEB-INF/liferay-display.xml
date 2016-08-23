@@ -5,4 +5,7 @@
 	<category name="category.sample">
 		<portlet id="BIBBOXDocker" />
 	</category>
+	<category name="BIBBOX Docker">
+		<portlet id="tool-list"></portlet>
+	</category>
 </display>
