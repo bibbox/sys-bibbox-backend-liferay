@@ -1,0 +1,261 @@
+<?xml version="1.0"?>
+<!DOCTYPE project>
+
+<project name="plugins" basedir="." default="all" xmlns:antelope="antlib:ise.antelope.tasks" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+	<import file="build-common.xml" />
+
+	<condition property="plugins.includes.path" value="">
+		<or>
+			<equals arg1="${plugins.includes}" arg2="" />
+			<not>
+				<isset property="plugins.includes" />
+			</not>
+		</or>
+	</condition>
+
+	<path id="plugins.includes.path">
+		<dirset dir="hooks" excludes="${plugins.excludes}" includes="${plugins.includes}" />
+		<dirset dir="layouttpl" excludes="${plugins.excludes}" includes="${plugins.includes}" />
+		<dirset dir="portlets" excludes="${plugins.excludes}" includes="${plugins.includes}" />
+		<dirset dir="shared" excludes="${plugins.excludes}" includes="${plugins.includes}" />
+		<dirset dir="themes" excludes="${plugins.excludes}" includes="${plugins.includes}" />
+		<dirset dir="webs" excludes="${plugins.excludes}" includes="${plugins.includes}" />
+	</path>
+
+	<pathconvert pathsep="," property="plugins.includes.path" refid="plugins.includes.path" targetos="unix" />
+
+	<macrodef name="extract-plugins-sdk">
+		<attribute default="false" name="plugins.sdk.with.dependencies" />
+
+		<sequential>
+			<var name="plugins.sdk.name" value="com.liferay.portal.plugins.sdk" />
+			<var name="plugins.sdk.zip.excludes" value="*.iml,.git/**,.ivy/**,build.*.properties,dist/**,hooks/*-hook/**,layouttpl/*-layouttpl/**,portlets/*-portlet/**,private-plugins.txt,shared/*-shared/**,source_formatter_*,suites/**,summary.*,themes/*-theme/**,tmp/**,tools/node-*/**,webs/*-web/**" />
+
+			<if>
+				<istrue value="@{plugins.sdk.with.dependencies}" />
+				<then>
+					<var name="plugins.sdk.name" value="${plugins.sdk.name}.with.dependencies" />
+				</then>
+				<else>
+					<var name="plugins.sdk.zip.excludes" value="${plugins.sdk.zip.excludes},dependencies/**/ivy.xml.MD5,dependencies/**/lib/**,lib/**,ivy.xml.MD5" />
+				</else>
+			</if>
+
+			<var name="plugins.sdk.name" value="${plugins.sdk.name}-${lp.version}" />
+
+			<mkdir dir="dist" />
+
+			<delete file="dist/${plugins.sdk.name}.zip" />
+
+			<zip destfile="dist/${plugins.sdk.name}.zip" duplicate="preserve">
+				<zipfileset
+					dir="."
+					excludes="${plugins.sdk.zip.excludes}"
+					prefix="${plugins.sdk.name}"
+				/>
+				<zipfileset
+					dir="."
+					includes="lib/ant-contrib.jar,lib/antelopetasks.jar,lib/bcpg-jdk16.jar,lib/bcprov-jdk16.jar"
+					prefix="${plugins.sdk.name}"
+				/>
+			</zip>
+		</sequential>
+	</macrodef>
+
+	<target name="all">
+		<antcall target="clean" />
+		<antcall target="deploy" />
+	</target>
+
+	<target name="build-service">
+		<ant dir="hooks" target="build-service" inheritAll="false" />
+		<ant dir="portlets" target="build-service" inheritAll="false" />
+		<ant dir="webs" target="build-service" inheritAll="false" />
+	</target>
+
+	<target name="build-summary">
+		<exec executable="git" outputproperty="git.branch">
+			<arg line="rev-parse --abbrev-ref HEAD" />
+		</exec>
+
+		<if>
+			<or>
+				<equals arg1="${git.branch}" arg2="master" />
+				<matches pattern="ee-.*x$" string="${git.branch}" />
+			</or>
+			<then>
+				<delete>
+					<fileset dir="." includes="**/liferay-releng.changelog" />
+					<fileset dir="." includes="**/liferay-releng.changelog.md5" />
+				</delete>
+
+				<copy todir="${sdk.dir}" overwrite="true">
+					<fileset dir="${release.plugins.dir}">
+						<include name="**/liferay-plugin-package.properties" />
+					</fileset>
+				</copy>
+			</then>
+			<else>
+				<java
+					classname="com.liferay.portal.tools.PluginsSummaryBuilder"
+					classpathref="portal.classpath"
+					fork="true"
+					newenvironment="true"
+				>
+					<jvmarg value="-Dexternal-properties=com/liferay/portal/tools/dependencies/portal-tools.properties" />
+					<jvmarg value="-Dplugins.dir=${sdk.dir}" />
+				</java>
+
+				<java
+					classname="com.liferay.portal.tools.XSLTBuilder"
+					classpathref="portal.classpath"
+					fork="true"
+					newenvironment="true"
+				>
+					<jvmarg value="-Dexternal-properties=com/liferay/portal/tools/dependencies/portal-tools.properties" />
+					<arg value="${sdk.dir}/summary.xml" />
+					<arg value="${sdk.dir}/summary.xsl" />
+					<arg value="${sdk.dir}/summary.html" />
+				</java>
+			</else>
+		</if>
+	</target>
+
+	<target name="extract-plugins-sdk">
+		<extract-plugins-sdk />
+	</target>
+
+	<target name="extract-plugins-sdk-with-dependencies">
+		<extract-plugins-sdk plugins.sdk.with.dependencies="true" />
+	</target>
+
+	<target name="format-javadoc">
+		<ant dir="hooks" target="format-javadoc" inheritAll="false" />
+		<ant dir="layouttpl" target="format-javadoc" inheritAll="false" />
+		<ant dir="portlets" target="format-javadoc" inheritAll="false" />
+		<ant dir="themes" target="format-javadoc" inheritAll="false" />
+		<ant dir="webs" target="format-javadoc" inheritAll="false" />
+	</target>
+
+	<target name="publish-sdk" depends="extract-plugins-sdk-with-dependencies">
+		<fail message="Please run either publish-sdk-release or publish-sdk-snapshot instead of this target.">
+			<condition>
+				<not>
+					<istrue value="${publish.sdk}" />
+				</not>
+			</condition>
+		</fail>
+
+		<condition property="remote.repository.password" value="${sonatype.snapshot.password}" else="${sonatype.release.password}">
+			<istrue value="${snapshot}" />
+		</condition>
+
+		<condition property="remote.repository.url" value="${sonatype.snapshot.url}" else="${sonatype.release.url}">
+			<istrue value="${snapshot}" />
+		</condition>
+
+		<condition property="remote.repository.username" value="${sonatype.snapshot.username}" else="${sonatype.release.username}">
+			<istrue value="${snapshot}" />
+		</condition>
+
+		<condition property="snapshot.version.suffix" value="-SNAPSHOT" else="">
+			<istrue value="${snapshot}" />
+		</condition>
+
+		<move file="dist/com.liferay.portal.plugins.sdk.with.dependencies-${lp.version}.zip" tofile="dist/com.liferay.portal.plugins.sdk.with.dependencies-${lp.version}${snapshot.version.suffix}.zip" />
+
+		<artifact:pom artifactId="com.liferay.portal.plugins.sdk.with.dependencies" groupId="com.liferay.portal" id="plugins.sdk.pom" packaging="zip" version="${lp.version}${snapshot.version.suffix}" />
+
+		<artifact:writepom pomRefId="plugins.sdk.pom" file="dist/plugins.sdk.pom" />
+
+		<artifact:deploy file="dist/com.liferay.portal.plugins.sdk.with.dependencies-${lp.version}${snapshot.version.suffix}.zip">
+			<pom file="dist/plugins.sdk.pom" />
+			<remoteRepository url="${remote.repository.url}">
+				<authentication password="${remote.repository.password}" username="${remote.repository.username}" />
+			</remoteRepository>
+		</artifact:deploy>
+
+		<delete file="dist/plugins.sdk.pom" />
+	</target>
+
+	<target name="publish-sdk-release">
+		<antcall target="publish-sdk">
+			<param name="lp.version" value="${lp.version}" />
+			<param name="publish.sdk" value="true" />
+		</antcall>
+	</target>
+
+	<target name="publish-sdk-snapshot">
+		<antcall target="publish-sdk">
+			<param name="lp.version" value="${lp.version}" />
+			<param name="publish.sdk" value="true" />
+			<param name="snapshot" value="true" />
+		</antcall>
+	</target>
+
+	<target name="setup-eclipse">
+		<loop-macrodef-or-target
+			module.dirs="${plugins.includes.path}"
+			target.name="clean"
+		/>
+
+		<loop-macrodef-or-target
+			module.dirs="${plugins.includes.path}"
+			target.name="compile"
+		/>
+
+		<ant dir="hooks" target="setup-eclipse" inheritAll="false" />
+		<ant dir="portlets" target="setup-eclipse" inheritAll="false" />
+		<ant dir="webs" target="setup-eclipse" inheritAll="false" />
+	</target>
+
+	<target name="zip-portal">
+		<if>
+			<not>
+				<equals arg1="${app.server.type}" arg2="tomcat" />
+			</not>
+			<then>
+				<fail>
+.
+
+This task only works when the property "app.server.type" is "tomcat". However,
+the outputted files will work in any supported application server.
+				</fail>
+			</then>
+		</if>
+
+		<tstamp>
+			<format property="tstamp.value" pattern="yyyyMMddkkmmssSSS" />
+		</tstamp>
+
+		<zip destfile="dist/liferay-portal-dependencies-${tstamp.value}.zip">
+			<zipfileset
+				dir="${app.server.lib.global.dir}"
+				prefix="liferay-portal-dependencies-${tstamp.value}"
+			/>
+		</zip>
+
+		<delete file="dist/liferay-portal-${lp.version}.war" failonerror="false" />
+
+		<zip
+			basedir="${app.server.portal.dir}"
+			destfile="dist/liferay-portal-${tstamp.value}.war"
+			excludes="_fckeditor/**,fckeditor/_samples/**"
+		/>
+
+		<copy todir="${tstamp.value}/WEB-INF/lib">
+			<fileset
+				dir="lib"
+				includes="ccpp.jar"
+			/>
+		</copy>
+
+		<zip
+			basedir="${tstamp.value}"
+			destfile="dist/liferay-portal-${tstamp.value}.war"
+			update="yes"
+		/>
+
+		<delete dir="${tstamp.value}" />
+	</target>
+</project>
