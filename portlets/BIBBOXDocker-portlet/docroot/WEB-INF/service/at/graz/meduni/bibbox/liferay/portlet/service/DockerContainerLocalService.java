@@ -39,6 +39,8 @@ import java.io.Serializable;
 
 import java.util.List;
 
+import javax.portlet.ActionRequest;
+
 /**
  * Provides the local service interface for DockerContainer. Methods of this
  * service will not have security checks based on the propagated JAAS
@@ -99,6 +101,8 @@ public interface DockerContainerLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.DELETE)
 	public DockerContainer deleteDockerContainer(long dockerContainerId)
 		throws PortalException;
+
+	public DockerContainer dockerContainerFromRequest(ActionRequest request);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DockerContainer fetchDockerContainer(long dockerContainerId);

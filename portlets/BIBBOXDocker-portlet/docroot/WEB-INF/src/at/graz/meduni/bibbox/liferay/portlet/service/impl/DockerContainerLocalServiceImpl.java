@@ -14,8 +14,13 @@
 
 package at.graz.meduni.bibbox.liferay.portlet.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import javax.portlet.ActionRequest;
 
+import com.liferay.portal.kernel.util.ParamUtil;
+
+import aQute.bnd.annotation.ProviderType;
+import at.graz.meduni.bibbox.liferay.portlet.model.DockerContainer;
+import at.graz.meduni.bibbox.liferay.portlet.model.impl.DockerContainerImpl;
 import at.graz.meduni.bibbox.liferay.portlet.service.base.DockerContainerLocalServiceBaseImpl;
 
 /**
@@ -40,4 +45,27 @@ public class DockerContainerLocalServiceImpl
 	 *
 	 * Never reference this class directly. Always use {@link at.graz.meduni.bibbox.liferay.portlet.service.DockerContainerLocalServiceUtil} to access the docker container local service.
 	 */
+	
+	public DockerContainer dockerContainerFromRequest(ActionRequest request) {
+		DockerContainerImpl dockercontainer = new DockerContainerImpl();
+		dockercontainer.setDockerContainerId(ParamUtil.getLong(request, "dockerContainerId"));
+		dockercontainer.setStartCommand(ParamUtil.getString(request, "startCommand"));
+		dockercontainer.setToolName(ParamUtil.getString(request, "toolName"));
+		dockercontainer.setInstance(ParamUtil.getString(request, "instance"));
+		dockercontainer.setPort(ParamUtil.getString(request, "port"));
+		dockercontainer.setUrl(ParamUtil.getString(request, "url"));
+		dockercontainer.setSubdomain(ParamUtil.getString(request, "subdomain"));
+		dockercontainer.setIp(ParamUtil.getString(request, "ip"));
+		dockercontainer.setDisplayName(ParamUtil.getString(request, "displayName"));
+		dockercontainer.setDisplayToolName(ParamUtil.getString(request, "displayToolName"));
+		dockercontainer.setCategory(ParamUtil.getString(request, "category"));
+		dockercontainer.setTool(ParamUtil.getString(request, "tool"));
+		dockercontainer.setDescription(ParamUtil.getString(request, "description"));
+		dockercontainer.setCompany(ParamUtil.getString(request, "company"));
+		dockercontainer.setPlatform(ParamUtil.getString(request, "platform"));
+		dockercontainer.setLicense(ParamUtil.getString(request, "license"));
+		dockercontainer.setToolDescription(ParamUtil.getString(request, "toolDescription"));
+		dockercontainer.setLogourl(ParamUtil.getString(request, "logourl"));
+		return dockercontainer;
+	}
 }

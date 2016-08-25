@@ -126,6 +126,10 @@ public class DockerContainerLocalServiceClpInvoker {
 		_methodName38 = "getOSGiServiceIdentifier";
 
 		_methodParameterTypes38 = new String[] {  };
+
+		_methodName43 = "dockerContainerFromRequest";
+
+		_methodParameterTypes43 = new String[] { "javax.portlet.ActionRequest" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -237,6 +241,11 @@ public class DockerContainerLocalServiceClpInvoker {
 			return DockerContainerLocalServiceUtil.getOSGiServiceIdentifier();
 		}
 
+		if (_methodName43.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes43, parameterTypes)) {
+			return DockerContainerLocalServiceUtil.dockerContainerFromRequest((javax.portlet.ActionRequest)arguments[0]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -280,4 +289,6 @@ public class DockerContainerLocalServiceClpInvoker {
 	private String[] _methodParameterTypes19;
 	private String _methodName38;
 	private String[] _methodParameterTypes38;
+	private String _methodName43;
+	private String[] _methodParameterTypes43;
 }

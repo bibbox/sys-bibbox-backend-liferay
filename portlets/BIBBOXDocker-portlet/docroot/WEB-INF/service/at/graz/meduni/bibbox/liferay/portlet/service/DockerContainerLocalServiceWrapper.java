@@ -85,6 +85,12 @@ public class DockerContainerLocalServiceWrapper
 	}
 
 	@Override
+	public at.graz.meduni.bibbox.liferay.portlet.model.DockerContainer dockerContainerFromRequest(
+		javax.portlet.ActionRequest request) {
+		return _dockerContainerLocalService.dockerContainerFromRequest(request);
+	}
+
+	@Override
 	public at.graz.meduni.bibbox.liferay.portlet.model.DockerContainer fetchDockerContainer(
 		long dockerContainerId) {
 		return _dockerContainerLocalService.fetchDockerContainer(dockerContainerId);

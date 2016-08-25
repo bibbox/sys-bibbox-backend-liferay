@@ -88,6 +88,11 @@ public class DockerContainerLocalServiceUtil {
 		return getService().deleteDockerContainer(dockerContainerId);
 	}
 
+	public static at.graz.meduni.bibbox.liferay.portlet.model.DockerContainer dockerContainerFromRequest(
+		javax.portlet.ActionRequest request) {
+		return getService().dockerContainerFromRequest(request);
+	}
+
 	public static at.graz.meduni.bibbox.liferay.portlet.model.DockerContainer fetchDockerContainer(
 		long dockerContainerId) {
 		return getService().fetchDockerContainer(dockerContainerId);

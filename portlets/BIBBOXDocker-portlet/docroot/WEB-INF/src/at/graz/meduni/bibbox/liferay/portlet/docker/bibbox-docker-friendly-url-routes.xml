@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 7.0.0//EN" "http://www.liferay.com/dtd/liferay-friendly-url-routes_7_0_0.dtd">
+
+
+<routes>
+    <route>
+        <pattern>/showmore/{dockerContainerId:\d+}</pattern>
+        <generated-parameter name="mvcPath">/html/toollist/view_information.jsp</generated-parameter>
+        <implicit-parameter name="p_p_state">pop_up</implicit-parameter>
+    </route>
+</routes>
