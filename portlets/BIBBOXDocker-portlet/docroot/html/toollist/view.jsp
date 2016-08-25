@@ -42,6 +42,7 @@ List<DockerContainer> dockercontainers = DockerContainerLocalServiceUtil.getDock
 		</portlet:renderURL>
 		<aui:button value="Create Tool" onClick="<%= createToolURL.toString() %>"/>
 	</aui:button-row>
+	<p id="demo"></p>
 </div>
 
 <div class="container">
@@ -106,8 +107,10 @@ String showmoreURL = baseurl + "/-/dockercontainer/showmore/";
 <portlet:param name="<%=Constants.CMD%>" value="docker_reload" />
 </portlet:resourceURL>
 
+<p id="demo"></p>
+
 <aui:script use="aui-base,node,aui-datatable,aui-datatype,datatable-sort,aui-io-request">
-var myVar = setInterval(myTimer, 15000);
+var myVar = setInterval(myTimer, 30000);
 
 function myTimer() {
 	var d = new Date();
@@ -124,17 +127,9 @@ function myTimer() {
 				on: {
 					failure: function() { 
 		              	
-		              },
+		            },
 					success: function() {
-						var jsonelementstring = '{"dataelements":[' + Y.JSON.stringify(this.get('responseData')) + ']}';
-						var jsonelement = Y.JSON.parse(jsonelementstring);
-						Y.all('#demo2').setHTML(jsonelement);
-						
-						var items = "";
-						
-						alert("Length: " + jsonelement.dataelements.length + "\n" + jsonelement.dataelements[0].name);
-						
-						
+						alert(this.get('responseData'));
 					}
 				}
 			});
