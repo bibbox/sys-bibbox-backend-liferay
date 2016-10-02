@@ -16,7 +16,11 @@ package at.graz.meduni.bibbox.liferay.portlet.service;
 
 import aQute.bnd.annotation.ProviderType;
 
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationStoreItemClp;
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationTagClp;
+import at.graz.meduni.bibbox.liferay.portlet.model.BibboxKitClp;
 import at.graz.meduni.bibbox.liferay.portlet.model.DockerContainerClp;
+import at.graz.meduni.bibbox.liferay.portlet.model.KitGroupClp;
 
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayOutputStream;
@@ -103,8 +107,24 @@ public class ClpSerializer {
 
 		String oldModelClassName = oldModelClass.getName();
 
+		if (oldModelClassName.equals(ApplicationStoreItemClp.class.getName())) {
+			return translateInputApplicationStoreItem(oldModel);
+		}
+
+		if (oldModelClassName.equals(ApplicationTagClp.class.getName())) {
+			return translateInputApplicationTag(oldModel);
+		}
+
+		if (oldModelClassName.equals(BibboxKitClp.class.getName())) {
+			return translateInputBibboxKit(oldModel);
+		}
+
 		if (oldModelClassName.equals(DockerContainerClp.class.getName())) {
 			return translateInputDockerContainer(oldModel);
+		}
+
+		if (oldModelClassName.equals(KitGroupClp.class.getName())) {
+			return translateInputKitGroup(oldModel);
 		}
 
 		return oldModel;
@@ -122,10 +142,51 @@ public class ClpSerializer {
 		return newList;
 	}
 
+	public static Object translateInputApplicationStoreItem(
+		BaseModel<?> oldModel) {
+		ApplicationStoreItemClp oldClpModel = (ApplicationStoreItemClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getApplicationStoreItemRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputApplicationTag(BaseModel<?> oldModel) {
+		ApplicationTagClp oldClpModel = (ApplicationTagClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getApplicationTagRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputBibboxKit(BaseModel<?> oldModel) {
+		BibboxKitClp oldClpModel = (BibboxKitClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getBibboxKitRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
 	public static Object translateInputDockerContainer(BaseModel<?> oldModel) {
 		DockerContainerClp oldClpModel = (DockerContainerClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getDockerContainerRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputKitGroup(BaseModel<?> oldModel) {
+		KitGroupClp oldClpModel = (KitGroupClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getKitGroupRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -150,8 +211,156 @@ public class ClpSerializer {
 		String oldModelClassName = oldModelClass.getName();
 
 		if (oldModelClassName.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationStoreItemImpl")) {
+			return translateOutputApplicationStoreItem(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationTagImpl")) {
+			return translateOutputApplicationTag(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.model.impl.BibboxKitImpl")) {
+			return translateOutputBibboxKit(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
 					"at.graz.meduni.bibbox.liferay.portlet.model.impl.DockerContainerImpl")) {
 			return translateOutputDockerContainer(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.model.impl.KitGroupImpl")) {
+			return translateOutputKitGroup(oldModel);
 		}
 		else if (oldModelClassName.endsWith("Clp")) {
 			try {
@@ -266,12 +475,67 @@ public class ClpSerializer {
 		String className = clazz.getName();
 
 		if (className.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchApplicationStoreItemException")) {
+			return new at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchApplicationStoreItemException(throwable.getMessage(),
+				throwable.getCause());
+		}
+
+		if (className.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchApplicationTagException")) {
+			return new at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchApplicationTagException(throwable.getMessage(),
+				throwable.getCause());
+		}
+
+		if (className.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException")) {
+			return new at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException(throwable.getMessage(),
+				throwable.getCause());
+		}
+
+		if (className.equals(
 					"at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchDockerContainerException")) {
 			return new at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchDockerContainerException(throwable.getMessage(),
 				throwable.getCause());
 		}
 
+		if (className.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchKitGroupException")) {
+			return new at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchKitGroupException(throwable.getMessage(),
+				throwable.getCause());
+		}
+
 		return throwable;
+	}
+
+	public static Object translateOutputApplicationStoreItem(
+		BaseModel<?> oldModel) {
+		ApplicationStoreItemClp newModel = new ApplicationStoreItemClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setApplicationStoreItemRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputApplicationTag(BaseModel<?> oldModel) {
+		ApplicationTagClp newModel = new ApplicationTagClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setApplicationTagRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputBibboxKit(BaseModel<?> oldModel) {
+		BibboxKitClp newModel = new BibboxKitClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setBibboxKitRemoteModel(oldModel);
+
+		return newModel;
 	}
 
 	public static Object translateOutputDockerContainer(BaseModel<?> oldModel) {
@@ -280,6 +544,16 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setDockerContainerRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputKitGroup(BaseModel<?> oldModel) {
+		KitGroupClp newModel = new KitGroupClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setKitGroupRemoteModel(oldModel);
 
 		return newModel;
 	}

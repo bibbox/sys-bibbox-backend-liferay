@@ -27,21 +27,32 @@ import java.util.Arrays;
 @ProviderType
 public class DockerContainerServiceClpInvoker {
 	public DockerContainerServiceClpInvoker() {
-		_methodName24 = "getOSGiServiceIdentifier";
+		_methodName48 = "getOSGiServiceIdentifier";
 
-		_methodParameterTypes24 = new String[] {  };
+		_methodParameterTypes48 = new String[] {  };
+
+		_methodName53 = "getVersion";
+
+		_methodParameterTypes53 = new String[] {  };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
 		Object[] arguments) throws Throwable {
-		if (_methodName24.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes24, parameterTypes)) {
+		if (_methodName48.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes48, parameterTypes)) {
 			return DockerContainerServiceUtil.getOSGiServiceIdentifier();
+		}
+
+		if (_methodName53.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
+			return DockerContainerServiceUtil.getVersion();
 		}
 
 		throw new UnsupportedOperationException();
 	}
 
-	private String _methodName24;
-	private String[] _methodParameterTypes24;
+	private String _methodName48;
+	private String[] _methodParameterTypes48;
+	private String _methodName53;
+	private String[] _methodParameterTypes53;
 }

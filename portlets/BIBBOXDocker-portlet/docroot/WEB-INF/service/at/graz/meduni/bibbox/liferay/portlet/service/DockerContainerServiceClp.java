@@ -30,6 +30,10 @@ public class DockerContainerServiceClp implements DockerContainerService {
 		_methodName1 = "getOSGiServiceIdentifier";
 
 		_methodParameterTypes1 = new String[] {  };
+
+		_methodName2 = "getVersion";
+
+		_methodParameterTypes2 = new String[] {  };
 	}
 
 	@Override
@@ -62,7 +66,32 @@ public class DockerContainerServiceClp implements DockerContainerService {
 		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public java.lang.String getVersion() {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableService.invokeMethod(_methodName2,
+					_methodParameterTypes2, new Object[] {  });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableService _invokableService;
 	private String _methodName1;
 	private String[] _methodParameterTypes1;
+	private String _methodName2;
+	private String[] _methodParameterTypes2;
 }

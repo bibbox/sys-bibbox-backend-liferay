@@ -52,6 +52,11 @@ public class DockerContainerServiceWrapper implements DockerContainerService,
 	}
 
 	@Override
+	public java.lang.String getVersion() {
+		return _dockerContainerService.getVersion();
+	}
+
+	@Override
 	public DockerContainerService getWrappedService() {
 		return _dockerContainerService;
 	}

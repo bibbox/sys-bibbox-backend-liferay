@@ -56,6 +56,10 @@ public class DockerContainerServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static java.lang.String getVersion() {
+		return getService().getVersion();
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

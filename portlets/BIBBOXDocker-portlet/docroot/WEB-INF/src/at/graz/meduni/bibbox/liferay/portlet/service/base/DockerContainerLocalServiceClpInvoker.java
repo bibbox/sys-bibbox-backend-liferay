@@ -123,13 +123,13 @@ public class DockerContainerLocalServiceClpInvoker {
 				"at.graz.meduni.bibbox.liferay.portlet.model.DockerContainer"
 			};
 
-		_methodName38 = "getOSGiServiceIdentifier";
+		_methodName54 = "getOSGiServiceIdentifier";
 
-		_methodParameterTypes38 = new String[] {  };
+		_methodParameterTypes54 = new String[] {  };
 
-		_methodName43 = "dockerContainerFromRequest";
+		_methodName59 = "dockerContainerFromRequest";
 
-		_methodParameterTypes43 = new String[] { "javax.portlet.ActionRequest" };
+		_methodParameterTypes59 = new String[] { "javax.portlet.ActionRequest" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -236,13 +236,13 @@ public class DockerContainerLocalServiceClpInvoker {
 			return DockerContainerLocalServiceUtil.updateDockerContainer((at.graz.meduni.bibbox.liferay.portlet.model.DockerContainer)arguments[0]);
 		}
 
-		if (_methodName38.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes38, parameterTypes)) {
+		if (_methodName54.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
 			return DockerContainerLocalServiceUtil.getOSGiServiceIdentifier();
 		}
 
-		if (_methodName43.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes43, parameterTypes)) {
+		if (_methodName59.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
 			return DockerContainerLocalServiceUtil.dockerContainerFromRequest((javax.portlet.ActionRequest)arguments[0]);
 		}
 
@@ -287,8 +287,8 @@ public class DockerContainerLocalServiceClpInvoker {
 	private String[] _methodParameterTypes18;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
-	private String _methodName38;
-	private String[] _methodParameterTypes38;
-	private String _methodName43;
-	private String[] _methodParameterTypes43;
+	private String _methodName54;
+	private String[] _methodParameterTypes54;
+	private String _methodName59;
+	private String[] _methodParameterTypes59;
 }

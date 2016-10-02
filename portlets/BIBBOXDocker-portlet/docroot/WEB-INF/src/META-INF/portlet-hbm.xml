@@ -2,7 +2,58 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationStoreItem" />
+	<import class="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationTag" />
+	<import class="at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit" />
 	<import class="at.graz.meduni.bibbox.liferay.portlet.model.DockerContainer" />
+	<import class="at.graz.meduni.bibbox.liferay.portlet.model.KitGroup" />
+	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationStoreItemImpl" table="bibboxdocker_ApplicationStoreItem">
+		<id name="applicationStoreItemId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="githash" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="depreciated" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="applicationFolderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationShortName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationVersion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationReleaseState" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationCatalogueUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationApplicationUrl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationTagImpl" table="bibboxdocker_ApplicationTag">
+		<id name="applicationTagsId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="tag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationStoreItemId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.BibboxKitImpl" table="bibboxdocker_BibboxKit">
+		<id name="bibboxKitId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="kitName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationStoreItemId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
 	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.DockerContainerImpl" table="bibboxdocker_DockerContainer">
 		<id name="dockerContainerId" type="long">
 			<generator class="assigned" />
@@ -30,5 +81,19 @@
 		<property name="license" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="toolDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="logourl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.KitGroupImpl" table="bibboxdocker_KitGroup">
+		<id name="kitGroupId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="group_" name="group" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="applicationStoreItemId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="bibboxKitId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

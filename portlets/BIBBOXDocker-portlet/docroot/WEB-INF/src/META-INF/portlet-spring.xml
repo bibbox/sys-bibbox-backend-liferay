@@ -1,7 +1,19 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationStoreItemLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemLocalService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationStoreItemServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.ApplicationStoreItemPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationStoreItemPersistence" parent="basePersistence" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationTagLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationTagLocalService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationTagServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationTagService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.ApplicationTagPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationTagPersistence" parent="basePersistence" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.BibboxKitLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.BibboxKitServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.BibboxKitPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.BibboxKitPersistence" parent="basePersistence" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.DockerContainerLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.DockerContainerLocalService" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.DockerContainerServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.DockerContainerService" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.DockerContainerPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.DockerContainerPersistence" parent="basePersistence" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.KitGroupLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.KitGroupLocalService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.KitGroupServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.KitGroupService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.KitGroupPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.KitGroupPersistence" parent="basePersistence" />
 </beans>

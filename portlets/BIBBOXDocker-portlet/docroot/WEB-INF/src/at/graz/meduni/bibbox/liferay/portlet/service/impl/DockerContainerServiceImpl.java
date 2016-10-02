@@ -14,6 +14,10 @@
 
 package at.graz.meduni.bibbox.liferay.portlet.service.impl;
 
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
+
 import aQute.bnd.annotation.ProviderType;
 
 import at.graz.meduni.bibbox.liferay.portlet.service.base.DockerContainerServiceBaseImpl;
@@ -39,4 +43,9 @@ public class DockerContainerServiceImpl extends DockerContainerServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link at.graz.meduni.bibbox.liferay.portlet.service.DockerContainerServiceUtil} to access the docker container remote service.
 	 */
+	
+	@JSONWebService("/get-version")
+	public String getVersion() {
+		return "BIBBOX API v1.0";
+	}
 }

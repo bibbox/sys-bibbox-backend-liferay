@@ -16,9 +16,17 @@ package at.graz.meduni.bibbox.liferay.portlet.service.messaging;
 
 import aQute.bnd.annotation.ProviderType;
 
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationTagLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationTagServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ClpSerializer;
 import at.graz.meduni.bibbox.liferay.portlet.service.DockerContainerLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.DockerContainerServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.KitGroupLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.KitGroupServiceUtil;
 
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Message;
@@ -39,9 +47,21 @@ public class ClpMessageListener extends BaseMessageListener {
 
 		if (command.equals("undeploy") &&
 				servletContextName.equals(getServletContextName())) {
+			ApplicationStoreItemLocalServiceUtil.clearService();
+
+			ApplicationStoreItemServiceUtil.clearService();
+			ApplicationTagLocalServiceUtil.clearService();
+
+			ApplicationTagServiceUtil.clearService();
+			BibboxKitLocalServiceUtil.clearService();
+
+			BibboxKitServiceUtil.clearService();
 			DockerContainerLocalServiceUtil.clearService();
 
 			DockerContainerServiceUtil.clearService();
+			KitGroupLocalServiceUtil.clearService();
+
+			KitGroupServiceUtil.clearService();
 		}
 	}
 }

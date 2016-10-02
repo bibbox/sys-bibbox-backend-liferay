@@ -1,6 +1,7 @@
 package at.graz.meduni.bibbox.liferay.portlet.docker;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Date;
 
 import javax.portlet.ActionRequest;
@@ -9,7 +10,12 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import com.github.dockerjava.core.DockerClientBuilder;
+import com.github.dockerjava.core.DockerClientConfig;
+import com.github.dockerjava.core.RemoteApiVersion;
+import com.github.dockerjava.core.SSLConfig;
 import com.github.dockerjava.api.DockerClient;
+import com.github.dockerjava.api.model.AuthConfig;
+import com.github.dockerjava.api.model.AuthConfigurations;
 import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
@@ -29,8 +35,8 @@ public class ToolList extends MVCPortlet {
 	public void serveResource(ResourceRequest request, ResourceResponse response) throws IOException {
 		String cmd = request.getParameter(Constants.CMD);
 		System.out.println("CMD: " + cmd);
-		if(cmd.equals("docker_reload")) {
-			DockerClient dockerClient = DockerClientBuilder.getInstance("tcp://192.168.99.100:2375").build();
+		if(cmd.equals("docker_reload")) {	
+			DockerClient dockerClient = DockerClientBuilder.getInstance("tcp://10.15.1.151:2375").build();
 			System.out.print(dockerClient.versionCmd());
 			Info info = dockerClient.infoCmd().exec();
 			System.out.print(info);

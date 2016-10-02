@@ -3,6 +3,139 @@
 <service-builder package-path="at.graz.meduni.bibbox.liferay.portlet">
 	<author>Robert Reihs</author>
 	<namespace>bibboxdocker</namespace>
+	
+	<entity name="ApplicationStoreItem" local-service="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="applicationStoreItemId" type="long" primary="true" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="githash" type="String" />
+		<column name="depreciated" type="Boolean" />
+		
+		<!-- Other fields -->
+		<column name="applicationFolderName" type="String" />
+		<column name="applicationName" type="String" />
+		<column name="applicationShortName" type="String" />
+		<column name="applicationVersion" type="String" />
+		<column name="applicationReleaseState" type="String" />
+		<column name="applicationDescription" type="String" />
+		<column name="applicationCatalogueUrl" type="String" />
+		<column name="applicationApplicationUrl" type="String" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="applicationName" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="ApplicationName" return-type="ApplicationStoreItem">
+			<finder-column name="applicationName" />
+		</finder>
+	</entity>
+	
+	<entity name="KitGroup" local-service="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="kitGroupId" type="long" primary="true" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="group" type="String" />
+		<column name="applicationStoreItemId" type="long" />
+		<column name="bibboxKitId" type="long" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="group" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="KitGroup" return-type="Collection">
+			<finder-column name="applicationStoreItemId" />
+			<finder-column name="bibboxKitId" />
+		</finder>
+		
+	</entity>
+	
+	<entity name="ApplicationTag" local-service="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="applicationTagsId" type="long" primary="true" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="tag" type="String" />
+		<column name="applicationStoreItemId" type="long" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="tag" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="ApplicationStoreItemId" return-type="Collection">
+			<finder-column name="applicationStoreItemId" />
+		</finder>
+		<finder name="Tag" return-type="Collection">
+			<finder-column name="tag" />
+		</finder>
+	</entity>
+	
+	<entity name="BibboxKit" local-service="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="bibboxKitId" type="long" primary="true" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="kitName" type="String" />
+		<column name="applicationStoreItemId" type="long" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="kitName" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="ApplicationStoreItemId" return-type="Collection">
+			<finder-column name="applicationStoreItemId" />
+		</finder>
+		<finder name="KitName" return-type="Collection">
+			<finder-column name="kitName" />
+		</finder>
+	</entity>
 
 	<entity name="DockerContainer" local-service="true" remote-service="true">
 

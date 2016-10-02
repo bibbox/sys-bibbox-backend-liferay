@@ -18,7 +18,11 @@ import aQute.bnd.annotation.ProviderType;
 
 import at.graz.meduni.bibbox.liferay.portlet.model.DockerContainer;
 import at.graz.meduni.bibbox.liferay.portlet.service.DockerContainerLocalService;
+import at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationStoreItemPersistence;
+import at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationTagPersistence;
+import at.graz.meduni.bibbox.liferay.portlet.service.persistence.BibboxKitPersistence;
 import at.graz.meduni.bibbox.liferay.portlet.service.persistence.DockerContainerPersistence;
+import at.graz.meduni.bibbox.liferay.portlet.service.persistence.KitGroupPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
@@ -316,6 +320,120 @@ public abstract class DockerContainerLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the application store item local service.
+	 *
+	 * @return the application store item local service
+	 */
+	public at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemLocalService getApplicationStoreItemLocalService() {
+		return applicationStoreItemLocalService;
+	}
+
+	/**
+	 * Sets the application store item local service.
+	 *
+	 * @param applicationStoreItemLocalService the application store item local service
+	 */
+	public void setApplicationStoreItemLocalService(
+		at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemLocalService applicationStoreItemLocalService) {
+		this.applicationStoreItemLocalService = applicationStoreItemLocalService;
+	}
+
+	/**
+	 * Returns the application store item persistence.
+	 *
+	 * @return the application store item persistence
+	 */
+	public ApplicationStoreItemPersistence getApplicationStoreItemPersistence() {
+		return applicationStoreItemPersistence;
+	}
+
+	/**
+	 * Sets the application store item persistence.
+	 *
+	 * @param applicationStoreItemPersistence the application store item persistence
+	 */
+	public void setApplicationStoreItemPersistence(
+		ApplicationStoreItemPersistence applicationStoreItemPersistence) {
+		this.applicationStoreItemPersistence = applicationStoreItemPersistence;
+	}
+
+	/**
+	 * Returns the application tag local service.
+	 *
+	 * @return the application tag local service
+	 */
+	public at.graz.meduni.bibbox.liferay.portlet.service.ApplicationTagLocalService getApplicationTagLocalService() {
+		return applicationTagLocalService;
+	}
+
+	/**
+	 * Sets the application tag local service.
+	 *
+	 * @param applicationTagLocalService the application tag local service
+	 */
+	public void setApplicationTagLocalService(
+		at.graz.meduni.bibbox.liferay.portlet.service.ApplicationTagLocalService applicationTagLocalService) {
+		this.applicationTagLocalService = applicationTagLocalService;
+	}
+
+	/**
+	 * Returns the application tag persistence.
+	 *
+	 * @return the application tag persistence
+	 */
+	public ApplicationTagPersistence getApplicationTagPersistence() {
+		return applicationTagPersistence;
+	}
+
+	/**
+	 * Sets the application tag persistence.
+	 *
+	 * @param applicationTagPersistence the application tag persistence
+	 */
+	public void setApplicationTagPersistence(
+		ApplicationTagPersistence applicationTagPersistence) {
+		this.applicationTagPersistence = applicationTagPersistence;
+	}
+
+	/**
+	 * Returns the bibbox kit local service.
+	 *
+	 * @return the bibbox kit local service
+	 */
+	public at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalService getBibboxKitLocalService() {
+		return bibboxKitLocalService;
+	}
+
+	/**
+	 * Sets the bibbox kit local service.
+	 *
+	 * @param bibboxKitLocalService the bibbox kit local service
+	 */
+	public void setBibboxKitLocalService(
+		at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalService bibboxKitLocalService) {
+		this.bibboxKitLocalService = bibboxKitLocalService;
+	}
+
+	/**
+	 * Returns the bibbox kit persistence.
+	 *
+	 * @return the bibbox kit persistence
+	 */
+	public BibboxKitPersistence getBibboxKitPersistence() {
+		return bibboxKitPersistence;
+	}
+
+	/**
+	 * Sets the bibbox kit persistence.
+	 *
+	 * @param bibboxKitPersistence the bibbox kit persistence
+	 */
+	public void setBibboxKitPersistence(
+		BibboxKitPersistence bibboxKitPersistence) {
+		this.bibboxKitPersistence = bibboxKitPersistence;
+	}
+
+	/**
 	 * Returns the docker container local service.
 	 *
 	 * @return the docker container local service
@@ -351,6 +469,43 @@ public abstract class DockerContainerLocalServiceBaseImpl
 	public void setDockerContainerPersistence(
 		DockerContainerPersistence dockerContainerPersistence) {
 		this.dockerContainerPersistence = dockerContainerPersistence;
+	}
+
+	/**
+	 * Returns the kit group local service.
+	 *
+	 * @return the kit group local service
+	 */
+	public at.graz.meduni.bibbox.liferay.portlet.service.KitGroupLocalService getKitGroupLocalService() {
+		return kitGroupLocalService;
+	}
+
+	/**
+	 * Sets the kit group local service.
+	 *
+	 * @param kitGroupLocalService the kit group local service
+	 */
+	public void setKitGroupLocalService(
+		at.graz.meduni.bibbox.liferay.portlet.service.KitGroupLocalService kitGroupLocalService) {
+		this.kitGroupLocalService = kitGroupLocalService;
+	}
+
+	/**
+	 * Returns the kit group persistence.
+	 *
+	 * @return the kit group persistence
+	 */
+	public KitGroupPersistence getKitGroupPersistence() {
+		return kitGroupPersistence;
+	}
+
+	/**
+	 * Sets the kit group persistence.
+	 *
+	 * @param kitGroupPersistence the kit group persistence
+	 */
+	public void setKitGroupPersistence(KitGroupPersistence kitGroupPersistence) {
+		this.kitGroupPersistence = kitGroupPersistence;
 	}
 
 	/**
@@ -543,10 +698,26 @@ public abstract class DockerContainerLocalServiceBaseImpl
 		}
 	}
 
+	@BeanReference(type = at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemLocalService.class)
+	protected at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemLocalService applicationStoreItemLocalService;
+	@BeanReference(type = ApplicationStoreItemPersistence.class)
+	protected ApplicationStoreItemPersistence applicationStoreItemPersistence;
+	@BeanReference(type = at.graz.meduni.bibbox.liferay.portlet.service.ApplicationTagLocalService.class)
+	protected at.graz.meduni.bibbox.liferay.portlet.service.ApplicationTagLocalService applicationTagLocalService;
+	@BeanReference(type = ApplicationTagPersistence.class)
+	protected ApplicationTagPersistence applicationTagPersistence;
+	@BeanReference(type = at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalService.class)
+	protected at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalService bibboxKitLocalService;
+	@BeanReference(type = BibboxKitPersistence.class)
+	protected BibboxKitPersistence bibboxKitPersistence;
 	@BeanReference(type = DockerContainerLocalService.class)
 	protected DockerContainerLocalService dockerContainerLocalService;
 	@BeanReference(type = DockerContainerPersistence.class)
 	protected DockerContainerPersistence dockerContainerPersistence;
+	@BeanReference(type = at.graz.meduni.bibbox.liferay.portlet.service.KitGroupLocalService.class)
+	protected at.graz.meduni.bibbox.liferay.portlet.service.KitGroupLocalService kitGroupLocalService;
+	@BeanReference(type = KitGroupPersistence.class)
+	protected KitGroupPersistence kitGroupPersistence;
 	@BeanReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)
