@@ -411,6 +411,25 @@ public class KitGroupClp extends BaseModelImpl<KitGroup> implements KitGroup {
 		}
 	}
 
+	@Override
+	public java.lang.String getBibboxKitName() {
+		try {
+			String methodName = "getBibboxKitName";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
 	public BaseModel<?> getKitGroupRemoteModel() {
 		return _kitGroupRemoteModel;
 	}

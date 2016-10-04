@@ -102,6 +102,10 @@ public interface BibboxKitLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public BibboxKit fetchBibboxKit(long bibboxKitId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public BibboxKit getBibboxKit(long applicationStoreItemId,
+		java.lang.String kitName);
+
 	/**
 	* Returns the bibbox kit with the primary key.
 	*
@@ -213,6 +217,9 @@ public interface BibboxKitLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<BibboxKit> getBibboxKits(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<BibboxKit> getBibboxKits(long applicationStoreItemId);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

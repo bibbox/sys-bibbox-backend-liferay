@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 
 import aQute.bnd.annotation.ProviderType;
+import at.graz.meduni.bibbox.docker.ApplicationStoreHelper;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationStoreItem;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationTag;
 import at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit;
@@ -62,7 +63,8 @@ public class ApplicationStoreItemServiceImpl
 	
 	@JSONWebService("/get-application-store-updated-list")
 	public JSONArray getApplicationStoreUpdatedListAPI() {
-		// TODO: Update DB
+		ApplicationStoreHelper applicationstorehelper = new ApplicationStoreHelper();
+		applicationstorehelper.loadApplicationStoreItems();
 		return getApplicationStoreList();
 	}
 	

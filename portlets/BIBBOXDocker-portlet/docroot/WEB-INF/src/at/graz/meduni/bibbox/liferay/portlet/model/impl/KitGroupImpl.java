@@ -14,7 +14,10 @@
 
 package at.graz.meduni.bibbox.liferay.portlet.model.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+
 import aQute.bnd.annotation.ProviderType;
+import at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalServiceUtil;
 
 /**
  * The extended model implementation for the KitGroup service. Represents a row in the &quot;bibboxdocker_KitGroup&quot; database table, with each column mapped to a property of this class.
@@ -33,5 +36,15 @@ public class KitGroupImpl extends KitGroupBaseImpl {
 	 * Never reference this class directly. All methods that expect a kit group model instance should use the {@link at.graz.meduni.bibbox.liferay.portlet.model.KitGroup} interface instead.
 	 */
 	public KitGroupImpl() {
+	}
+	
+	public String getBibboxKitName() {
+		try {
+			return BibboxKitLocalServiceUtil.getBibboxKit(this.getBibboxKitId()).getKitName();
+		} catch (PortalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 }

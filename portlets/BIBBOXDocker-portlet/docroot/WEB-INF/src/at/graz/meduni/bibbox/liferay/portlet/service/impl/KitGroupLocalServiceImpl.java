@@ -14,8 +14,10 @@
 
 package at.graz.meduni.bibbox.liferay.portlet.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.List;
 
+import aQute.bnd.annotation.ProviderType;
+import at.graz.meduni.bibbox.liferay.portlet.model.KitGroup;
 import at.graz.meduni.bibbox.liferay.portlet.service.base.KitGroupLocalServiceBaseImpl;
 
 /**
@@ -39,4 +41,7 @@ public class KitGroupLocalServiceImpl extends KitGroupLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link at.graz.meduni.bibbox.liferay.portlet.service.KitGroupLocalServiceUtil} to access the kit group local service.
 	 */
+	public List<KitGroup> getKitGroups(long applicationStoreItemId) {
+		return kitGroupPersistence.findByKitGroups(applicationStoreItemId);
+	}
 }

@@ -25,6 +25,7 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
 
 import at.graz.meduni.bibbox.docker.model.ApplicationStoreItemConfig;
@@ -158,6 +159,11 @@ public class ApplicationStoreHelper {
 		for(ApplicationStoreItem applicationstoreitem : applicationstoreitems) {
 			updateApplicationStoreItem(applicationstoreitem);
 		}
+		for(String applicationfoldername : applicationstoreitemconfigs_.keySet()) {
+			ApplicationStoreItemConfig applicationstoreitemconfig = applicationstoreitemconfigs_.get(applicationfoldername);
+			ApplicationStoreItem applicationstoreitem = ApplicationStoreItemLocalServiceUtil.createApplicationStoreItem(CounterLocalServiceUtil.increment());
+			applicationstoreitem = applicationstoreitemconfig.updateDataElements(applicationstoreitem);
+		}
 	}
 	
 	private void updateApplicationStoreItem(ApplicationStoreItem applicationstoreitem) {
@@ -169,6 +175,7 @@ public class ApplicationStoreHelper {
 				updateApplicationStoreItem(applicationstoreitem, applicationstoreitemconfig);
 			}
 		}
+		applicationstoreitemconfigs_.remove(applicationstoreitem.getApplicationFolderName());
 	}
 	
 	private void disableApplicationStoreItem(ApplicationStoreItem applicationstoreitem) {
@@ -179,7 +186,7 @@ public class ApplicationStoreHelper {
 	private void updateApplicationStoreItem(ApplicationStoreItem applicationstoreitem, ApplicationStoreItemConfig applicationstoreitemconfig) {
 		applicationstoreitem.setDepreciated(false);
 		if(applicationstoreitemconfig.equalsApplicationStoreItem(applicationstoreitem)) {
-			
+			applicationstoreitem = applicationstoreitemconfig.updateDataElements(applicationstoreitem);
 		}
 	}
 	

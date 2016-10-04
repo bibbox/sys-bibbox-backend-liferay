@@ -14,8 +14,12 @@
 
 package at.graz.meduni.bibbox.liferay.portlet.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.ArrayList;
+import java.util.List;
 
+import aQute.bnd.annotation.ProviderType;
+import at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException;
+import at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit;
 import at.graz.meduni.bibbox.liferay.portlet.service.base.BibboxKitLocalServiceBaseImpl;
 
 /**
@@ -39,4 +43,17 @@ public class BibboxKitLocalServiceImpl extends BibboxKitLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Always use {@link at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalServiceUtil} to access the bibbox kit local service.
 	 */
+	public List<BibboxKit> getBibboxKits(long applicationStoreItemId) {
+		return bibboxKitPersistence.findByApplicationStoreItemId(applicationStoreItemId);
+	}
+	
+	public BibboxKit getBibboxKit(long applicationStoreItemId, String kitName) {
+		try {
+			return bibboxKitPersistence.findByKitName(kitName, applicationStoreItemId);
+		} catch (NoSuchBibboxKitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -245,6 +245,12 @@ public class KitGroupLocalServiceWrapper implements KitGroupLocalService,
 		return _kitGroupLocalService.getKitGroups(start, end);
 	}
 
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup> getKitGroups(
+		long applicationStoreItemId) {
+		return _kitGroupLocalService.getKitGroups(applicationStoreItemId);
+	}
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*

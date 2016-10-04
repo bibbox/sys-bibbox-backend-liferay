@@ -93,6 +93,11 @@ public class BibboxKitLocalServiceUtil {
 		return getService().fetchBibboxKit(bibboxKitId);
 	}
 
+	public static at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit getBibboxKit(
+		long applicationStoreItemId, java.lang.String kitName) {
+		return getService().getBibboxKit(applicationStoreItemId, kitName);
+	}
+
 	/**
 	* Returns the bibbox kit with the primary key.
 	*
@@ -232,6 +237,11 @@ public class BibboxKitLocalServiceUtil {
 	public static java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit> getBibboxKits(
 		int start, int end) {
 		return getService().getBibboxKits(start, end);
+	}
+
+	public static java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit> getBibboxKits(
+		long applicationStoreItemId) {
+		return getService().getBibboxKits(applicationStoreItemId);
 	}
 
 	/**

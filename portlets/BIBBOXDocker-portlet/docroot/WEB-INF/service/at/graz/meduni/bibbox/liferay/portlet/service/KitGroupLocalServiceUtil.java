@@ -234,6 +234,11 @@ public class KitGroupLocalServiceUtil {
 		return getService().getKitGroups(start, end);
 	}
 
+	public static java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup> getKitGroups(
+		long applicationStoreItemId) {
+		return getService().getKitGroups(applicationStoreItemId);
+	}
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*

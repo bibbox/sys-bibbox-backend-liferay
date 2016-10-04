@@ -18,8 +18,12 @@ import java.util.List;
 
 import aQute.bnd.annotation.ProviderType;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationTag;
+import at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit;
+import at.graz.meduni.bibbox.liferay.portlet.model.KitGroup;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationTagLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.KitGroupLocalServiceUtil;
 
 /**
  * The extended model implementation for the ApplicationStoreItem service. Represents a row in the &quot;bibboxdocker_ApplicationStoreItem&quot; database table, with each column mapped to a property of this class.
@@ -42,5 +46,13 @@ public class ApplicationStoreItemImpl extends ApplicationStoreItemBaseImpl {
 	
 	public List<ApplicationTag> getApplicationTags() {
 		return ApplicationTagLocalServiceUtil.getApplicationTags(this.getApplicationStoreItemId());
+	}
+	
+	public List<BibboxKit> getBibboxKits() {
+		return BibboxKitLocalServiceUtil.getBibboxKits(this.getApplicationStoreItemId());
+	}
+	
+	public List<KitGroup> getKitGroups() {
+		return KitGroupLocalServiceUtil.getKitGroups(this.getApplicationStoreItemId());
 	}
 }

@@ -191,6 +191,11 @@ public class KitGroupWrapper implements KitGroup, ModelWrapper<KitGroup> {
 		return new KitGroupWrapper((KitGroup)_kitGroup.clone());
 	}
 
+	@Override
+	public java.lang.String getBibboxKitName() {
+		return _kitGroup.getBibboxKitName();
+	}
+
 	/**
 	* Returns the group of this kit group.
 	*

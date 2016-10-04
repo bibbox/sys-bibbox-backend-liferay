@@ -665,6 +665,46 @@ public class ApplicationStoreItemClp extends BaseModelImpl<ApplicationStoreItem>
 		}
 	}
 
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit> getBibboxKits() {
+		try {
+			String methodName = "getBibboxKits";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit> returnObj =
+				(java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit>)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup> getKitGroups() {
+		try {
+			String methodName = "getKitGroups";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup> returnObj =
+				(java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup>)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
 	public BaseModel<?> getApplicationStoreItemRemoteModel() {
 		return _applicationStoreItemRemoteModel;
 	}

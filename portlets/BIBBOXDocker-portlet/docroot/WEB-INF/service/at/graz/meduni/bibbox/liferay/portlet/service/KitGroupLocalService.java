@@ -213,6 +213,9 @@ public interface KitGroupLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<KitGroup> getKitGroups(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<KitGroup> getKitGroups(long applicationStoreItemId);
+
 	/**
 	* Returns the number of rows matching the dynamic query.
 	*

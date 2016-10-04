@@ -126,6 +126,14 @@ public class BibboxKitLocalServiceClpInvoker {
 		_methodName54 = "getOSGiServiceIdentifier";
 
 		_methodParameterTypes54 = new String[] {  };
+
+		_methodName59 = "getBibboxKits";
+
+		_methodParameterTypes59 = new String[] { "long" };
+
+		_methodName60 = "getBibboxKit";
+
+		_methodParameterTypes60 = new String[] { "long", "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -237,6 +245,17 @@ public class BibboxKitLocalServiceClpInvoker {
 			return BibboxKitLocalServiceUtil.getOSGiServiceIdentifier();
 		}
 
+		if (_methodName59.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
+			return BibboxKitLocalServiceUtil.getBibboxKits(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+			return BibboxKitLocalServiceUtil.getBibboxKit(((Long)arguments[0]).longValue(),
+				(java.lang.String)arguments[1]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -280,4 +299,8 @@ public class BibboxKitLocalServiceClpInvoker {
 	private String[] _methodParameterTypes19;
 	private String _methodName54;
 	private String[] _methodParameterTypes54;
+	private String _methodName59;
+	private String[] _methodParameterTypes59;
+	private String _methodName60;
+	private String[] _methodParameterTypes60;
 }

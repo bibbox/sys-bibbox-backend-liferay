@@ -71,6 +71,10 @@
 			<finder-column name="bibboxKitId" />
 		</finder>
 		
+		<finder name="KitGroups" return-type="Collection">
+			<finder-column name="applicationStoreItemId" />
+		</finder>
+		
 	</entity>
 	
 	<entity name="ApplicationTag" local-service="true" remote-service="true">
@@ -134,6 +138,10 @@
 		</finder>
 		<finder name="KitName" return-type="Collection">
 			<finder-column name="kitName" />
+		</finder>
+		<finder name="KitName" return-type="BibboxKit">
+			<finder-column name="kitName" />
+			<finder-column name="applicationStoreItemId" />
 		</finder>
 	</entity>
 

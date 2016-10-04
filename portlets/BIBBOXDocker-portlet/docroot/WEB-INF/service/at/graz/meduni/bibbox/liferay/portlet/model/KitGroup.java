@@ -53,4 +53,6 @@ public interface KitGroup extends KitGroupModel, PersistedModel {
 				return KitGroup.class;
 			}
 		};
+
+	public java.lang.String getBibboxKitName();
 }

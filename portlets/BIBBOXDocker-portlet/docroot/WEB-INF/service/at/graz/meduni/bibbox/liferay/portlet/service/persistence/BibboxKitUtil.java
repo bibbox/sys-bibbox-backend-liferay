@@ -444,6 +444,72 @@ public class BibboxKitUtil {
 	}
 
 	/**
+	* Returns the bibbox kit where kitName = &#63; and applicationStoreItemId = &#63; or throws a {@link NoSuchBibboxKitException} if it could not be found.
+	*
+	* @param kitName the kit name
+	* @param applicationStoreItemId the application store item ID
+	* @return the matching bibbox kit
+	* @throws NoSuchBibboxKitException if a matching bibbox kit could not be found
+	*/
+	public static BibboxKit findByKitName(java.lang.String kitName,
+		long applicationStoreItemId)
+		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException {
+		return getPersistence().findByKitName(kitName, applicationStoreItemId);
+	}
+
+	/**
+	* Returns the bibbox kit where kitName = &#63; and applicationStoreItemId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param kitName the kit name
+	* @param applicationStoreItemId the application store item ID
+	* @return the matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
+	*/
+	public static BibboxKit fetchByKitName(java.lang.String kitName,
+		long applicationStoreItemId) {
+		return getPersistence().fetchByKitName(kitName, applicationStoreItemId);
+	}
+
+	/**
+	* Returns the bibbox kit where kitName = &#63; and applicationStoreItemId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param kitName the kit name
+	* @param applicationStoreItemId the application store item ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
+	*/
+	public static BibboxKit fetchByKitName(java.lang.String kitName,
+		long applicationStoreItemId, boolean retrieveFromCache) {
+		return getPersistence()
+				   .fetchByKitName(kitName, applicationStoreItemId,
+			retrieveFromCache);
+	}
+
+	/**
+	* Removes the bibbox kit where kitName = &#63; and applicationStoreItemId = &#63; from the database.
+	*
+	* @param kitName the kit name
+	* @param applicationStoreItemId the application store item ID
+	* @return the bibbox kit that was removed
+	*/
+	public static BibboxKit removeByKitName(java.lang.String kitName,
+		long applicationStoreItemId)
+		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException {
+		return getPersistence().removeByKitName(kitName, applicationStoreItemId);
+	}
+
+	/**
+	* Returns the number of bibbox kits where kitName = &#63; and applicationStoreItemId = &#63;.
+	*
+	* @param kitName the kit name
+	* @param applicationStoreItemId the application store item ID
+	* @return the number of matching bibbox kits
+	*/
+	public static int countByKitName(java.lang.String kitName,
+		long applicationStoreItemId) {
+		return getPersistence().countByKitName(kitName, applicationStoreItemId);
+	}
+
+	/**
 	* Caches the bibbox kit in the entity cache if it is enabled.
 	*
 	* @param bibboxKit the bibbox kit

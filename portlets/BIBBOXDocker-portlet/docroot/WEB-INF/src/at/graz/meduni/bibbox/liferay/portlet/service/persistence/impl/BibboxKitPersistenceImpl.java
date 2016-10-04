@@ -43,6 +43,7 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.Serializable;
 
@@ -1160,6 +1161,268 @@ public class BibboxKitPersistenceImpl extends BasePersistenceImpl<BibboxKit>
 	private static final String _FINDER_COLUMN_KITNAME_KITNAME_1 = "bibboxKit.kitName IS NULL";
 	private static final String _FINDER_COLUMN_KITNAME_KITNAME_2 = "bibboxKit.kitName = ?";
 	private static final String _FINDER_COLUMN_KITNAME_KITNAME_3 = "(bibboxKit.kitName IS NULL OR bibboxKit.kitName = '')";
+	public static final FinderPath FINDER_PATH_FETCH_BY_KITNAME = new FinderPath(BibboxKitModelImpl.ENTITY_CACHE_ENABLED,
+			BibboxKitModelImpl.FINDER_CACHE_ENABLED, BibboxKitImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByKitName",
+			new String[] { String.class.getName(), Long.class.getName() },
+			BibboxKitModelImpl.KITNAME_COLUMN_BITMASK |
+			BibboxKitModelImpl.APPLICATIONSTOREITEMID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_KITNAME = new FinderPath(BibboxKitModelImpl.ENTITY_CACHE_ENABLED,
+			BibboxKitModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKitName",
+			new String[] { String.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns the bibbox kit where kitName = &#63; and applicationStoreItemId = &#63; or throws a {@link NoSuchBibboxKitException} if it could not be found.
+	 *
+	 * @param kitName the kit name
+	 * @param applicationStoreItemId the application store item ID
+	 * @return the matching bibbox kit
+	 * @throws NoSuchBibboxKitException if a matching bibbox kit could not be found
+	 */
+	@Override
+	public BibboxKit findByKitName(String kitName, long applicationStoreItemId)
+		throws NoSuchBibboxKitException {
+		BibboxKit bibboxKit = fetchByKitName(kitName, applicationStoreItemId);
+
+		if (bibboxKit == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("kitName=");
+			msg.append(kitName);
+
+			msg.append(", applicationStoreItemId=");
+			msg.append(applicationStoreItemId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchBibboxKitException(msg.toString());
+		}
+
+		return bibboxKit;
+	}
+
+	/**
+	 * Returns the bibbox kit where kitName = &#63; and applicationStoreItemId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param kitName the kit name
+	 * @param applicationStoreItemId the application store item ID
+	 * @return the matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
+	 */
+	@Override
+	public BibboxKit fetchByKitName(String kitName, long applicationStoreItemId) {
+		return fetchByKitName(kitName, applicationStoreItemId, true);
+	}
+
+	/**
+	 * Returns the bibbox kit where kitName = &#63; and applicationStoreItemId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param kitName the kit name
+	 * @param applicationStoreItemId the application store item ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
+	 */
+	@Override
+	public BibboxKit fetchByKitName(String kitName,
+		long applicationStoreItemId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { kitName, applicationStoreItemId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_KITNAME,
+					finderArgs, this);
+		}
+
+		if (result instanceof BibboxKit) {
+			BibboxKit bibboxKit = (BibboxKit)result;
+
+			if (!Objects.equals(kitName, bibboxKit.getKitName()) ||
+					(applicationStoreItemId != bibboxKit.getApplicationStoreItemId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_SELECT_BIBBOXKIT_WHERE);
+
+			boolean bindKitName = false;
+
+			if (kitName == null) {
+				query.append(_FINDER_COLUMN_KITNAME_KITNAME_1);
+			}
+			else if (kitName.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_KITNAME_KITNAME_3);
+			}
+			else {
+				bindKitName = true;
+
+				query.append(_FINDER_COLUMN_KITNAME_KITNAME_2);
+			}
+
+			query.append(_FINDER_COLUMN_KITNAME_APPLICATIONSTOREITEMID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindKitName) {
+					qPos.add(kitName);
+				}
+
+				qPos.add(applicationStoreItemId);
+
+				List<BibboxKit> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_KITNAME,
+						finderArgs, list);
+				}
+				else {
+					if ((list.size() > 1) && _log.isWarnEnabled()) {
+						_log.warn(
+							"BibboxKitPersistenceImpl.fetchByKitName(String, long, boolean) with parameters (" +
+							StringUtil.merge(finderArgs) +
+							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					}
+
+					BibboxKit bibboxKit = list.get(0);
+
+					result = bibboxKit;
+
+					cacheResult(bibboxKit);
+
+					if ((bibboxKit.getKitName() == null) ||
+							!bibboxKit.getKitName().equals(kitName) ||
+							(bibboxKit.getApplicationStoreItemId() != applicationStoreItemId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_KITNAME,
+							finderArgs, bibboxKit);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_KITNAME,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (BibboxKit)result;
+		}
+	}
+
+	/**
+	 * Removes the bibbox kit where kitName = &#63; and applicationStoreItemId = &#63; from the database.
+	 *
+	 * @param kitName the kit name
+	 * @param applicationStoreItemId the application store item ID
+	 * @return the bibbox kit that was removed
+	 */
+	@Override
+	public BibboxKit removeByKitName(String kitName, long applicationStoreItemId)
+		throws NoSuchBibboxKitException {
+		BibboxKit bibboxKit = findByKitName(kitName, applicationStoreItemId);
+
+		return remove(bibboxKit);
+	}
+
+	/**
+	 * Returns the number of bibbox kits where kitName = &#63; and applicationStoreItemId = &#63;.
+	 *
+	 * @param kitName the kit name
+	 * @param applicationStoreItemId the application store item ID
+	 * @return the number of matching bibbox kits
+	 */
+	@Override
+	public int countByKitName(String kitName, long applicationStoreItemId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_KITNAME;
+
+		Object[] finderArgs = new Object[] { kitName, applicationStoreItemId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_BIBBOXKIT_WHERE);
+
+			boolean bindKitName = false;
+
+			if (kitName == null) {
+				query.append(_FINDER_COLUMN_KITNAME_KITNAME_1);
+			}
+			else if (kitName.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_KITNAME_KITNAME_3);
+			}
+			else {
+				bindKitName = true;
+
+				query.append(_FINDER_COLUMN_KITNAME_KITNAME_2);
+			}
+
+			query.append(_FINDER_COLUMN_KITNAME_APPLICATIONSTOREITEMID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindKitName) {
+					qPos.add(kitName);
+				}
+
+				qPos.add(applicationStoreItemId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_KITNAME_KITNAME_1 = "bibboxKit.kitName IS NULL AND ";
+	private static final String _FINDER_COLUMN_KITNAME_KITNAME_2 = "bibboxKit.kitName = ? AND ";
+	private static final String _FINDER_COLUMN_KITNAME_KITNAME_3 = "(bibboxKit.kitName IS NULL OR bibboxKit.kitName = '') AND ";
+	private static final String _FINDER_COLUMN_KITNAME_APPLICATIONSTOREITEMID_2 = "bibboxKit.applicationStoreItemId = ?";
 
 	public BibboxKitPersistenceImpl() {
 		setModelClass(BibboxKit.class);
@@ -1174,6 +1437,11 @@ public class BibboxKitPersistenceImpl extends BasePersistenceImpl<BibboxKit>
 	public void cacheResult(BibboxKit bibboxKit) {
 		entityCache.putResult(BibboxKitModelImpl.ENTITY_CACHE_ENABLED,
 			BibboxKitImpl.class, bibboxKit.getPrimaryKey(), bibboxKit);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_KITNAME,
+			new Object[] {
+				bibboxKit.getKitName(), bibboxKit.getApplicationStoreItemId()
+			}, bibboxKit);
 
 		bibboxKit.resetOriginalValues();
 	}
@@ -1226,6 +1494,8 @@ public class BibboxKitPersistenceImpl extends BasePersistenceImpl<BibboxKit>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache((BibboxKitModelImpl)bibboxKit);
 	}
 
 	@Override
@@ -1236,6 +1506,59 @@ public class BibboxKitPersistenceImpl extends BasePersistenceImpl<BibboxKit>
 		for (BibboxKit bibboxKit : bibboxKits) {
 			entityCache.removeResult(BibboxKitModelImpl.ENTITY_CACHE_ENABLED,
 				BibboxKitImpl.class, bibboxKit.getPrimaryKey());
+
+			clearUniqueFindersCache((BibboxKitModelImpl)bibboxKit);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(
+		BibboxKitModelImpl bibboxKitModelImpl, boolean isNew) {
+		if (isNew) {
+			Object[] args = new Object[] {
+					bibboxKitModelImpl.getKitName(),
+					bibboxKitModelImpl.getApplicationStoreItemId()
+				};
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_KITNAME, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_KITNAME, args,
+				bibboxKitModelImpl);
+		}
+		else {
+			if ((bibboxKitModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_KITNAME.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						bibboxKitModelImpl.getKitName(),
+						bibboxKitModelImpl.getApplicationStoreItemId()
+					};
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_KITNAME, args,
+					Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_KITNAME, args,
+					bibboxKitModelImpl);
+			}
+		}
+	}
+
+	protected void clearUniqueFindersCache(
+		BibboxKitModelImpl bibboxKitModelImpl) {
+		Object[] args = new Object[] {
+				bibboxKitModelImpl.getKitName(),
+				bibboxKitModelImpl.getApplicationStoreItemId()
+			};
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_KITNAME, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_KITNAME, args);
+
+		if ((bibboxKitModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_KITNAME.getColumnBitmask()) != 0) {
+			args = new Object[] {
+					bibboxKitModelImpl.getOriginalKitName(),
+					bibboxKitModelImpl.getOriginalApplicationStoreItemId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_KITNAME, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_KITNAME, args);
 		}
 	}
 
@@ -1440,6 +1763,9 @@ public class BibboxKitPersistenceImpl extends BasePersistenceImpl<BibboxKit>
 
 		entityCache.putResult(BibboxKitModelImpl.ENTITY_CACHE_ENABLED,
 			BibboxKitImpl.class, bibboxKit.getPrimaryKey(), bibboxKit, false);
+
+		clearUniqueFindersCache(bibboxKitModelImpl);
+		cacheUniqueFindersCache(bibboxKitModelImpl, isNew);
 
 		bibboxKit.resetOriginalValues();
 

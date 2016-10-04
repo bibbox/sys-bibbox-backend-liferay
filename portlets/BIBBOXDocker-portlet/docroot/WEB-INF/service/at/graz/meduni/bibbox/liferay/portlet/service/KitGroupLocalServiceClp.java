@@ -114,15 +114,19 @@ public class KitGroupLocalServiceClp implements KitGroupLocalService {
 
 		_methodParameterTypes18 = new String[] { "int", "int" };
 
-		_methodName19 = "dynamicQueryCount";
+		_methodName19 = "getKitGroups";
 
-		_methodParameterTypes19 = new String[] {
-				"com.liferay.portal.kernel.dao.orm.DynamicQuery"
-			};
+		_methodParameterTypes19 = new String[] { "long" };
 
 		_methodName20 = "dynamicQueryCount";
 
 		_methodParameterTypes20 = new String[] {
+				"com.liferay.portal.kernel.dao.orm.DynamicQuery"
+			};
+
+		_methodName21 = "dynamicQueryCount";
+
+		_methodParameterTypes21 = new String[] {
 				"com.liferay.portal.kernel.dao.orm.DynamicQuery",
 				"com.liferay.portal.kernel.dao.orm.Projection"
 			};
@@ -608,13 +612,38 @@ public class KitGroupLocalServiceClp implements KitGroupLocalService {
 	}
 
 	@Override
-	public long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup> getKitGroups(
+		long applicationStoreItemId) {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName19,
 					_methodParameterTypes19,
+					new Object[] { applicationStoreItemId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public long dynamicQueryCount(
+		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20,
 					new Object[] { ClpSerializer.translateInput(dynamicQuery) });
 		}
 		catch (Throwable t) {
@@ -639,8 +668,8 @@ public class KitGroupLocalServiceClp implements KitGroupLocalService {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName20,
-					_methodParameterTypes20,
+			returnObj = _invokableLocalService.invokeMethod(_methodName21,
+					_methodParameterTypes21,
 					new Object[] {
 						ClpSerializer.translateInput(dynamicQuery),
 						
@@ -703,4 +732,6 @@ public class KitGroupLocalServiceClp implements KitGroupLocalService {
 	private String[] _methodParameterTypes19;
 	private String _methodName20;
 	private String[] _methodParameterTypes20;
+	private String _methodName21;
+	private String[] _methodParameterTypes21;
 }

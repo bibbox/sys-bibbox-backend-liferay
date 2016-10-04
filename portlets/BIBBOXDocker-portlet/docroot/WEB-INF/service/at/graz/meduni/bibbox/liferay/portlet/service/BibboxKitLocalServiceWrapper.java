@@ -89,6 +89,13 @@ public class BibboxKitLocalServiceWrapper implements BibboxKitLocalService,
 		return _bibboxKitLocalService.fetchBibboxKit(bibboxKitId);
 	}
 
+	@Override
+	public at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit getBibboxKit(
+		long applicationStoreItemId, java.lang.String kitName) {
+		return _bibboxKitLocalService.getBibboxKit(applicationStoreItemId,
+			kitName);
+	}
+
 	/**
 	* Returns the bibbox kit with the primary key.
 	*
@@ -243,6 +250,12 @@ public class BibboxKitLocalServiceWrapper implements BibboxKitLocalService,
 	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit> getBibboxKits(
 		int start, int end) {
 		return _bibboxKitLocalService.getBibboxKits(start, end);
+	}
+
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit> getBibboxKits(
+		long applicationStoreItemId) {
+		return _bibboxKitLocalService.getBibboxKits(applicationStoreItemId);
 	}
 
 	/**

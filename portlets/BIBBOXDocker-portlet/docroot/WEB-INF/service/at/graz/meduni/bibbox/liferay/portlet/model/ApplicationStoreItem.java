@@ -57,4 +57,8 @@ public interface ApplicationStoreItem extends ApplicationStoreItemModel,
 		};
 
 	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationTag> getApplicationTags();
+
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit> getBibboxKits();
+
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup> getKitGroups();
 }

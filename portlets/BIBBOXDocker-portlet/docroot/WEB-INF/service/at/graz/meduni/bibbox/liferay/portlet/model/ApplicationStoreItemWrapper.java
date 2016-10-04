@@ -404,6 +404,16 @@ public class ApplicationStoreItemWrapper implements ApplicationStoreItem,
 		return _applicationStoreItem.getApplicationTags();
 	}
 
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit> getBibboxKits() {
+		return _applicationStoreItem.getBibboxKits();
+	}
+
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup> getKitGroups() {
+		return _applicationStoreItem.getKitGroups();
+	}
+
 	/**
 	* Returns the application store item ID of this application store item.
 	*
