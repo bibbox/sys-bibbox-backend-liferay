@@ -89,6 +89,13 @@ public class KitGroupLocalServiceWrapper implements KitGroupLocalService,
 		return _kitGroupLocalService.fetchKitGroup(kitGroupId);
 	}
 
+	@Override
+	public at.graz.meduni.bibbox.liferay.portlet.model.KitGroup getKitGroup(
+		long applicationStoreItemId, long bibboxKitId) {
+		return _kitGroupLocalService.getKitGroup(applicationStoreItemId,
+			bibboxKitId);
+	}
+
 	/**
 	* Returns the kit group with the primary key.
 	*

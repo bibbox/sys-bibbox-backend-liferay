@@ -55,4 +55,17 @@ public class ApplicationStoreItemImpl extends ApplicationStoreItemBaseImpl {
 	public List<KitGroup> getKitGroups() {
 		return KitGroupLocalServiceUtil.getKitGroups(this.getApplicationStoreItemId());
 	}
+	
+	public String getKitGroupForKit(String kitname) {
+		List<BibboxKit> bibboxkits = getBibboxKits();
+		for(BibboxKit bibboxkit : bibboxkits) {
+			if(bibboxkit.getKitName().equals(kitname)) {
+				KitGroup kitgroup = KitGroupLocalServiceUtil.getKitGroup(this.getApplicationStoreItemId(), bibboxkit.getBibboxKitId());
+				if(kitgroup != null) {
+					return kitgroup.getBibboxKitName();
+				}
+			}
+		}
+		return "";
+	}
 }

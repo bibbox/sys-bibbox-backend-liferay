@@ -109,175 +109,60 @@ public class KitGroupUtil {
 	}
 
 	/**
-	* Returns all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
+	* Returns the kit group where applicationStoreItemId = &#63; and bibboxKitId = &#63; or throws a {@link NoSuchKitGroupException} if it could not be found.
 	*
 	* @param applicationStoreItemId the application store item ID
 	* @param bibboxKitId the bibbox kit ID
-	* @return the matching kit groups
+	* @return the matching kit group
+	* @throws NoSuchKitGroupException if a matching kit group could not be found
 	*/
-	public static List<KitGroup> findByKitGroup(long applicationStoreItemId,
-		long bibboxKitId) {
+	public static KitGroup findByKitGroup(long applicationStoreItemId,
+		long bibboxKitId)
+		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchKitGroupException {
 		return getPersistence()
 				   .findByKitGroup(applicationStoreItemId, bibboxKitId);
 	}
 
 	/**
-	* Returns a range of all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link KitGroupModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
+	* Returns the kit group where applicationStoreItemId = &#63; and bibboxKitId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
 	* @param applicationStoreItemId the application store item ID
 	* @param bibboxKitId the bibbox kit ID
-	* @param start the lower bound of the range of kit groups
-	* @param end the upper bound of the range of kit groups (not inclusive)
-	* @return the range of matching kit groups
+	* @return the matching kit group, or <code>null</code> if a matching kit group could not be found
 	*/
-	public static List<KitGroup> findByKitGroup(long applicationStoreItemId,
-		long bibboxKitId, int start, int end) {
-		return getPersistence()
-				   .findByKitGroup(applicationStoreItemId, bibboxKitId, start,
-			end);
-	}
-
-	/**
-	* Returns an ordered range of all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link KitGroupModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param applicationStoreItemId the application store item ID
-	* @param bibboxKitId the bibbox kit ID
-	* @param start the lower bound of the range of kit groups
-	* @param end the upper bound of the range of kit groups (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching kit groups
-	*/
-	public static List<KitGroup> findByKitGroup(long applicationStoreItemId,
-		long bibboxKitId, int start, int end,
-		OrderByComparator<KitGroup> orderByComparator) {
-		return getPersistence()
-				   .findByKitGroup(applicationStoreItemId, bibboxKitId, start,
-			end, orderByComparator);
-	}
-
-	/**
-	* Returns an ordered range of all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link KitGroupModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param applicationStoreItemId the application store item ID
-	* @param bibboxKitId the bibbox kit ID
-	* @param start the lower bound of the range of kit groups
-	* @param end the upper bound of the range of kit groups (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching kit groups
-	*/
-	public static List<KitGroup> findByKitGroup(long applicationStoreItemId,
-		long bibboxKitId, int start, int end,
-		OrderByComparator<KitGroup> orderByComparator, boolean retrieveFromCache) {
-		return getPersistence()
-				   .findByKitGroup(applicationStoreItemId, bibboxKitId, start,
-			end, orderByComparator, retrieveFromCache);
-	}
-
-	/**
-	* Returns the first kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	*
-	* @param applicationStoreItemId the application store item ID
-	* @param bibboxKitId the bibbox kit ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching kit group
-	* @throws NoSuchKitGroupException if a matching kit group could not be found
-	*/
-	public static KitGroup findByKitGroup_First(long applicationStoreItemId,
-		long bibboxKitId, OrderByComparator<KitGroup> orderByComparator)
-		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchKitGroupException {
-		return getPersistence()
-				   .findByKitGroup_First(applicationStoreItemId, bibboxKitId,
-			orderByComparator);
-	}
-
-	/**
-	* Returns the first kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	*
-	* @param applicationStoreItemId the application store item ID
-	* @param bibboxKitId the bibbox kit ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching kit group, or <code>null</code> if a matching kit group could not be found
-	*/
-	public static KitGroup fetchByKitGroup_First(long applicationStoreItemId,
-		long bibboxKitId, OrderByComparator<KitGroup> orderByComparator) {
-		return getPersistence()
-				   .fetchByKitGroup_First(applicationStoreItemId, bibboxKitId,
-			orderByComparator);
-	}
-
-	/**
-	* Returns the last kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	*
-	* @param applicationStoreItemId the application store item ID
-	* @param bibboxKitId the bibbox kit ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching kit group
-	* @throws NoSuchKitGroupException if a matching kit group could not be found
-	*/
-	public static KitGroup findByKitGroup_Last(long applicationStoreItemId,
-		long bibboxKitId, OrderByComparator<KitGroup> orderByComparator)
-		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchKitGroupException {
-		return getPersistence()
-				   .findByKitGroup_Last(applicationStoreItemId, bibboxKitId,
-			orderByComparator);
-	}
-
-	/**
-	* Returns the last kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	*
-	* @param applicationStoreItemId the application store item ID
-	* @param bibboxKitId the bibbox kit ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching kit group, or <code>null</code> if a matching kit group could not be found
-	*/
-	public static KitGroup fetchByKitGroup_Last(long applicationStoreItemId,
-		long bibboxKitId, OrderByComparator<KitGroup> orderByComparator) {
-		return getPersistence()
-				   .fetchByKitGroup_Last(applicationStoreItemId, bibboxKitId,
-			orderByComparator);
-	}
-
-	/**
-	* Returns the kit groups before and after the current kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	*
-	* @param kitGroupId the primary key of the current kit group
-	* @param applicationStoreItemId the application store item ID
-	* @param bibboxKitId the bibbox kit ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next kit group
-	* @throws NoSuchKitGroupException if a kit group with the primary key could not be found
-	*/
-	public static KitGroup[] findByKitGroup_PrevAndNext(long kitGroupId,
-		long applicationStoreItemId, long bibboxKitId,
-		OrderByComparator<KitGroup> orderByComparator)
-		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchKitGroupException {
-		return getPersistence()
-				   .findByKitGroup_PrevAndNext(kitGroupId,
-			applicationStoreItemId, bibboxKitId, orderByComparator);
-	}
-
-	/**
-	* Removes all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63; from the database.
-	*
-	* @param applicationStoreItemId the application store item ID
-	* @param bibboxKitId the bibbox kit ID
-	*/
-	public static void removeByKitGroup(long applicationStoreItemId,
+	public static KitGroup fetchByKitGroup(long applicationStoreItemId,
 		long bibboxKitId) {
-		getPersistence().removeByKitGroup(applicationStoreItemId, bibboxKitId);
+		return getPersistence()
+				   .fetchByKitGroup(applicationStoreItemId, bibboxKitId);
+	}
+
+	/**
+	* Returns the kit group where applicationStoreItemId = &#63; and bibboxKitId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param applicationStoreItemId the application store item ID
+	* @param bibboxKitId the bibbox kit ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching kit group, or <code>null</code> if a matching kit group could not be found
+	*/
+	public static KitGroup fetchByKitGroup(long applicationStoreItemId,
+		long bibboxKitId, boolean retrieveFromCache) {
+		return getPersistence()
+				   .fetchByKitGroup(applicationStoreItemId, bibboxKitId,
+			retrieveFromCache);
+	}
+
+	/**
+	* Removes the kit group where applicationStoreItemId = &#63; and bibboxKitId = &#63; from the database.
+	*
+	* @param applicationStoreItemId the application store item ID
+	* @param bibboxKitId the bibbox kit ID
+	* @return the kit group that was removed
+	*/
+	public static KitGroup removeByKitGroup(long applicationStoreItemId,
+		long bibboxKitId)
+		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchKitGroupException {
+		return getPersistence()
+				   .removeByKitGroup(applicationStoreItemId, bibboxKitId);
 	}
 
 	/**

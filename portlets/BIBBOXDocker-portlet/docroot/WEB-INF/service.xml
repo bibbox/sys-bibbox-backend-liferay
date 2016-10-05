@@ -66,7 +66,7 @@
 		</order>
 		
 		<!-- Finder methods -->
-		<finder name="KitGroup" return-type="Collection">
+		<finder name="KitGroup" return-type="KitGroup">
 			<finder-column name="applicationStoreItemId" />
 			<finder-column name="bibboxKitId" />
 		</finder>
@@ -136,10 +136,10 @@
 		<finder name="ApplicationStoreItemId" return-type="Collection">
 			<finder-column name="applicationStoreItemId" />
 		</finder>
-		<finder name="KitName" return-type="Collection">
+		<finder name="KitNames" return-type="Collection">
 			<finder-column name="kitName" />
 		</finder>
-		<finder name="KitName" return-type="BibboxKit">
+		<finder name="KitNameforApplication" return-type="BibboxKit">
 			<finder-column name="kitName" />
 			<finder-column name="applicationStoreItemId" />
 		</finder>

@@ -14,6 +14,7 @@
 
 package at.graz.meduni.bibbox.liferay.portlet.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
@@ -25,6 +26,7 @@ import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 
 import aQute.bnd.annotation.ProviderType;
 import at.graz.meduni.bibbox.docker.ApplicationStoreHelper;
+import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationStoreItem;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationTag;
 import at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit;
@@ -56,13 +58,19 @@ public class ApplicationStoreItemServiceImpl
 	 * Never reference this class directly. Always use {@link at.graz.meduni.bibbox.liferay.portlet.service.ApplicationStoreItemServiceUtil} to access the application store item remote service.
 	 */
 	
+	/**
+	 * Error Format for date
+	 */
+	private String log_portlet_ = "BIBBOXDocker";
+	private String log_classname_ = "at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationStoreItemServiceImpl";
+	
 	@JSONWebService("/get-application-store-list")
-	public JSONArray getApplicationStoreListAPI() {
+	public JSONObject getApplicationStoreListAPI() {
 		return getApplicationStoreList();
 	}
 	
 	@JSONWebService("/get-application-store-updated-list")
-	public JSONArray getApplicationStoreUpdatedListAPI() {
+	public JSONObject getApplicationStoreUpdatedListAPI() {
 		ApplicationStoreHelper applicationstorehelper = new ApplicationStoreHelper();
 		applicationstorehelper.loadApplicationStoreItems();
 		return getApplicationStoreList();
@@ -73,7 +81,7 @@ public class ApplicationStoreItemServiceImpl
 		return getApplicationStoreItem(applicationstoreitemId);
 	}
 	
-	public JSONObject getApplicationStoreItem(long applicationstoreitemId) {
+	private JSONObject getApplicationStoreItem(long applicationstoreitemId) {
 		JSONObject applicationstoreitemjsonobject = JSONFactoryUtil.createJSONObject();
 		try {
 			ApplicationStoreItem applicationstoreitem = ApplicationStoreItemLocalServiceUtil.getApplicationStoreItem(applicationstoreitemId);
@@ -86,6 +94,7 @@ public class ApplicationStoreItemServiceImpl
 			applicationstoreitemjsonobject.put("releasestate", applicationstoreitem.getApplicationReleaseState());
 			applicationstoreitemjsonobject.put("version", applicationstoreitem.getApplicationVersion());
 			applicationstoreitemjsonobject.put("tags", getApplicationStoreItemTags(applicationstoreitem));
+			applicationstoreitemjsonobject.put("group", applicationstoreitem.getKitGroupForKit("eB3Kit"));
 		} catch (PortalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -93,35 +102,40 @@ public class ApplicationStoreItemServiceImpl
 		return applicationstoreitemjsonobject;
 	}
 	
-	public void addApplicationStoreItem(String name, String shortname, String version, String release_state, String description, String catalogue_url, String application_url, String kits, String tags) {
-		ApplicationStoreItem applicationstoreitem = ApplicationStoreItemLocalServiceUtil.createApplicationStoreItem(CounterLocalServiceUtil.increment());
-		applicationstoreitem.setApplicationName(name);
-		applicationstoreitem.setApplicationShortName(shortname);
-		applicationstoreitem.setApplicationVersion(version);
-		applicationstoreitem.setApplicationReleaseState(release_state);
-		applicationstoreitem.setApplicationDescription(description);
-		applicationstoreitem.setApplicationCatalogueUrl(catalogue_url);
-		applicationstoreitem.setApplicationApplicationUrl(application_url);
-		ApplicationStoreItemLocalServiceUtil.updateApplicationStoreItem(applicationstoreitem);
-		for(String kit : kits.split(";")) {
-			BibboxKit bibboxkit = BibboxKitLocalServiceUtil.createBibboxKit(CounterLocalServiceUtil.increment());
-			bibboxkit.setApplicationStoreItemId(applicationstoreitem.getApplicationStoreItemId());
-			bibboxkit.setKitName(kit);
-			BibboxKitLocalServiceUtil.updateBibboxKit(bibboxkit);
-		}
-		for(String tag : tags.split(";")) {
-			ApplicationTag applicationtag = ApplicationTagLocalServiceUtil.createApplicationTag(CounterLocalServiceUtil.increment());
-			applicationtag.setApplicationStoreItemId(applicationstoreitem.getApplicationStoreItemId());
-			applicationtag.setTag(tag);
-			ApplicationTagLocalServiceUtil.updateApplicationTag(applicationtag);
-		}
+	private JSONObject getApplicationStoreList() {
+		JSONObject applicationstorejsonobject = JSONFactoryUtil.createJSONObject();
+		applicationstorejsonobject.put("groups", getApplicationStoreGroupList());
+		applicationstorejsonobject.put("tools", getApplicationStoreItemList());
+		return applicationstorejsonobject;
 	}
 	
-	private JSONArray getApplicationStoreList() {
+	private JSONArray getApplicationStoreGroupList() {
+		JSONArray application_store_list = JSONFactoryUtil.createJSONArray();
+		JSONObject g1 = JSONFactoryUtil.createJSONObject();
+		JSONObject g2 = JSONFactoryUtil.createJSONObject();
+		JSONObject g3 = JSONFactoryUtil.createJSONObject();
+		g1.put("order", "1");
+		g1.put("id", "biobank");
+		g1.put("name", "Biobank Apps");
+		g2.put("order", "2");
+		g2.put("id", "bioinformatics");
+		g2.put("name", "Bioinformatics Apps");
+		g3.put("order", "2");
+		g3.put("id", "helper");
+		g3.put("name", "Helper Apps");
+		application_store_list.put(g1);
+		application_store_list.put(g2);
+		application_store_list.put(g3);
+		return application_store_list;
+	}
+	
+	private JSONArray getApplicationStoreItemList() {
 		JSONArray application_store_list = JSONFactoryUtil.createJSONArray();
 		List<ApplicationStoreItem> applicationstoreitems = ApplicationStoreItemLocalServiceUtil.getApplicationStoreItems(-1, -1);
 		for(ApplicationStoreItem applicationstoreitem : applicationstoreitems) {
-			application_store_list.put(getApplicationStoreItemListInformation(applicationstoreitem));
+			if(!applicationstoreitem.getDepreciated()) {
+				application_store_list.put(getApplicationStoreItemListInformation(applicationstoreitem));
+			}
 		}
 		return application_store_list;
 	}
@@ -129,7 +143,10 @@ public class ApplicationStoreItemServiceImpl
 	private JSONObject getApplicationStoreItemListInformation(ApplicationStoreItem applicationstoreitem) {
 		JSONObject applicationstoreitemjsonobject = JSONFactoryUtil.createJSONObject();
 		applicationstoreitemjsonobject.put("id", applicationstoreitem.getApplicationStoreItemId());
-		applicationstoreitemjsonobject.put("name", applicationstoreitem.getApplicationShortName());
+		applicationstoreitemjsonobject.put("name", applicationstoreitem.getApplicationName());
+		applicationstoreitemjsonobject.put("shortname", applicationstoreitem.getApplicationShortName());
+		applicationstoreitemjsonobject.put("group", applicationstoreitem.getKitGroupForKit("eB3Kit"));
+		applicationstoreitemjsonobject.put("description", applicationstoreitem.getApplicationDescription());
 		applicationstoreitemjsonobject.put("tags", getApplicationStoreItemTags(applicationstoreitem));
 		return applicationstoreitemjsonobject;
 	}

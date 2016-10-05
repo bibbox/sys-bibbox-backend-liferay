@@ -28,89 +28,31 @@ public class ApplicationStoreItemServiceClp
 	public ApplicationStoreItemServiceClp(InvokableService invokableService) {
 		_invokableService = invokableService;
 
-		_methodName0 = "getApplicationStoreListAPI";
+		_methodName0 = "getApplicationStoreItemAPI";
 
-		_methodParameterTypes0 = new String[] {  };
+		_methodParameterTypes0 = new String[] { "long" };
 
-		_methodName1 = "getApplicationStoreUpdatedListAPI";
+		_methodName1 = "getApplicationStoreListAPI";
 
 		_methodParameterTypes1 = new String[] {  };
 
-		_methodName2 = "getApplicationStoreItem";
+		_methodName2 = "getApplicationStoreUpdatedListAPI";
 
-		_methodParameterTypes2 = new String[] { "long" };
+		_methodParameterTypes2 = new String[] {  };
 
-		_methodName3 = "getApplicationStoreItemAPI";
+		_methodName4 = "getOSGiServiceIdentifier";
 
-		_methodParameterTypes3 = new String[] { "long" };
-
-		_methodName5 = "getOSGiServiceIdentifier";
-
-		_methodParameterTypes5 = new String[] {  };
-
-		_methodName6 = "addApplicationStoreItem";
-
-		_methodParameterTypes6 = new String[] {
-				"java.lang.String", "java.lang.String", "java.lang.String",
-				"java.lang.String", "java.lang.String", "java.lang.String",
-				"java.lang.String", "java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes4 = new String[] {  };
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getApplicationStoreListAPI() {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableService.invokeMethod(_methodName0,
-					_methodParameterTypes0, new Object[] {  });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return (com.liferay.portal.kernel.json.JSONArray)ClpSerializer.translateOutput(returnObj);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONArray getApplicationStoreUpdatedListAPI() {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableService.invokeMethod(_methodName1,
-					_methodParameterTypes1, new Object[] {  });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return (com.liferay.portal.kernel.json.JSONArray)ClpSerializer.translateOutput(returnObj);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreItem(
+	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreItemAPI(
 		long applicationstoreitemId) {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName2,
-					_methodParameterTypes2,
+			returnObj = _invokableService.invokeMethod(_methodName0,
+					_methodParameterTypes0,
 					new Object[] { applicationstoreitemId });
 		}
 		catch (Throwable t) {
@@ -129,14 +71,35 @@ public class ApplicationStoreItemServiceClp
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreItemAPI(
-		long applicationstoreitemId) {
+	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreListAPI() {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName3,
-					_methodParameterTypes3,
-					new Object[] { applicationstoreitemId });
+			returnObj = _invokableService.invokeMethod(_methodName1,
+					_methodParameterTypes1, new Object[] {  });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.portal.kernel.json.JSONObject)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreUpdatedListAPI() {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableService.invokeMethod(_methodName2,
+					_methodParameterTypes2, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -165,8 +128,8 @@ public class ApplicationStoreItemServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName5,
-					_methodParameterTypes5, new Object[] {  });
+			returnObj = _invokableService.invokeMethod(_methodName4,
+					_methodParameterTypes4, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -183,48 +146,6 @@ public class ApplicationStoreItemServiceClp
 		return (java.lang.String)ClpSerializer.translateOutput(returnObj);
 	}
 
-	@Override
-	public void addApplicationStoreItem(java.lang.String name,
-		java.lang.String shortname, java.lang.String version,
-		java.lang.String release_state, java.lang.String description,
-		java.lang.String catalogue_url, java.lang.String application_url,
-		java.lang.String kits, java.lang.String tags) {
-		try {
-			_invokableService.invokeMethod(_methodName6,
-				_methodParameterTypes6,
-				new Object[] {
-					ClpSerializer.translateInput(name),
-					
-				ClpSerializer.translateInput(shortname),
-					
-				ClpSerializer.translateInput(version),
-					
-				ClpSerializer.translateInput(release_state),
-					
-				ClpSerializer.translateInput(description),
-					
-				ClpSerializer.translateInput(catalogue_url),
-					
-				ClpSerializer.translateInput(application_url),
-					
-				ClpSerializer.translateInput(kits),
-					
-				ClpSerializer.translateInput(tags)
-				});
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-	}
-
 	private InvokableService _invokableService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -232,10 +153,6 @@ public class ApplicationStoreItemServiceClp
 	private String[] _methodParameterTypes1;
 	private String _methodName2;
 	private String[] _methodParameterTypes2;
-	private String _methodName3;
-	private String[] _methodParameterTypes3;
-	private String _methodName5;
-	private String[] _methodParameterTypes5;
-	private String _methodName6;
-	private String[] _methodParameterTypes6;
+	private String _methodName4;
+	private String[] _methodParameterTypes4;
 }

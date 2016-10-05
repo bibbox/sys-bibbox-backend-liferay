@@ -349,6 +349,11 @@ public class ApplicationStoreItemWrapper implements ApplicationStoreItem,
 		return _applicationStoreItem.getGithash();
 	}
 
+	@Override
+	public java.lang.String getKitGroupForKit(java.lang.String kitname) {
+		return _applicationStoreItem.getKitGroupForKit(kitname);
+	}
+
 	/**
 	* Returns the user name of this application store item.
 	*

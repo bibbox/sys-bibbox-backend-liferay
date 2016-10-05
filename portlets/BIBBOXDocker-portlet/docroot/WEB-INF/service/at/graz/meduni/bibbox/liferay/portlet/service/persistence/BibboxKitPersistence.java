@@ -184,7 +184,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param kitName the kit name
 	* @return the matching bibbox kits
 	*/
-	public java.util.List<BibboxKit> findByKitName(java.lang.String kitName);
+	public java.util.List<BibboxKit> findByKitNames(java.lang.String kitName);
 
 	/**
 	* Returns a range of all the bibbox kits where kitName = &#63;.
@@ -198,7 +198,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param end the upper bound of the range of bibbox kits (not inclusive)
 	* @return the range of matching bibbox kits
 	*/
-	public java.util.List<BibboxKit> findByKitName(java.lang.String kitName,
+	public java.util.List<BibboxKit> findByKitNames(java.lang.String kitName,
 		int start, int end);
 
 	/**
@@ -214,7 +214,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching bibbox kits
 	*/
-	public java.util.List<BibboxKit> findByKitName(java.lang.String kitName,
+	public java.util.List<BibboxKit> findByKitNames(java.lang.String kitName,
 		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<BibboxKit> orderByComparator);
 
@@ -232,7 +232,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching bibbox kits
 	*/
-	public java.util.List<BibboxKit> findByKitName(java.lang.String kitName,
+	public java.util.List<BibboxKit> findByKitNames(java.lang.String kitName,
 		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<BibboxKit> orderByComparator,
 		boolean retrieveFromCache);
@@ -245,7 +245,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @return the first matching bibbox kit
 	* @throws NoSuchBibboxKitException if a matching bibbox kit could not be found
 	*/
-	public BibboxKit findByKitName_First(java.lang.String kitName,
+	public BibboxKit findByKitNames_First(java.lang.String kitName,
 		com.liferay.portal.kernel.util.OrderByComparator<BibboxKit> orderByComparator)
 		throws NoSuchBibboxKitException;
 
@@ -256,7 +256,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
 	*/
-	public BibboxKit fetchByKitName_First(java.lang.String kitName,
+	public BibboxKit fetchByKitNames_First(java.lang.String kitName,
 		com.liferay.portal.kernel.util.OrderByComparator<BibboxKit> orderByComparator);
 
 	/**
@@ -267,7 +267,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @return the last matching bibbox kit
 	* @throws NoSuchBibboxKitException if a matching bibbox kit could not be found
 	*/
-	public BibboxKit findByKitName_Last(java.lang.String kitName,
+	public BibboxKit findByKitNames_Last(java.lang.String kitName,
 		com.liferay.portal.kernel.util.OrderByComparator<BibboxKit> orderByComparator)
 		throws NoSuchBibboxKitException;
 
@@ -278,7 +278,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
 	*/
-	public BibboxKit fetchByKitName_Last(java.lang.String kitName,
+	public BibboxKit fetchByKitNames_Last(java.lang.String kitName,
 		com.liferay.portal.kernel.util.OrderByComparator<BibboxKit> orderByComparator);
 
 	/**
@@ -290,7 +290,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @return the previous, current, and next bibbox kit
 	* @throws NoSuchBibboxKitException if a bibbox kit with the primary key could not be found
 	*/
-	public BibboxKit[] findByKitName_PrevAndNext(long bibboxKitId,
+	public BibboxKit[] findByKitNames_PrevAndNext(long bibboxKitId,
 		java.lang.String kitName,
 		com.liferay.portal.kernel.util.OrderByComparator<BibboxKit> orderByComparator)
 		throws NoSuchBibboxKitException;
@@ -300,7 +300,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	*
 	* @param kitName the kit name
 	*/
-	public void removeByKitName(java.lang.String kitName);
+	public void removeByKitNames(java.lang.String kitName);
 
 	/**
 	* Returns the number of bibbox kits where kitName = &#63;.
@@ -308,7 +308,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param kitName the kit name
 	* @return the number of matching bibbox kits
 	*/
-	public int countByKitName(java.lang.String kitName);
+	public int countByKitNames(java.lang.String kitName);
 
 	/**
 	* Returns the bibbox kit where kitName = &#63; and applicationStoreItemId = &#63; or throws a {@link NoSuchBibboxKitException} if it could not be found.
@@ -318,7 +318,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @return the matching bibbox kit
 	* @throws NoSuchBibboxKitException if a matching bibbox kit could not be found
 	*/
-	public BibboxKit findByKitName(java.lang.String kitName,
+	public BibboxKit findByKitNameforApplication(java.lang.String kitName,
 		long applicationStoreItemId) throws NoSuchBibboxKitException;
 
 	/**
@@ -328,7 +328,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param applicationStoreItemId the application store item ID
 	* @return the matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
 	*/
-	public BibboxKit fetchByKitName(java.lang.String kitName,
+	public BibboxKit fetchByKitNameforApplication(java.lang.String kitName,
 		long applicationStoreItemId);
 
 	/**
@@ -339,7 +339,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
 	*/
-	public BibboxKit fetchByKitName(java.lang.String kitName,
+	public BibboxKit fetchByKitNameforApplication(java.lang.String kitName,
 		long applicationStoreItemId, boolean retrieveFromCache);
 
 	/**
@@ -349,7 +349,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param applicationStoreItemId the application store item ID
 	* @return the bibbox kit that was removed
 	*/
-	public BibboxKit removeByKitName(java.lang.String kitName,
+	public BibboxKit removeByKitNameforApplication(java.lang.String kitName,
 		long applicationStoreItemId) throws NoSuchBibboxKitException;
 
 	/**
@@ -359,7 +359,7 @@ public interface BibboxKitPersistence extends BasePersistence<BibboxKit> {
 	* @param applicationStoreItemId the application store item ID
 	* @return the number of matching bibbox kits
 	*/
-	public int countByKitName(java.lang.String kitName,
+	public int countByKitNameforApplication(java.lang.String kitName,
 		long applicationStoreItemId);
 
 	/**

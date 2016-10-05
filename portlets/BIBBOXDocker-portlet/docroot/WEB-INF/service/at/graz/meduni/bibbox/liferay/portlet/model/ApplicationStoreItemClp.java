@@ -705,6 +705,25 @@ public class ApplicationStoreItemClp extends BaseModelImpl<ApplicationStoreItem>
 		}
 	}
 
+	@Override
+	public java.lang.String getKitGroupForKit(java.lang.String kitname) {
+		try {
+			String methodName = "getKitGroupForKit";
+
+			Class<?>[] parameterTypes = new Class<?>[] { java.lang.String.class };
+
+			Object[] parameterValues = new Object[] { kitname };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
 	public BaseModel<?> getApplicationStoreItemRemoteModel() {
 		return _applicationStoreItemRemoteModel;
 	}

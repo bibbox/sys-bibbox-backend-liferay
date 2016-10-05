@@ -41,22 +41,17 @@ public class ApplicationStoreItemServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationStoreItemServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static com.liferay.portal.kernel.json.JSONArray getApplicationStoreListAPI() {
-		return getService().getApplicationStoreListAPI();
-	}
-
-	public static com.liferay.portal.kernel.json.JSONArray getApplicationStoreUpdatedListAPI() {
-		return getService().getApplicationStoreUpdatedListAPI();
-	}
-
-	public static com.liferay.portal.kernel.json.JSONObject getApplicationStoreItem(
-		long applicationstoreitemId) {
-		return getService().getApplicationStoreItem(applicationstoreitemId);
-	}
-
 	public static com.liferay.portal.kernel.json.JSONObject getApplicationStoreItemAPI(
 		long applicationstoreitemId) {
 		return getService().getApplicationStoreItemAPI(applicationstoreitemId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getApplicationStoreListAPI() {
+		return getService().getApplicationStoreListAPI();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getApplicationStoreUpdatedListAPI() {
+		return getService().getApplicationStoreUpdatedListAPI();
 	}
 
 	public static java.lang.Object invokeMethod(java.lang.String name,
@@ -72,16 +67,6 @@ public class ApplicationStoreItemServiceUtil {
 	*/
 	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
-	}
-
-	public static void addApplicationStoreItem(java.lang.String name,
-		java.lang.String shortname, java.lang.String version,
-		java.lang.String release_state, java.lang.String description,
-		java.lang.String catalogue_url, java.lang.String application_url,
-		java.lang.String kits, java.lang.String tags) {
-		getService()
-			.addApplicationStoreItem(name, shortname, version, release_state,
-			description, catalogue_url, application_url, kits, tags);
 	}
 
 	public static void clearService() {

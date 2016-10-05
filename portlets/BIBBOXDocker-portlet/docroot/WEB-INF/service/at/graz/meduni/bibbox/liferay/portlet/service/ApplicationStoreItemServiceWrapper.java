@@ -35,25 +35,19 @@ public class ApplicationStoreItemServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getApplicationStoreListAPI() {
+	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreItemAPI(
+		long applicationstoreitemId) {
+		return _applicationStoreItemService.getApplicationStoreItemAPI(applicationstoreitemId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreListAPI() {
 		return _applicationStoreItemService.getApplicationStoreListAPI();
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getApplicationStoreUpdatedListAPI() {
+	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreUpdatedListAPI() {
 		return _applicationStoreItemService.getApplicationStoreUpdatedListAPI();
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreItem(
-		long applicationstoreitemId) {
-		return _applicationStoreItemService.getApplicationStoreItem(applicationstoreitemId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreItemAPI(
-		long applicationstoreitemId) {
-		return _applicationStoreItemService.getApplicationStoreItemAPI(applicationstoreitemId);
 	}
 
 	@Override
@@ -72,17 +66,6 @@ public class ApplicationStoreItemServiceWrapper
 	@Override
 	public java.lang.String getOSGiServiceIdentifier() {
 		return _applicationStoreItemService.getOSGiServiceIdentifier();
-	}
-
-	@Override
-	public void addApplicationStoreItem(java.lang.String name,
-		java.lang.String shortname, java.lang.String version,
-		java.lang.String release_state, java.lang.String description,
-		java.lang.String catalogue_url, java.lang.String application_url,
-		java.lang.String kits, java.lang.String tags) {
-		_applicationStoreItemService.addApplicationStoreItem(name, shortname,
-			version, release_state, description, catalogue_url,
-			application_url, kits, tags);
 	}
 
 	@Override

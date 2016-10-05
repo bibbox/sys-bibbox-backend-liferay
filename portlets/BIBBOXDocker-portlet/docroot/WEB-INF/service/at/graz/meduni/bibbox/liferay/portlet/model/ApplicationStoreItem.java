@@ -61,4 +61,6 @@ public interface ApplicationStoreItem extends ApplicationStoreItemModel,
 	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit> getBibboxKits();
 
 	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.KitGroup> getKitGroups();
+
+	public java.lang.String getKitGroupForKit(java.lang.String kitname);
 }

@@ -293,8 +293,8 @@ public class BibboxKitUtil {
 	* @param kitName the kit name
 	* @return the matching bibbox kits
 	*/
-	public static List<BibboxKit> findByKitName(java.lang.String kitName) {
-		return getPersistence().findByKitName(kitName);
+	public static List<BibboxKit> findByKitNames(java.lang.String kitName) {
+		return getPersistence().findByKitNames(kitName);
 	}
 
 	/**
@@ -309,9 +309,9 @@ public class BibboxKitUtil {
 	* @param end the upper bound of the range of bibbox kits (not inclusive)
 	* @return the range of matching bibbox kits
 	*/
-	public static List<BibboxKit> findByKitName(java.lang.String kitName,
+	public static List<BibboxKit> findByKitNames(java.lang.String kitName,
 		int start, int end) {
-		return getPersistence().findByKitName(kitName, start, end);
+		return getPersistence().findByKitNames(kitName, start, end);
 	}
 
 	/**
@@ -327,10 +327,10 @@ public class BibboxKitUtil {
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching bibbox kits
 	*/
-	public static List<BibboxKit> findByKitName(java.lang.String kitName,
+	public static List<BibboxKit> findByKitNames(java.lang.String kitName,
 		int start, int end, OrderByComparator<BibboxKit> orderByComparator) {
 		return getPersistence()
-				   .findByKitName(kitName, start, end, orderByComparator);
+				   .findByKitNames(kitName, start, end, orderByComparator);
 	}
 
 	/**
@@ -347,11 +347,11 @@ public class BibboxKitUtil {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching bibbox kits
 	*/
-	public static List<BibboxKit> findByKitName(java.lang.String kitName,
+	public static List<BibboxKit> findByKitNames(java.lang.String kitName,
 		int start, int end, OrderByComparator<BibboxKit> orderByComparator,
 		boolean retrieveFromCache) {
 		return getPersistence()
-				   .findByKitName(kitName, start, end, orderByComparator,
+				   .findByKitNames(kitName, start, end, orderByComparator,
 			retrieveFromCache);
 	}
 
@@ -363,10 +363,10 @@ public class BibboxKitUtil {
 	* @return the first matching bibbox kit
 	* @throws NoSuchBibboxKitException if a matching bibbox kit could not be found
 	*/
-	public static BibboxKit findByKitName_First(java.lang.String kitName,
+	public static BibboxKit findByKitNames_First(java.lang.String kitName,
 		OrderByComparator<BibboxKit> orderByComparator)
 		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException {
-		return getPersistence().findByKitName_First(kitName, orderByComparator);
+		return getPersistence().findByKitNames_First(kitName, orderByComparator);
 	}
 
 	/**
@@ -376,9 +376,9 @@ public class BibboxKitUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
 	*/
-	public static BibboxKit fetchByKitName_First(java.lang.String kitName,
+	public static BibboxKit fetchByKitNames_First(java.lang.String kitName,
 		OrderByComparator<BibboxKit> orderByComparator) {
-		return getPersistence().fetchByKitName_First(kitName, orderByComparator);
+		return getPersistence().fetchByKitNames_First(kitName, orderByComparator);
 	}
 
 	/**
@@ -389,10 +389,10 @@ public class BibboxKitUtil {
 	* @return the last matching bibbox kit
 	* @throws NoSuchBibboxKitException if a matching bibbox kit could not be found
 	*/
-	public static BibboxKit findByKitName_Last(java.lang.String kitName,
+	public static BibboxKit findByKitNames_Last(java.lang.String kitName,
 		OrderByComparator<BibboxKit> orderByComparator)
 		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException {
-		return getPersistence().findByKitName_Last(kitName, orderByComparator);
+		return getPersistence().findByKitNames_Last(kitName, orderByComparator);
 	}
 
 	/**
@@ -402,9 +402,9 @@ public class BibboxKitUtil {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
 	*/
-	public static BibboxKit fetchByKitName_Last(java.lang.String kitName,
+	public static BibboxKit fetchByKitNames_Last(java.lang.String kitName,
 		OrderByComparator<BibboxKit> orderByComparator) {
-		return getPersistence().fetchByKitName_Last(kitName, orderByComparator);
+		return getPersistence().fetchByKitNames_Last(kitName, orderByComparator);
 	}
 
 	/**
@@ -416,11 +416,11 @@ public class BibboxKitUtil {
 	* @return the previous, current, and next bibbox kit
 	* @throws NoSuchBibboxKitException if a bibbox kit with the primary key could not be found
 	*/
-	public static BibboxKit[] findByKitName_PrevAndNext(long bibboxKitId,
+	public static BibboxKit[] findByKitNames_PrevAndNext(long bibboxKitId,
 		java.lang.String kitName, OrderByComparator<BibboxKit> orderByComparator)
 		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException {
 		return getPersistence()
-				   .findByKitName_PrevAndNext(bibboxKitId, kitName,
+				   .findByKitNames_PrevAndNext(bibboxKitId, kitName,
 			orderByComparator);
 	}
 
@@ -429,8 +429,8 @@ public class BibboxKitUtil {
 	*
 	* @param kitName the kit name
 	*/
-	public static void removeByKitName(java.lang.String kitName) {
-		getPersistence().removeByKitName(kitName);
+	public static void removeByKitNames(java.lang.String kitName) {
+		getPersistence().removeByKitNames(kitName);
 	}
 
 	/**
@@ -439,8 +439,8 @@ public class BibboxKitUtil {
 	* @param kitName the kit name
 	* @return the number of matching bibbox kits
 	*/
-	public static int countByKitName(java.lang.String kitName) {
-		return getPersistence().countByKitName(kitName);
+	public static int countByKitNames(java.lang.String kitName) {
+		return getPersistence().countByKitNames(kitName);
 	}
 
 	/**
@@ -451,10 +451,11 @@ public class BibboxKitUtil {
 	* @return the matching bibbox kit
 	* @throws NoSuchBibboxKitException if a matching bibbox kit could not be found
 	*/
-	public static BibboxKit findByKitName(java.lang.String kitName,
-		long applicationStoreItemId)
+	public static BibboxKit findByKitNameforApplication(
+		java.lang.String kitName, long applicationStoreItemId)
 		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException {
-		return getPersistence().findByKitName(kitName, applicationStoreItemId);
+		return getPersistence()
+				   .findByKitNameforApplication(kitName, applicationStoreItemId);
 	}
 
 	/**
@@ -464,9 +465,10 @@ public class BibboxKitUtil {
 	* @param applicationStoreItemId the application store item ID
 	* @return the matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
 	*/
-	public static BibboxKit fetchByKitName(java.lang.String kitName,
-		long applicationStoreItemId) {
-		return getPersistence().fetchByKitName(kitName, applicationStoreItemId);
+	public static BibboxKit fetchByKitNameforApplication(
+		java.lang.String kitName, long applicationStoreItemId) {
+		return getPersistence()
+				   .fetchByKitNameforApplication(kitName, applicationStoreItemId);
 	}
 
 	/**
@@ -477,11 +479,12 @@ public class BibboxKitUtil {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the matching bibbox kit, or <code>null</code> if a matching bibbox kit could not be found
 	*/
-	public static BibboxKit fetchByKitName(java.lang.String kitName,
-		long applicationStoreItemId, boolean retrieveFromCache) {
+	public static BibboxKit fetchByKitNameforApplication(
+		java.lang.String kitName, long applicationStoreItemId,
+		boolean retrieveFromCache) {
 		return getPersistence()
-				   .fetchByKitName(kitName, applicationStoreItemId,
-			retrieveFromCache);
+				   .fetchByKitNameforApplication(kitName,
+			applicationStoreItemId, retrieveFromCache);
 	}
 
 	/**
@@ -491,10 +494,12 @@ public class BibboxKitUtil {
 	* @param applicationStoreItemId the application store item ID
 	* @return the bibbox kit that was removed
 	*/
-	public static BibboxKit removeByKitName(java.lang.String kitName,
-		long applicationStoreItemId)
+	public static BibboxKit removeByKitNameforApplication(
+		java.lang.String kitName, long applicationStoreItemId)
 		throws at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchBibboxKitException {
-		return getPersistence().removeByKitName(kitName, applicationStoreItemId);
+		return getPersistence()
+				   .removeByKitNameforApplication(kitName,
+			applicationStoreItemId);
 	}
 
 	/**
@@ -504,9 +509,10 @@ public class BibboxKitUtil {
 	* @param applicationStoreItemId the application store item ID
 	* @return the number of matching bibbox kits
 	*/
-	public static int countByKitName(java.lang.String kitName,
+	public static int countByKitNameforApplication(java.lang.String kitName,
 		long applicationStoreItemId) {
-		return getPersistence().countByKitName(kitName, applicationStoreItemId);
+		return getPersistence()
+				   .countByKitNameforApplication(kitName, applicationStoreItemId);
 	}
 
 	/**

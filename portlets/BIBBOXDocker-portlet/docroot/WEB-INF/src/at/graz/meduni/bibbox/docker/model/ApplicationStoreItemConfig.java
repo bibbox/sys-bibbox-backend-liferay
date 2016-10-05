@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 
+import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationStoreItem;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationTag;
 import at.graz.meduni.bibbox.liferay.portlet.model.BibboxKit;
@@ -24,6 +25,12 @@ import at.graz.meduni.bibbox.liferay.portlet.service.BibboxKitLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.KitGroupLocalServiceUtil;
 
 public class ApplicationStoreItemConfig {
+	/**
+	 * Error Format for date
+	 */
+	private String log_portlet_ = "BIBBOXDocker";
+	private String log_classname_ = "at.graz.meduni.bibbox.docker.model.ApplicationStoreItemConfig";
+	
 	private String applicationname_ = "";
 	private File configurationfile_ = null;
 	private String githash_ = "";
@@ -101,22 +108,33 @@ public class ApplicationStoreItemConfig {
 		if(!parsedfile) {
 			parseConfigFile();
 		}
-		applicationstoreitem.setApplicationName(name);
-		applicationstoreitem.setApplicationShortName(short_name);
-		applicationstoreitem.setApplicationVersion(version);
-		applicationstoreitem.setApplicationApplicationUrl(application_url);
-		applicationstoreitem.setApplicationCatalogueUrl(catalogue_url);
-		applicationstoreitem.setApplicationDescription(description);
-		applicationstoreitem.setApplicationReleaseState(release_state);
-		applicationstoreitem = ApplicationStoreItemLocalServiceUtil.updateApplicationStoreItem(applicationstoreitem);
-		if(!compareApplicationTags(applicationstoreitem.getApplicationTags())) {
-			updateApplicationTags(applicationstoreitem.getApplicationTags(), applicationstoreitem.getApplicationStoreItemId());
+		try {
+			applicationstoreitem.setApplicationName(name);
+			applicationstoreitem.setApplicationShortName(short_name);
+			applicationstoreitem.setApplicationVersion(version);
+			applicationstoreitem.setApplicationApplicationUrl(application_url);
+			applicationstoreitem.setApplicationCatalogueUrl(catalogue_url);
+			applicationstoreitem.setApplicationDescription(description);
+			applicationstoreitem.setApplicationReleaseState(release_state);
+			applicationstoreitem.setApplicationFolderName(applicationname_);
+			applicationstoreitem = ApplicationStoreItemLocalServiceUtil.updateApplicationStoreItem(applicationstoreitem);
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateDataElements(ApplicationStoreItem applicationstoreitem)", "Exception updating Application store item. ApplicationStoreItem: " + applicationstoreitem.getApplicationStoreItemId() + ":" + applicationstoreitem.getApplicationFolderName()));
+			e.printStackTrace();
 		}
-		if(!compareBibboxKits(applicationstoreitem.getBibboxKits())) {
-			updateBibboxKits(applicationstoreitem.getBibboxKits(), applicationstoreitem.getApplicationStoreItemId());
-		}
-		if(!compareKitGroups(applicationstoreitem.getKitGroups())) {
-			updateKitGroups(applicationstoreitem.getKitGroups(), applicationstoreitem.getApplicationStoreItemId());
+		try {
+			if(!compareApplicationTags(applicationstoreitem.getApplicationTags())) {
+				updateApplicationTags(applicationstoreitem.getApplicationTags(), applicationstoreitem.getApplicationStoreItemId());
+			}
+			if(!compareBibboxKits(applicationstoreitem.getBibboxKits())) {
+				updateBibboxKits(applicationstoreitem.getBibboxKits(), applicationstoreitem.getApplicationStoreItemId());
+			}
+			if(!compareKitGroups(applicationstoreitem.getKitGroups())) {
+				updateKitGroups(applicationstoreitem.getKitGroups(), applicationstoreitem.getApplicationStoreItemId());
+			}
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateDataElements(ApplicationStoreItem applicationstoreitem)", "Exception updating Application store item Tags, Kits and Groups. ApplicationStoreItem: " + applicationstoreitem.getApplicationStoreItemId() + ":" + applicationstoreitem.getApplicationFolderName()));
+			e.printStackTrace();
 		}
 		return applicationstoreitem;
 	}
@@ -138,13 +156,16 @@ public class ApplicationStoreItemConfig {
 			application_url = doc.getElementsByTagName("application_url").item(0).getTextContent();
 			kit = doc.getElementsByTagName("kit").item(0).getTextContent();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "parseConfigFile()", "ParserConfigurationException parsing config file."));
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "parseConfigFile()", "SAXException parsing config file."));
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "parseConfigFile()", "IOException parsing config file."));
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "parseConfigFile()", "Exception parsing config file."));
 			e.printStackTrace();
 		}
 	}

@@ -130,6 +130,10 @@ public class KitGroupLocalServiceClpInvoker {
 		_methodName59 = "getKitGroups";
 
 		_methodParameterTypes59 = new String[] { "long" };
+
+		_methodName60 = "getKitGroup";
+
+		_methodParameterTypes60 = new String[] { "long", "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -246,6 +250,12 @@ public class KitGroupLocalServiceClpInvoker {
 			return KitGroupLocalServiceUtil.getKitGroups(((Long)arguments[0]).longValue());
 		}
 
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
+			return KitGroupLocalServiceUtil.getKitGroup(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -291,4 +301,6 @@ public class KitGroupLocalServiceClpInvoker {
 	private String[] _methodParameterTypes54;
 	private String _methodName59;
 	private String[] _methodParameterTypes59;
+	private String _methodName60;
+	private String[] _methodParameterTypes60;
 }

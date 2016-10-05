@@ -17,6 +17,7 @@ package at.graz.meduni.bibbox.liferay.portlet.service.impl;
 import java.util.List;
 
 import aQute.bnd.annotation.ProviderType;
+import at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchKitGroupException;
 import at.graz.meduni.bibbox.liferay.portlet.model.KitGroup;
 import at.graz.meduni.bibbox.liferay.portlet.service.base.KitGroupLocalServiceBaseImpl;
 
@@ -43,5 +44,15 @@ public class KitGroupLocalServiceImpl extends KitGroupLocalServiceBaseImpl {
 	 */
 	public List<KitGroup> getKitGroups(long applicationStoreItemId) {
 		return kitGroupPersistence.findByKitGroups(applicationStoreItemId);
+	}
+	
+	public KitGroup getKitGroup(long applicationStoreItemId, long bibboxKitId) {
+		try {
+			return kitGroupPersistence.findByKitGroup(applicationStoreItemId, bibboxKitId);
+		} catch (NoSuchKitGroupException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

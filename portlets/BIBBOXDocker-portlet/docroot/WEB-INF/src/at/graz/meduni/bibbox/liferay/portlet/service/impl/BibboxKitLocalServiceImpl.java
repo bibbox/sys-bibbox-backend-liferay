@@ -49,7 +49,7 @@ public class BibboxKitLocalServiceImpl extends BibboxKitLocalServiceBaseImpl {
 	
 	public BibboxKit getBibboxKit(long applicationStoreItemId, String kitName) {
 		try {
-			return bibboxKitPersistence.findByKitName(kitName, applicationStoreItemId);
+			return bibboxKitPersistence.findByKitNameforApplication(kitName, applicationStoreItemId);
 		} catch (NoSuchBibboxKitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -44,6 +44,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.Serializable;
 
@@ -90,165 +91,103 @@ public class KitGroupPersistenceImpl extends BasePersistenceImpl<KitGroup>
 	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(KitGroupModelImpl.ENTITY_CACHE_ENABLED,
 			KitGroupModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_KITGROUP = new FinderPath(KitGroupModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FETCH_BY_KITGROUP = new FinderPath(KitGroupModelImpl.ENTITY_CACHE_ENABLED,
 			KitGroupModelImpl.FINDER_CACHE_ENABLED, KitGroupImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByKitGroup",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_KITGROUP =
-		new FinderPath(KitGroupModelImpl.ENTITY_CACHE_ENABLED,
-			KitGroupModelImpl.FINDER_CACHE_ENABLED, KitGroupImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByKitGroup",
+			FINDER_CLASS_NAME_ENTITY, "fetchByKitGroup",
 			new String[] { Long.class.getName(), Long.class.getName() },
 			KitGroupModelImpl.APPLICATIONSTOREITEMID_COLUMN_BITMASK |
-			KitGroupModelImpl.BIBBOXKITID_COLUMN_BITMASK |
-			KitGroupModelImpl.GROUP_COLUMN_BITMASK);
+			KitGroupModelImpl.BIBBOXKITID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_KITGROUP = new FinderPath(KitGroupModelImpl.ENTITY_CACHE_ENABLED,
 			KitGroupModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKitGroup",
 			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
+	 * Returns the kit group where applicationStoreItemId = &#63; and bibboxKitId = &#63; or throws a {@link NoSuchKitGroupException} if it could not be found.
 	 *
 	 * @param applicationStoreItemId the application store item ID
 	 * @param bibboxKitId the bibbox kit ID
-	 * @return the matching kit groups
+	 * @return the matching kit group
+	 * @throws NoSuchKitGroupException if a matching kit group could not be found
 	 */
 	@Override
-	public List<KitGroup> findByKitGroup(long applicationStoreItemId,
+	public KitGroup findByKitGroup(long applicationStoreItemId, long bibboxKitId)
+		throws NoSuchKitGroupException {
+		KitGroup kitGroup = fetchByKitGroup(applicationStoreItemId, bibboxKitId);
+
+		if (kitGroup == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("applicationStoreItemId=");
+			msg.append(applicationStoreItemId);
+
+			msg.append(", bibboxKitId=");
+			msg.append(bibboxKitId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchKitGroupException(msg.toString());
+		}
+
+		return kitGroup;
+	}
+
+	/**
+	 * Returns the kit group where applicationStoreItemId = &#63; and bibboxKitId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param applicationStoreItemId the application store item ID
+	 * @param bibboxKitId the bibbox kit ID
+	 * @return the matching kit group, or <code>null</code> if a matching kit group could not be found
+	 */
+	@Override
+	public KitGroup fetchByKitGroup(long applicationStoreItemId,
 		long bibboxKitId) {
-		return findByKitGroup(applicationStoreItemId, bibboxKitId,
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		return fetchByKitGroup(applicationStoreItemId, bibboxKitId, true);
 	}
 
 	/**
-	 * Returns a range of all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link KitGroupModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the kit group where applicationStoreItemId = &#63; and bibboxKitId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param applicationStoreItemId the application store item ID
 	 * @param bibboxKitId the bibbox kit ID
-	 * @param start the lower bound of the range of kit groups
-	 * @param end the upper bound of the range of kit groups (not inclusive)
-	 * @return the range of matching kit groups
-	 */
-	@Override
-	public List<KitGroup> findByKitGroup(long applicationStoreItemId,
-		long bibboxKitId, int start, int end) {
-		return findByKitGroup(applicationStoreItemId, bibboxKitId, start, end,
-			null);
-	}
-
-	/**
-	 * Returns an ordered range of all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link KitGroupModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param applicationStoreItemId the application store item ID
-	 * @param bibboxKitId the bibbox kit ID
-	 * @param start the lower bound of the range of kit groups
-	 * @param end the upper bound of the range of kit groups (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching kit groups
-	 */
-	@Override
-	public List<KitGroup> findByKitGroup(long applicationStoreItemId,
-		long bibboxKitId, int start, int end,
-		OrderByComparator<KitGroup> orderByComparator) {
-		return findByKitGroup(applicationStoreItemId, bibboxKitId, start, end,
-			orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link KitGroupModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param applicationStoreItemId the application store item ID
-	 * @param bibboxKitId the bibbox kit ID
-	 * @param start the lower bound of the range of kit groups
-	 * @param end the upper bound of the range of kit groups (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching kit groups
+	 * @return the matching kit group, or <code>null</code> if a matching kit group could not be found
 	 */
 	@Override
-	public List<KitGroup> findByKitGroup(long applicationStoreItemId,
-		long bibboxKitId, int start, int end,
-		OrderByComparator<KitGroup> orderByComparator, boolean retrieveFromCache) {
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
+	public KitGroup fetchByKitGroup(long applicationStoreItemId,
+		long bibboxKitId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { applicationStoreItemId, bibboxKitId };
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_KITGROUP;
-			finderArgs = new Object[] { applicationStoreItemId, bibboxKitId };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_KITGROUP;
-			finderArgs = new Object[] {
-					applicationStoreItemId, bibboxKitId,
-					
-					start, end, orderByComparator
-				};
-		}
-
-		List<KitGroup> list = null;
+		Object result = null;
 
 		if (retrieveFromCache) {
-			list = (List<KitGroup>)finderCache.getResult(finderPath,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_KITGROUP,
 					finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (KitGroup kitGroup : list) {
-					if ((applicationStoreItemId != kitGroup.getApplicationStoreItemId()) ||
-							(bibboxKitId != kitGroup.getBibboxKitId())) {
-						list = null;
+		if (result instanceof KitGroup) {
+			KitGroup kitGroup = (KitGroup)result;
 
-						break;
-					}
-				}
+			if ((applicationStoreItemId != kitGroup.getApplicationStoreItemId()) ||
+					(bibboxKitId != kitGroup.getBibboxKitId())) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(4);
-			}
+		if (result == null) {
+			StringBundler query = new StringBundler(4);
 
 			query.append(_SQL_SELECT_KITGROUP_WHERE);
 
 			query.append(_FINDER_COLUMN_KITGROUP_APPLICATIONSTOREITEMID_2);
 
 			query.append(_FINDER_COLUMN_KITGROUP_BIBBOXKITID_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-			}
-			else
-			 if (pagination) {
-				query.append(KitGroupModelImpl.ORDER_BY_JPQL);
-			}
 
 			String sql = query.toString();
 
@@ -265,25 +204,36 @@ public class KitGroupPersistenceImpl extends BasePersistenceImpl<KitGroup>
 
 				qPos.add(bibboxKitId);
 
-				if (!pagination) {
-					list = (List<KitGroup>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+				List<KitGroup> list = q.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_KITGROUP,
+						finderArgs, list);
 				}
 				else {
-					list = (List<KitGroup>)QueryUtil.list(q, getDialect(),
-							start, end);
+					if ((list.size() > 1) && _log.isWarnEnabled()) {
+						_log.warn(
+							"KitGroupPersistenceImpl.fetchByKitGroup(long, long, boolean) with parameters (" +
+							StringUtil.merge(finderArgs) +
+							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					}
+
+					KitGroup kitGroup = list.get(0);
+
+					result = kitGroup;
+
+					cacheResult(kitGroup);
+
+					if ((kitGroup.getApplicationStoreItemId() != applicationStoreItemId) ||
+							(kitGroup.getBibboxKitId() != bibboxKitId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_KITGROUP,
+							finderArgs, kitGroup);
+					}
 				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_KITGROUP,
+					finderArgs);
 
 				throw processException(e);
 			}
@@ -292,292 +242,27 @@ public class KitGroupPersistenceImpl extends BasePersistenceImpl<KitGroup>
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	 *
-	 * @param applicationStoreItemId the application store item ID
-	 * @param bibboxKitId the bibbox kit ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching kit group
-	 * @throws NoSuchKitGroupException if a matching kit group could not be found
-	 */
-	@Override
-	public KitGroup findByKitGroup_First(long applicationStoreItemId,
-		long bibboxKitId, OrderByComparator<KitGroup> orderByComparator)
-		throws NoSuchKitGroupException {
-		KitGroup kitGroup = fetchByKitGroup_First(applicationStoreItemId,
-				bibboxKitId, orderByComparator);
-
-		if (kitGroup != null) {
-			return kitGroup;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("applicationStoreItemId=");
-		msg.append(applicationStoreItemId);
-
-		msg.append(", bibboxKitId=");
-		msg.append(bibboxKitId);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchKitGroupException(msg.toString());
-	}
-
-	/**
-	 * Returns the first kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	 *
-	 * @param applicationStoreItemId the application store item ID
-	 * @param bibboxKitId the bibbox kit ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching kit group, or <code>null</code> if a matching kit group could not be found
-	 */
-	@Override
-	public KitGroup fetchByKitGroup_First(long applicationStoreItemId,
-		long bibboxKitId, OrderByComparator<KitGroup> orderByComparator) {
-		List<KitGroup> list = findByKitGroup(applicationStoreItemId,
-				bibboxKitId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	 *
-	 * @param applicationStoreItemId the application store item ID
-	 * @param bibboxKitId the bibbox kit ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching kit group
-	 * @throws NoSuchKitGroupException if a matching kit group could not be found
-	 */
-	@Override
-	public KitGroup findByKitGroup_Last(long applicationStoreItemId,
-		long bibboxKitId, OrderByComparator<KitGroup> orderByComparator)
-		throws NoSuchKitGroupException {
-		KitGroup kitGroup = fetchByKitGroup_Last(applicationStoreItemId,
-				bibboxKitId, orderByComparator);
-
-		if (kitGroup != null) {
-			return kitGroup;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("applicationStoreItemId=");
-		msg.append(applicationStoreItemId);
-
-		msg.append(", bibboxKitId=");
-		msg.append(bibboxKitId);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchKitGroupException(msg.toString());
-	}
-
-	/**
-	 * Returns the last kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	 *
-	 * @param applicationStoreItemId the application store item ID
-	 * @param bibboxKitId the bibbox kit ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching kit group, or <code>null</code> if a matching kit group could not be found
-	 */
-	@Override
-	public KitGroup fetchByKitGroup_Last(long applicationStoreItemId,
-		long bibboxKitId, OrderByComparator<KitGroup> orderByComparator) {
-		int count = countByKitGroup(applicationStoreItemId, bibboxKitId);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<KitGroup> list = findByKitGroup(applicationStoreItemId,
-				bibboxKitId, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the kit groups before and after the current kit group in the ordered set where applicationStoreItemId = &#63; and bibboxKitId = &#63;.
-	 *
-	 * @param kitGroupId the primary key of the current kit group
-	 * @param applicationStoreItemId the application store item ID
-	 * @param bibboxKitId the bibbox kit ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next kit group
-	 * @throws NoSuchKitGroupException if a kit group with the primary key could not be found
-	 */
-	@Override
-	public KitGroup[] findByKitGroup_PrevAndNext(long kitGroupId,
-		long applicationStoreItemId, long bibboxKitId,
-		OrderByComparator<KitGroup> orderByComparator)
-		throws NoSuchKitGroupException {
-		KitGroup kitGroup = findByPrimaryKey(kitGroupId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			KitGroup[] array = new KitGroupImpl[3];
-
-			array[0] = getByKitGroup_PrevAndNext(session, kitGroup,
-					applicationStoreItemId, bibboxKitId, orderByComparator, true);
-
-			array[1] = kitGroup;
-
-			array[2] = getByKitGroup_PrevAndNext(session, kitGroup,
-					applicationStoreItemId, bibboxKitId, orderByComparator,
-					false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected KitGroup getByKitGroup_PrevAndNext(Session session,
-		KitGroup kitGroup, long applicationStoreItemId, long bibboxKitId,
-		OrderByComparator<KitGroup> orderByComparator, boolean previous) {
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
 		else {
-			query = new StringBundler(4);
-		}
-
-		query.append(_SQL_SELECT_KITGROUP_WHERE);
-
-		query.append(_FINDER_COLUMN_KITGROUP_APPLICATIONSTOREITEMID_2);
-
-		query.append(_FINDER_COLUMN_KITGROUP_BIBBOXKITID_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(KitGroupModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		qPos.add(applicationStoreItemId);
-
-		qPos.add(bibboxKitId);
-
-		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(kitGroup);
-
-			for (Object value : values) {
-				qPos.add(value);
-			}
-		}
-
-		List<KitGroup> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
+			return (KitGroup)result;
 		}
 	}
 
 	/**
-	 * Removes all the kit groups where applicationStoreItemId = &#63; and bibboxKitId = &#63; from the database.
+	 * Removes the kit group where applicationStoreItemId = &#63; and bibboxKitId = &#63; from the database.
 	 *
 	 * @param applicationStoreItemId the application store item ID
 	 * @param bibboxKitId the bibbox kit ID
+	 * @return the kit group that was removed
 	 */
 	@Override
-	public void removeByKitGroup(long applicationStoreItemId, long bibboxKitId) {
-		for (KitGroup kitGroup : findByKitGroup(applicationStoreItemId,
-				bibboxKitId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-			remove(kitGroup);
-		}
+	public KitGroup removeByKitGroup(long applicationStoreItemId,
+		long bibboxKitId) throws NoSuchKitGroupException {
+		KitGroup kitGroup = findByKitGroup(applicationStoreItemId, bibboxKitId);
+
+		return remove(kitGroup);
 	}
 
 	/**
@@ -1168,6 +853,11 @@ public class KitGroupPersistenceImpl extends BasePersistenceImpl<KitGroup>
 		entityCache.putResult(KitGroupModelImpl.ENTITY_CACHE_ENABLED,
 			KitGroupImpl.class, kitGroup.getPrimaryKey(), kitGroup);
 
+		finderCache.putResult(FINDER_PATH_FETCH_BY_KITGROUP,
+			new Object[] {
+				kitGroup.getApplicationStoreItemId(), kitGroup.getBibboxKitId()
+			}, kitGroup);
+
 		kitGroup.resetOriginalValues();
 	}
 
@@ -1219,6 +909,8 @@ public class KitGroupPersistenceImpl extends BasePersistenceImpl<KitGroup>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache((KitGroupModelImpl)kitGroup);
 	}
 
 	@Override
@@ -1229,6 +921,58 @@ public class KitGroupPersistenceImpl extends BasePersistenceImpl<KitGroup>
 		for (KitGroup kitGroup : kitGroups) {
 			entityCache.removeResult(KitGroupModelImpl.ENTITY_CACHE_ENABLED,
 				KitGroupImpl.class, kitGroup.getPrimaryKey());
+
+			clearUniqueFindersCache((KitGroupModelImpl)kitGroup);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(
+		KitGroupModelImpl kitGroupModelImpl, boolean isNew) {
+		if (isNew) {
+			Object[] args = new Object[] {
+					kitGroupModelImpl.getApplicationStoreItemId(),
+					kitGroupModelImpl.getBibboxKitId()
+				};
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_KITGROUP, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_KITGROUP, args,
+				kitGroupModelImpl);
+		}
+		else {
+			if ((kitGroupModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_KITGROUP.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						kitGroupModelImpl.getApplicationStoreItemId(),
+						kitGroupModelImpl.getBibboxKitId()
+					};
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_KITGROUP, args,
+					Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_KITGROUP, args,
+					kitGroupModelImpl);
+			}
+		}
+	}
+
+	protected void clearUniqueFindersCache(KitGroupModelImpl kitGroupModelImpl) {
+		Object[] args = new Object[] {
+				kitGroupModelImpl.getApplicationStoreItemId(),
+				kitGroupModelImpl.getBibboxKitId()
+			};
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_KITGROUP, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_KITGROUP, args);
+
+		if ((kitGroupModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_KITGROUP.getColumnBitmask()) != 0) {
+			args = new Object[] {
+					kitGroupModelImpl.getOriginalApplicationStoreItemId(),
+					kitGroupModelImpl.getOriginalBibboxKitId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_KITGROUP, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_KITGROUP, args);
 		}
 	}
 
@@ -1393,27 +1137,6 @@ public class KitGroupPersistenceImpl extends BasePersistenceImpl<KitGroup>
 
 		else {
 			if ((kitGroupModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_KITGROUP.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						kitGroupModelImpl.getOriginalApplicationStoreItemId(),
-						kitGroupModelImpl.getOriginalBibboxKitId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_KITGROUP, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_KITGROUP,
-					args);
-
-				args = new Object[] {
-						kitGroupModelImpl.getApplicationStoreItemId(),
-						kitGroupModelImpl.getBibboxKitId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_KITGROUP, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_KITGROUP,
-					args);
-			}
-
-			if ((kitGroupModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_KITGROUPS.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
 						kitGroupModelImpl.getOriginalApplicationStoreItemId()
@@ -1435,6 +1158,9 @@ public class KitGroupPersistenceImpl extends BasePersistenceImpl<KitGroup>
 
 		entityCache.putResult(KitGroupModelImpl.ENTITY_CACHE_ENABLED,
 			KitGroupImpl.class, kitGroup.getPrimaryKey(), kitGroup, false);
+
+		clearUniqueFindersCache(kitGroupModelImpl);
+		cacheUniqueFindersCache(kitGroupModelImpl, isNew);
 
 		kitGroup.resetOriginalValues();
 

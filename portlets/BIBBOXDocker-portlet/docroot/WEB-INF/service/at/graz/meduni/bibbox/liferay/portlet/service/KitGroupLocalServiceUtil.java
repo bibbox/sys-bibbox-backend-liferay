@@ -93,6 +93,11 @@ public class KitGroupLocalServiceUtil {
 		return getService().fetchKitGroup(kitGroupId);
 	}
 
+	public static at.graz.meduni.bibbox.liferay.portlet.model.KitGroup getKitGroup(
+		long applicationStoreItemId, long bibboxKitId) {
+		return getService().getKitGroup(applicationStoreItemId, bibboxKitId);
+	}
+
 	/**
 	* Returns the kit group with the primary key.
 	*

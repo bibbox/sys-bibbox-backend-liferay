@@ -18,7 +18,6 @@ import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
@@ -51,20 +50,17 @@ public interface ApplicationStoreItemService extends BaseService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ApplicationStoreItemServiceUtil} to access the application store item remote service. Add custom service methods to {@link at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationStoreItemServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	@JSONWebService(value = "/get-application-store-list")
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getApplicationStoreListAPI();
-
-	@JSONWebService(value = "/get-application-store-updated-list")
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getApplicationStoreUpdatedListAPI();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getApplicationStoreItem(long applicationstoreitemId);
-
 	@JSONWebService(value = "/get-application-store-item")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getApplicationStoreItemAPI(long applicationstoreitemId);
+
+	@JSONWebService(value = "/get-application-store-list")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getApplicationStoreListAPI();
+
+	@JSONWebService(value = "/get-application-store-updated-list")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getApplicationStoreUpdatedListAPI();
 
 	@Override
 	public java.lang.Object invokeMethod(java.lang.String name,
@@ -77,10 +73,4 @@ public interface ApplicationStoreItemService extends BaseService,
 	* @return the OSGi service identifier
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
-
-	public void addApplicationStoreItem(java.lang.String name,
-		java.lang.String shortname, java.lang.String version,
-		java.lang.String release_state, java.lang.String description,
-		java.lang.String catalogue_url, java.lang.String application_url,
-		java.lang.String kits, java.lang.String tags);
 }

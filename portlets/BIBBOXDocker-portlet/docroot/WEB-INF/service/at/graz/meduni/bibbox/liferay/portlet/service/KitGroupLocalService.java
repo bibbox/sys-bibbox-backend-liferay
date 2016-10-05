@@ -101,6 +101,9 @@ public interface KitGroupLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public KitGroup fetchKitGroup(long kitGroupId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public KitGroup getKitGroup(long applicationStoreItemId, long bibboxKitId);
+
 	/**
 	* Returns the kit group with the primary key.
 	*
