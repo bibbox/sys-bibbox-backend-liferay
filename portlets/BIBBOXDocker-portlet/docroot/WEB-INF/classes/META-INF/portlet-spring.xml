@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.ApplicationInstancePersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstancePersistence" parent="basePersistence" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstancePortLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstancePortServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.ApplicationInstancePortPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstancePortPersistence" parent="basePersistence" />
+</beans>

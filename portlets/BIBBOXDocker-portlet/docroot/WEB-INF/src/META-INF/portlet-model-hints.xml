@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance">
+		<field name="applicationInstanceId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="instanceId" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
+		<field name="name" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
+		<field name="folderName" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
+		<field name="shortName" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
+		<field name="application" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
+		<field name="version" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
+		<field name="description" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
+		<field name="installlog" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
+	</model>
+	<model name="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort">
+		<field name="applicationInstancePortId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="port" type="long" />
+		<field name="primary" type="boolean" />
+		<field name="applicationInstanceId" type="long" />
+	</model>
+</model-hints>

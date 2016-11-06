@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 6.2.0//EN" "http://www.liferay.com/dtd/liferay-friendly-url-routes_6_2_0.dtd">
+
+<routes>
+	<route>
+        <pattern>/{par1}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+    <route>
+        <pattern>/{par1}/{par2}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+    <route>
+        <pattern>/{par1}/{par2}/{par3}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+    <route>
+        <pattern>/{par1}/{par2}/{par3}/{par4}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+    <route>
+        <pattern>/{par1}/{par2}/{par3}/{par4}/{par5}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+    <route>
+        <pattern>/{par1}/{par2}/{par3}/{par4}/{par5}/{par6}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+    <route>
+        <pattern>/{par1}/{par2}/{par3}/{par4}/{par5}/{par6}/{par7}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+    <route>
+        <pattern>/{par1}/{par2}/{par3}/{par4}/{par5}/{par6}/{par7}/{par8}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+    <route>
+        <pattern>/{par1}/{par2}/{par3}/{par4}/{par5}/{par6}/{par7}/{par9}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+    <route>
+        <pattern>/{par1}/{par2}/{par3}/{par4}/{par5}/{par6}/{par7}/{par9}/{par10}</pattern>
+        <generated-parameter name="mvcPath">/html/instance/view.jsp</generated-parameter>
+    </route>
+</routes>
