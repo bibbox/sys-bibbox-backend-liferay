@@ -141,16 +141,14 @@ public class ApplicationInstanceServiceHttp {
 	public static com.liferay.portal.kernel.json.JSONObject installApplicationAPI(
 		HttpPrincipal httpPrincipal, java.lang.String applicationname,
 		java.lang.String version, java.lang.String instanceid,
-		java.lang.String instancename, java.lang.String description,
-		java.lang.String data) {
+		java.lang.String instancename, java.lang.String data) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"installApplicationAPI",
 					_installApplicationAPIParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
-					applicationname, version, instanceid, instancename,
-					description, data);
+					applicationname, version, instanceid, instancename, data);
 
 			Object returnObj = null;
 
@@ -196,6 +194,206 @@ public class ApplicationInstanceServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getInstanceInfoAPI(
+		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getInstanceInfoAPI", _getInstanceInfoAPIParameterTypes5);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getInstanceDashboardAPI(
+		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getInstanceDashboardAPI",
+					_getInstanceDashboardAPIParameterTypes6);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
+		HttpPrincipal httpPrincipal, java.lang.String instanceId,
+		java.lang.String logtype) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getInstanceLogdAPI", _getInstanceLogdAPIParameterTypes7);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId, logtype);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getInstanceMaintenanceAPI(
+		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getInstanceMaintenanceAPI",
+					_getInstanceMaintenanceAPIParameterTypes8);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject updateInstanceInfoAPI(
+		HttpPrincipal httpPrincipal, java.lang.String instanceId,
+		java.lang.String instancename, java.lang.String instanceshortname,
+		java.lang.String description, java.lang.String shortdescription,
+		boolean ismaintenance, java.lang.String maintenance) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"updateInstanceInfoAPI",
+					_updateInstanceInfoAPIParameterTypes9);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId, instancename, instanceshortname, description,
+					shortdescription, ismaintenance, maintenance);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject deleteInstanceStatusAPI(
+		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"deleteInstanceStatusAPI",
+					_deleteInstanceStatusAPIParameterTypes10);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject setInstanceStatusAPI(
+		HttpPrincipal httpPrincipal, java.lang.String instanceId,
+		java.lang.String status) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"setInstanceStatusAPI",
+					_setInstanceStatusAPIParameterTypes11);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId, status);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(ApplicationInstanceServiceHttp.class);
 	private static final Class<?>[] _getApplicationStoreListAPIParameterTypes0 = new Class[] {
 			
@@ -208,9 +406,32 @@ public class ApplicationInstanceServiceHttp {
 	private static final Class<?>[] _installApplicationAPIParameterTypes3 = new Class[] {
 			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class, java.lang.String.class
+			java.lang.String.class
 		};
 	private static final Class<?>[] _getInstanceListAPIParameterTypes4 = new Class[] {
 			
+		};
+	private static final Class<?>[] _getInstanceInfoAPIParameterTypes5 = new Class[] {
+			java.lang.String.class
+		};
+	private static final Class<?>[] _getInstanceDashboardAPIParameterTypes6 = new Class[] {
+			java.lang.String.class
+		};
+	private static final Class<?>[] _getInstanceLogdAPIParameterTypes7 = new Class[] {
+			java.lang.String.class, java.lang.String.class
+		};
+	private static final Class<?>[] _getInstanceMaintenanceAPIParameterTypes8 = new Class[] {
+			java.lang.String.class
+		};
+	private static final Class<?>[] _updateInstanceInfoAPIParameterTypes9 = new Class[] {
+			java.lang.String.class, java.lang.String.class,
+			java.lang.String.class, java.lang.String.class,
+			java.lang.String.class, boolean.class, java.lang.String.class
+		};
+	private static final Class<?>[] _deleteInstanceStatusAPIParameterTypes10 = new Class[] {
+			java.lang.String.class
+		};
+	private static final Class<?>[] _setInstanceStatusAPIParameterTypes11 = new Class[] {
+			java.lang.String.class, java.lang.String.class
 		};
 }

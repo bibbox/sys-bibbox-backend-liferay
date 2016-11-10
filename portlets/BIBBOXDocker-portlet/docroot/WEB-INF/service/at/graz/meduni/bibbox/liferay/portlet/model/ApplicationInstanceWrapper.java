@@ -67,11 +67,17 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("instanceId", getInstanceId());
 		attributes.put("name", getName());
-		attributes.put("folderName", getFolderName());
 		attributes.put("shortName", getShortName());
+		attributes.put("baseurl", getBaseurl());
+		attributes.put("folderName", getFolderName());
 		attributes.put("application", getApplication());
 		attributes.put("version", getVersion());
+		attributes.put("status", getStatus());
+		attributes.put("deleted", getDeleted());
+		attributes.put("shortdescription", getShortdescription());
 		attributes.put("description", getDescription());
+		attributes.put("maintenance", getMaintenance());
+		attributes.put("ismaintenance", getIsmaintenance());
 		attributes.put("installlog", getInstalllog());
 
 		return attributes;
@@ -134,16 +140,22 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 			setName(name);
 		}
 
-		String folderName = (String)attributes.get("folderName");
-
-		if (folderName != null) {
-			setFolderName(folderName);
-		}
-
 		String shortName = (String)attributes.get("shortName");
 
 		if (shortName != null) {
 			setShortName(shortName);
+		}
+
+		String baseurl = (String)attributes.get("baseurl");
+
+		if (baseurl != null) {
+			setBaseurl(baseurl);
+		}
+
+		String folderName = (String)attributes.get("folderName");
+
+		if (folderName != null) {
+			setFolderName(folderName);
 		}
 
 		String application = (String)attributes.get("application");
@@ -158,10 +170,40 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 			setVersion(version);
 		}
 
+		Boolean status = (Boolean)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Boolean deleted = (Boolean)attributes.get("deleted");
+
+		if (deleted != null) {
+			setDeleted(deleted);
+		}
+
+		String shortdescription = (String)attributes.get("shortdescription");
+
+		if (shortdescription != null) {
+			setShortdescription(shortdescription);
+		}
+
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String maintenance = (String)attributes.get("maintenance");
+
+		if (maintenance != null) {
+			setMaintenance(maintenance);
+		}
+
+		Boolean ismaintenance = (Boolean)attributes.get("ismaintenance");
+
+		if (ismaintenance != null) {
+			setIsmaintenance(ismaintenance);
 		}
 
 		String installlog = (String)attributes.get("installlog");
@@ -181,9 +223,49 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		return new ApplicationInstanceWrapper(_applicationInstance.toUnescapedModel());
 	}
 
+	/**
+	* Returns the deleted of this application instance.
+	*
+	* @return the deleted of this application instance
+	*/
+	@Override
+	public boolean getDeleted() {
+		return _applicationInstance.getDeleted();
+	}
+
+	/**
+	* Returns the ismaintenance of this application instance.
+	*
+	* @return the ismaintenance of this application instance
+	*/
+	@Override
+	public boolean getIsmaintenance() {
+		return _applicationInstance.getIsmaintenance();
+	}
+
+	/**
+	* Returns the status of this application instance.
+	*
+	* @return the status of this application instance
+	*/
+	@Override
+	public boolean getStatus() {
+		return _applicationInstance.getStatus();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _applicationInstance.isCachedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this application instance is deleted.
+	*
+	* @return <code>true</code> if this application instance is deleted; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDeleted() {
+		return _applicationInstance.isDeleted();
 	}
 
 	@Override
@@ -191,14 +273,44 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		return _applicationInstance.isEscapedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this application instance is ismaintenance.
+	*
+	* @return <code>true</code> if this application instance is ismaintenance; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIsmaintenance() {
+		return _applicationInstance.isIsmaintenance();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _applicationInstance.isNew();
 	}
 
+	/**
+	* Returns <code>true</code> if this application instance is status.
+	*
+	* @return <code>true</code> if this application instance is status; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isStatus() {
+		return _applicationInstance.isStatus();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _applicationInstance.getExpandoBridge();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getApplicationTags() {
+		return _applicationInstance.getApplicationTags();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getInstanceJSONObject() {
+		return _applicationInstance.getInstanceJSONObject();
 	}
 
 	@Override
@@ -238,8 +350,28 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	}
 
 	@Override
+	public java.lang.String getApplicationStatus() {
+		return _applicationInstance.getApplicationStatus();
+	}
+
+	@Override
+	public java.lang.String getApplicationname() {
+		return _applicationInstance.getApplicationname();
+	}
+
+	@Override
 	public java.lang.String getBaseInstallationConfigString() {
 		return _applicationInstance.getBaseInstallationConfigString();
+	}
+
+	/**
+	* Returns the baseurl of this application instance.
+	*
+	* @return the baseurl of this application instance
+	*/
+	@Override
+	public java.lang.String getBaseurl() {
+		return _applicationInstance.getBaseurl();
 	}
 
 	@Override
@@ -292,6 +424,21 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		return _applicationInstance.getInstanceId();
 	}
 
+	@Override
+	public java.lang.String getInstanceUrl() {
+		return _applicationInstance.getInstanceUrl();
+	}
+
+	/**
+	* Returns the maintenance of this application instance.
+	*
+	* @return the maintenance of this application instance
+	*/
+	@Override
+	public java.lang.String getMaintenance() {
+		return _applicationInstance.getMaintenance();
+	}
+
 	/**
 	* Returns the name of this application instance.
 	*
@@ -310,6 +457,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public java.lang.String getShortName() {
 		return _applicationInstance.getShortName();
+	}
+
+	/**
+	* Returns the shortdescription of this application instance.
+	*
+	* @return the shortdescription of this application instance
+	*/
+	@Override
+	public java.lang.String getShortdescription() {
+		return _applicationInstance.getShortdescription();
 	}
 
 	/**
@@ -370,6 +527,21 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public Date getModifiedDate() {
 		return _applicationInstance.getModifiedDate();
+	}
+
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort> getApplicationPorts() {
+		return _applicationInstance.getApplicationPorts();
+	}
+
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer> getContainers() {
+		return _applicationInstance.getContainers();
+	}
+
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer> getContainersNeedToRun() {
+		return _applicationInstance.getContainersNeedToRun();
 	}
 
 	/**
@@ -452,6 +624,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		_applicationInstance.setApplicationInstanceId(applicationInstanceId);
 	}
 
+	/**
+	* Sets the baseurl of this application instance.
+	*
+	* @param baseurl the baseurl of this application instance
+	*/
+	@Override
+	public void setBaseurl(java.lang.String baseurl) {
+		_applicationInstance.setBaseurl(baseurl);
+	}
+
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_applicationInstance.setCachedModel(cachedModel);
@@ -475,6 +657,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public void setCreateDate(Date createDate) {
 		_applicationInstance.setCreateDate(createDate);
+	}
+
+	/**
+	* Sets whether this application instance is deleted.
+	*
+	* @param deleted the deleted of this application instance
+	*/
+	@Override
+	public void setDeleted(boolean deleted) {
+		_applicationInstance.setDeleted(deleted);
 	}
 
 	/**
@@ -544,6 +736,26 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	}
 
 	/**
+	* Sets whether this application instance is ismaintenance.
+	*
+	* @param ismaintenance the ismaintenance of this application instance
+	*/
+	@Override
+	public void setIsmaintenance(boolean ismaintenance) {
+		_applicationInstance.setIsmaintenance(ismaintenance);
+	}
+
+	/**
+	* Sets the maintenance of this application instance.
+	*
+	* @param maintenance the maintenance of this application instance
+	*/
+	@Override
+	public void setMaintenance(java.lang.String maintenance) {
+		_applicationInstance.setMaintenance(maintenance);
+	}
+
+	/**
 	* Sets the modified date of this application instance.
 	*
 	* @param modifiedDate the modified date of this application instance
@@ -591,6 +803,26 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public void setShortName(java.lang.String shortName) {
 		_applicationInstance.setShortName(shortName);
+	}
+
+	/**
+	* Sets the shortdescription of this application instance.
+	*
+	* @param shortdescription the shortdescription of this application instance
+	*/
+	@Override
+	public void setShortdescription(java.lang.String shortdescription) {
+		_applicationInstance.setShortdescription(shortdescription);
+	}
+
+	/**
+	* Sets whether this application instance is status.
+	*
+	* @param status the status of this application instance
+	*/
+	@Override
+	public void setStatus(boolean status) {
+		_applicationInstance.setStatus(status);
 	}
 
 	/**

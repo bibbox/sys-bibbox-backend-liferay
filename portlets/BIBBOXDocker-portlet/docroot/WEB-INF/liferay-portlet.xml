@@ -14,17 +14,35 @@
 		<css-class-wrapper>application-store-portlet</css-class-wrapper>
 	</portlet>
 	<portlet>
-		<portlet-name>instance</portlet-name>
+		<portlet-name>bibboxjscontainer</portlet-name>
 		<icon>/icon.png</icon>
-		<configuration-action-class>at.graz.meduni.bibbox.liferay.portlet.InstanceConfig</configuration-action-class>
+		<configuration-action-class>at.graz.meduni.bibbox.liferay.portlet.BibboxJsContainerConfig</configuration-action-class>
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>instance</friendly-url-mapping>
-		<friendly-url-routes>at/graz/meduni/bibbox/liferay/portlet/instance-friendly-url-routes.xml</friendly-url-routes>
+		<friendly-url-mapping>bibboxjscontainer</friendly-url-mapping>
+		<friendly-url-routes>at/graz/meduni/bibbox/liferay/portlet/bibboxjscontainer-friendly-url-routes.xml</friendly-url-routes>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>
 			/js/main.js
 		</footer-portlet-javascript>
-		<css-class-wrapper>instance-portlet</css-class-wrapper>
+		<css-class-wrapper>bibboxjscontainer-portlet</css-class-wrapper>
+	</portlet>
+	<portlet>
+		<portlet-name>schedular</portlet-name>
+		<icon>/icon.png</icon>
+		<scheduler-entry>
+			<scheduler-event-listener-class>at.graz.meduni.bibbox.liferay.schedular.Schedular</scheduler-event-listener-class>
+			<trigger>
+				<simple>
+					<simple-trigger-value>60</simple-trigger-value>
+					<time-unit>second</time-unit>
+				</simple>
+			</trigger>
+		</scheduler-entry>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>
+			/js/main.js
+		</footer-portlet-javascript>
+		<css-class-wrapper>schedular-portlet</css-class-wrapper>
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>

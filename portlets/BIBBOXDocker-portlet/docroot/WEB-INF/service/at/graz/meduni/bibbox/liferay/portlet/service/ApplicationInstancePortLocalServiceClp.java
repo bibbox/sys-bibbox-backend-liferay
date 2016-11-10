@@ -112,26 +112,30 @@ public class ApplicationInstancePortLocalServiceClp
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			};
 
-		_methodName18 = "getApplicationInstancePorts";
+		_methodName18 = "getApplicationInstancePortForInstance";
 
-		_methodParameterTypes18 = new String[] { "int", "int" };
+		_methodParameterTypes18 = new String[] { "long" };
 
-		_methodName19 = "dynamicQueryCount";
+		_methodName19 = "getApplicationInstancePorts";
 
-		_methodParameterTypes19 = new String[] {
-				"com.liferay.portal.kernel.dao.orm.DynamicQuery"
-			};
+		_methodParameterTypes19 = new String[] { "int", "int" };
 
 		_methodName20 = "dynamicQueryCount";
 
 		_methodParameterTypes20 = new String[] {
+				"com.liferay.portal.kernel.dao.orm.DynamicQuery"
+			};
+
+		_methodName21 = "dynamicQueryCount";
+
+		_methodParameterTypes21 = new String[] {
 				"com.liferay.portal.kernel.dao.orm.DynamicQuery",
 				"com.liferay.portal.kernel.dao.orm.Projection"
 			};
 
-		_methodName21 = "getPrimaryPortForInstance";
+		_methodName22 = "getPrimaryPortForInstance";
 
-		_methodParameterTypes21 = new String[] { "long" };
+		_methodParameterTypes22 = new String[] { "long" };
 	}
 
 	@Override
@@ -600,13 +604,38 @@ public class ApplicationInstancePortLocalServiceClp
 	}
 
 	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort> getApplicationInstancePortForInstance(
+		long applicationInstanceId) {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName18,
+					_methodParameterTypes18,
+					new Object[] { applicationInstanceId });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
 	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort> getApplicationInstancePorts(
 		int start, int end) {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName18,
-					_methodParameterTypes18, new Object[] { start, end });
+			returnObj = _invokableLocalService.invokeMethod(_methodName19,
+					_methodParameterTypes19, new Object[] { start, end });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -629,8 +658,8 @@ public class ApplicationInstancePortLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName19,
-					_methodParameterTypes19,
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20,
 					new Object[] { ClpSerializer.translateInput(dynamicQuery) });
 		}
 		catch (Throwable t) {
@@ -655,8 +684,8 @@ public class ApplicationInstancePortLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName20,
-					_methodParameterTypes20,
+			returnObj = _invokableLocalService.invokeMethod(_methodName21,
+					_methodParameterTypes21,
 					new Object[] {
 						ClpSerializer.translateInput(dynamicQuery),
 						
@@ -683,8 +712,8 @@ public class ApplicationInstancePortLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName21,
-					_methodParameterTypes21,
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22,
 					new Object[] { applicationInstanceId });
 		}
 		catch (Throwable t) {
@@ -745,4 +774,6 @@ public class ApplicationInstancePortLocalServiceClp
 	private String[] _methodParameterTypes20;
 	private String _methodName21;
 	private String[] _methodParameterTypes21;
+	private String _methodName22;
+	private String[] _methodParameterTypes22;
 }

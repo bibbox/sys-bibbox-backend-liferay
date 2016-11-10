@@ -90,6 +90,12 @@ public class ApplicationInstanceLocalServiceWrapper
 		return _applicationInstanceLocalService.fetchApplicationInstance(applicationInstanceId);
 	}
 
+	@Override
+	public at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance getApplicationInstance(
+		java.lang.String instanceId) {
+		return _applicationInstanceLocalService.getApplicationInstance(instanceId);
+	}
+
 	/**
 	* Returns the application instance with the primary key.
 	*
@@ -233,6 +239,11 @@ public class ApplicationInstanceLocalServiceWrapper
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _applicationInstanceLocalService.dynamicQuery(dynamicQuery,
 			start, end, orderByComparator);
+	}
+
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance> getActiveApplicationInstances() {
+		return _applicationInstanceLocalService.getActiveApplicationInstances();
 	}
 
 	/**

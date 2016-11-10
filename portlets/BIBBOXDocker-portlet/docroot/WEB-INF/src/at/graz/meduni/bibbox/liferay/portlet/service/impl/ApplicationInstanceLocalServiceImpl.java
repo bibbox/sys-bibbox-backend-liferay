@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import aQute.bnd.annotation.ProviderType;
 import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
@@ -62,5 +63,18 @@ public class ApplicationInstanceLocalServiceImpl
 			
 		}
 		return false;
+	}
+	
+	public ApplicationInstance getApplicationInstance(String instanceId) {
+		try {
+			return applicationInstancePersistence.findByInstanceId(instanceId);
+		} catch (NoSuchApplicationInstanceException e) {
+			
+		}
+		return null;
+	}
+	
+	public List<ApplicationInstance> getActiveApplicationInstances() {
+		return applicationInstancePersistence.findByInstancesNotDeleted(false);
 	}
 }

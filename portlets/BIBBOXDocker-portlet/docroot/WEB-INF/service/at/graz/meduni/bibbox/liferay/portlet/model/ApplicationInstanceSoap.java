@@ -43,11 +43,17 @@ public class ApplicationInstanceSoap implements Serializable {
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setInstanceId(model.getInstanceId());
 		soapModel.setName(model.getName());
-		soapModel.setFolderName(model.getFolderName());
 		soapModel.setShortName(model.getShortName());
+		soapModel.setBaseurl(model.getBaseurl());
+		soapModel.setFolderName(model.getFolderName());
 		soapModel.setApplication(model.getApplication());
 		soapModel.setVersion(model.getVersion());
+		soapModel.setStatus(model.getStatus());
+		soapModel.setDeleted(model.getDeleted());
+		soapModel.setShortdescription(model.getShortdescription());
 		soapModel.setDescription(model.getDescription());
+		soapModel.setMaintenance(model.getMaintenance());
+		soapModel.setIsmaintenance(model.getIsmaintenance());
 		soapModel.setInstalllog(model.getInstalllog());
 
 		return soapModel;
@@ -176,20 +182,28 @@ public class ApplicationInstanceSoap implements Serializable {
 		_name = name;
 	}
 
-	public String getFolderName() {
-		return _folderName;
-	}
-
-	public void setFolderName(String folderName) {
-		_folderName = folderName;
-	}
-
 	public String getShortName() {
 		return _shortName;
 	}
 
 	public void setShortName(String shortName) {
 		_shortName = shortName;
+	}
+
+	public String getBaseurl() {
+		return _baseurl;
+	}
+
+	public void setBaseurl(String baseurl) {
+		_baseurl = baseurl;
+	}
+
+	public String getFolderName() {
+		return _folderName;
+	}
+
+	public void setFolderName(String folderName) {
+		_folderName = folderName;
 	}
 
 	public String getApplication() {
@@ -208,12 +222,64 @@ public class ApplicationInstanceSoap implements Serializable {
 		_version = version;
 	}
 
+	public boolean getStatus() {
+		return _status;
+	}
+
+	public boolean isStatus() {
+		return _status;
+	}
+
+	public void setStatus(boolean status) {
+		_status = status;
+	}
+
+	public boolean getDeleted() {
+		return _deleted;
+	}
+
+	public boolean isDeleted() {
+		return _deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		_deleted = deleted;
+	}
+
+	public String getShortdescription() {
+		return _shortdescription;
+	}
+
+	public void setShortdescription(String shortdescription) {
+		_shortdescription = shortdescription;
+	}
+
 	public String getDescription() {
 		return _description;
 	}
 
 	public void setDescription(String description) {
 		_description = description;
+	}
+
+	public String getMaintenance() {
+		return _maintenance;
+	}
+
+	public void setMaintenance(String maintenance) {
+		_maintenance = maintenance;
+	}
+
+	public boolean getIsmaintenance() {
+		return _ismaintenance;
+	}
+
+	public boolean isIsmaintenance() {
+		return _ismaintenance;
+	}
+
+	public void setIsmaintenance(boolean ismaintenance) {
+		_ismaintenance = ismaintenance;
 	}
 
 	public String getInstalllog() {
@@ -233,10 +299,16 @@ public class ApplicationInstanceSoap implements Serializable {
 	private Date _modifiedDate;
 	private String _instanceId;
 	private String _name;
-	private String _folderName;
 	private String _shortName;
+	private String _baseurl;
+	private String _folderName;
 	private String _application;
 	private String _version;
+	private boolean _status;
+	private boolean _deleted;
+	private String _shortdescription;
 	private String _description;
+	private String _maintenance;
+	private boolean _ismaintenance;
 	private String _installlog;
 }

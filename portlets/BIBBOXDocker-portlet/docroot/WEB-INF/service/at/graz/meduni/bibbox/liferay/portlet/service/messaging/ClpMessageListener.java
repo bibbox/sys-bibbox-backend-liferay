@@ -16,6 +16,8 @@ package at.graz.meduni.bibbox.liferay.portlet.service.messaging;
 
 import aQute.bnd.annotation.ProviderType;
 
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortServiceUtil;
@@ -44,6 +46,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			ApplicationInstanceLocalServiceUtil.clearService();
 
 			ApplicationInstanceServiceUtil.clearService();
+			ApplicationInstanceContainerLocalServiceUtil.clearService();
+
+			ApplicationInstanceContainerServiceUtil.clearService();
 			ApplicationInstancePortLocalServiceUtil.clearService();
 
 			ApplicationInstancePortServiceUtil.clearService();

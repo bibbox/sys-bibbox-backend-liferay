@@ -55,4 +55,8 @@ public class ApplicationInstancePortLocalServiceImpl
 		}
 		return 0;
 	}
+	
+	public List<ApplicationInstancePort> getApplicationInstancePortForInstance(long applicationInstanceId) {
+		return applicationInstancePortPersistence.findByApplicationInstance(applicationInstanceId);
+	}
 }

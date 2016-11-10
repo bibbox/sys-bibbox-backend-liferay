@@ -81,6 +81,21 @@ public class BibboxConfigReader {
 		return getApplicationStorePWD() + "/" + applicationname + "/blob/" + version;
 	}
 	
+	public static String getBibboxKit() {
+		try {
+			Properties bibboxproperties = new Properties();
+			InputStream is = new FileInputStream(getLiferayConfigForBibboxConfigFile());
+			bibboxproperties.load(is);
+			String kit = bibboxproperties.getProperty("bibboxkit").replaceAll("\"", "");
+			is.close();
+			return kit;
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBibboxApplicationStorePWDfromConfig()", "Error reading bibbox config file."));
+			e.printStackTrace();
+		}
+		return "eB3kit";
+	}
+	
 	private static void getBibboxApplicationStorePWDfromConfig() {
 		try {
 			Properties bibboxproperties = new Properties();

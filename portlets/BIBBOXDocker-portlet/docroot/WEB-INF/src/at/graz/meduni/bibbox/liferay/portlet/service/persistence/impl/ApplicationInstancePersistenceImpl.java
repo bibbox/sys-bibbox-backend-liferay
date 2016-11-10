@@ -893,6 +893,527 @@ public class ApplicationInstancePersistenceImpl extends BasePersistenceImpl<Appl
 	private static final String _FINDER_COLUMN_INSTANCEID_INSTANCEID_1 = "applicationInstance.instanceId IS NULL";
 	private static final String _FINDER_COLUMN_INSTANCEID_INSTANCEID_2 = "applicationInstance.instanceId = ?";
 	private static final String _FINDER_COLUMN_INSTANCEID_INSTANCEID_3 = "(applicationInstance.instanceId IS NULL OR applicationInstance.instanceId = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_INSTANCESNOTDELETED =
+		new FinderPath(ApplicationInstanceModelImpl.ENTITY_CACHE_ENABLED,
+			ApplicationInstanceModelImpl.FINDER_CACHE_ENABLED,
+			ApplicationInstanceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByInstancesNotDeleted",
+			new String[] {
+				Boolean.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCESNOTDELETED =
+		new FinderPath(ApplicationInstanceModelImpl.ENTITY_CACHE_ENABLED,
+			ApplicationInstanceModelImpl.FINDER_CACHE_ENABLED,
+			ApplicationInstanceImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByInstancesNotDeleted",
+			new String[] { Boolean.class.getName() },
+			ApplicationInstanceModelImpl.DELETED_COLUMN_BITMASK |
+			ApplicationInstanceModelImpl.FOLDERNAME_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_INSTANCESNOTDELETED = new FinderPath(ApplicationInstanceModelImpl.ENTITY_CACHE_ENABLED,
+			ApplicationInstanceModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByInstancesNotDeleted",
+			new String[] { Boolean.class.getName() });
+
+	/**
+	 * Returns all the application instances where deleted = &#63;.
+	 *
+	 * @param deleted the deleted
+	 * @return the matching application instances
+	 */
+	@Override
+	public List<ApplicationInstance> findByInstancesNotDeleted(boolean deleted) {
+		return findByInstancesNotDeleted(deleted, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the application instances where deleted = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ApplicationInstanceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param deleted the deleted
+	 * @param start the lower bound of the range of application instances
+	 * @param end the upper bound of the range of application instances (not inclusive)
+	 * @return the range of matching application instances
+	 */
+	@Override
+	public List<ApplicationInstance> findByInstancesNotDeleted(
+		boolean deleted, int start, int end) {
+		return findByInstancesNotDeleted(deleted, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the application instances where deleted = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ApplicationInstanceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param deleted the deleted
+	 * @param start the lower bound of the range of application instances
+	 * @param end the upper bound of the range of application instances (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching application instances
+	 */
+	@Override
+	public List<ApplicationInstance> findByInstancesNotDeleted(
+		boolean deleted, int start, int end,
+		OrderByComparator<ApplicationInstance> orderByComparator) {
+		return findByInstancesNotDeleted(deleted, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the application instances where deleted = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ApplicationInstanceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param deleted the deleted
+	 * @param start the lower bound of the range of application instances
+	 * @param end the upper bound of the range of application instances (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching application instances
+	 */
+	@Override
+	public List<ApplicationInstance> findByInstancesNotDeleted(
+		boolean deleted, int start, int end,
+		OrderByComparator<ApplicationInstance> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCESNOTDELETED;
+			finderArgs = new Object[] { deleted };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_INSTANCESNOTDELETED;
+			finderArgs = new Object[] { deleted, start, end, orderByComparator };
+		}
+
+		List<ApplicationInstance> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<ApplicationInstance>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (ApplicationInstance applicationInstance : list) {
+					if ((deleted != applicationInstance.getDeleted())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_APPLICATIONINSTANCE_WHERE);
+
+			query.append(_FINDER_COLUMN_INSTANCESNOTDELETED_DELETED_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(ApplicationInstanceModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(deleted);
+
+				if (!pagination) {
+					list = (List<ApplicationInstance>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<ApplicationInstance>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first application instance in the ordered set where deleted = &#63;.
+	 *
+	 * @param deleted the deleted
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching application instance
+	 * @throws NoSuchApplicationInstanceException if a matching application instance could not be found
+	 */
+	@Override
+	public ApplicationInstance findByInstancesNotDeleted_First(
+		boolean deleted,
+		OrderByComparator<ApplicationInstance> orderByComparator)
+		throws NoSuchApplicationInstanceException {
+		ApplicationInstance applicationInstance = fetchByInstancesNotDeleted_First(deleted,
+				orderByComparator);
+
+		if (applicationInstance != null) {
+			return applicationInstance;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("deleted=");
+		msg.append(deleted);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchApplicationInstanceException(msg.toString());
+	}
+
+	/**
+	 * Returns the first application instance in the ordered set where deleted = &#63;.
+	 *
+	 * @param deleted the deleted
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching application instance, or <code>null</code> if a matching application instance could not be found
+	 */
+	@Override
+	public ApplicationInstance fetchByInstancesNotDeleted_First(
+		boolean deleted,
+		OrderByComparator<ApplicationInstance> orderByComparator) {
+		List<ApplicationInstance> list = findByInstancesNotDeleted(deleted, 0,
+				1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last application instance in the ordered set where deleted = &#63;.
+	 *
+	 * @param deleted the deleted
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching application instance
+	 * @throws NoSuchApplicationInstanceException if a matching application instance could not be found
+	 */
+	@Override
+	public ApplicationInstance findByInstancesNotDeleted_Last(boolean deleted,
+		OrderByComparator<ApplicationInstance> orderByComparator)
+		throws NoSuchApplicationInstanceException {
+		ApplicationInstance applicationInstance = fetchByInstancesNotDeleted_Last(deleted,
+				orderByComparator);
+
+		if (applicationInstance != null) {
+			return applicationInstance;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("deleted=");
+		msg.append(deleted);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchApplicationInstanceException(msg.toString());
+	}
+
+	/**
+	 * Returns the last application instance in the ordered set where deleted = &#63;.
+	 *
+	 * @param deleted the deleted
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching application instance, or <code>null</code> if a matching application instance could not be found
+	 */
+	@Override
+	public ApplicationInstance fetchByInstancesNotDeleted_Last(
+		boolean deleted,
+		OrderByComparator<ApplicationInstance> orderByComparator) {
+		int count = countByInstancesNotDeleted(deleted);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<ApplicationInstance> list = findByInstancesNotDeleted(deleted,
+				count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the application instances before and after the current application instance in the ordered set where deleted = &#63;.
+	 *
+	 * @param applicationInstanceId the primary key of the current application instance
+	 * @param deleted the deleted
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next application instance
+	 * @throws NoSuchApplicationInstanceException if a application instance with the primary key could not be found
+	 */
+	@Override
+	public ApplicationInstance[] findByInstancesNotDeleted_PrevAndNext(
+		long applicationInstanceId, boolean deleted,
+		OrderByComparator<ApplicationInstance> orderByComparator)
+		throws NoSuchApplicationInstanceException {
+		ApplicationInstance applicationInstance = findByPrimaryKey(applicationInstanceId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ApplicationInstance[] array = new ApplicationInstanceImpl[3];
+
+			array[0] = getByInstancesNotDeleted_PrevAndNext(session,
+					applicationInstance, deleted, orderByComparator, true);
+
+			array[1] = applicationInstance;
+
+			array[2] = getByInstancesNotDeleted_PrevAndNext(session,
+					applicationInstance, deleted, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ApplicationInstance getByInstancesNotDeleted_PrevAndNext(
+		Session session, ApplicationInstance applicationInstance,
+		boolean deleted,
+		OrderByComparator<ApplicationInstance> orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_APPLICATIONINSTANCE_WHERE);
+
+		query.append(_FINDER_COLUMN_INSTANCESNOTDELETED_DELETED_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(ApplicationInstanceModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(deleted);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(applicationInstance);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<ApplicationInstance> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the application instances where deleted = &#63; from the database.
+	 *
+	 * @param deleted the deleted
+	 */
+	@Override
+	public void removeByInstancesNotDeleted(boolean deleted) {
+		for (ApplicationInstance applicationInstance : findByInstancesNotDeleted(
+				deleted, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(applicationInstance);
+		}
+	}
+
+	/**
+	 * Returns the number of application instances where deleted = &#63;.
+	 *
+	 * @param deleted the deleted
+	 * @return the number of matching application instances
+	 */
+	@Override
+	public int countByInstancesNotDeleted(boolean deleted) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_INSTANCESNOTDELETED;
+
+		Object[] finderArgs = new Object[] { deleted };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_APPLICATIONINSTANCE_WHERE);
+
+			query.append(_FINDER_COLUMN_INSTANCESNOTDELETED_DELETED_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(deleted);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_INSTANCESNOTDELETED_DELETED_2 = "applicationInstance.deleted = ?";
 
 	public ApplicationInstancePersistenceImpl() {
 		setModelClass(ApplicationInstance.class);
@@ -1212,6 +1733,25 @@ public class ApplicationInstancePersistenceImpl extends BasePersistenceImpl<Appl
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_FOLDERNAME,
 					args);
 			}
+
+			if ((applicationInstanceModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCESNOTDELETED.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						applicationInstanceModelImpl.getOriginalDeleted()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_INSTANCESNOTDELETED,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCESNOTDELETED,
+					args);
+
+				args = new Object[] { applicationInstanceModelImpl.getDeleted() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_INSTANCESNOTDELETED,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_INSTANCESNOTDELETED,
+					args);
+			}
 		}
 
 		entityCache.putResult(ApplicationInstanceModelImpl.ENTITY_CACHE_ENABLED,
@@ -1246,11 +1786,17 @@ public class ApplicationInstancePersistenceImpl extends BasePersistenceImpl<Appl
 		applicationInstanceImpl.setModifiedDate(applicationInstance.getModifiedDate());
 		applicationInstanceImpl.setInstanceId(applicationInstance.getInstanceId());
 		applicationInstanceImpl.setName(applicationInstance.getName());
-		applicationInstanceImpl.setFolderName(applicationInstance.getFolderName());
 		applicationInstanceImpl.setShortName(applicationInstance.getShortName());
+		applicationInstanceImpl.setBaseurl(applicationInstance.getBaseurl());
+		applicationInstanceImpl.setFolderName(applicationInstance.getFolderName());
 		applicationInstanceImpl.setApplication(applicationInstance.getApplication());
 		applicationInstanceImpl.setVersion(applicationInstance.getVersion());
+		applicationInstanceImpl.setStatus(applicationInstance.isStatus());
+		applicationInstanceImpl.setDeleted(applicationInstance.isDeleted());
+		applicationInstanceImpl.setShortdescription(applicationInstance.getShortdescription());
 		applicationInstanceImpl.setDescription(applicationInstance.getDescription());
+		applicationInstanceImpl.setMaintenance(applicationInstance.getMaintenance());
+		applicationInstanceImpl.setIsmaintenance(applicationInstance.isIsmaintenance());
 		applicationInstanceImpl.setInstalllog(applicationInstance.getInstalllog());
 
 		return applicationInstanceImpl;

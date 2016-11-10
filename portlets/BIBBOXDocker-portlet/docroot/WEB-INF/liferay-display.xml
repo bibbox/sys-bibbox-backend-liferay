@@ -5,6 +5,9 @@
 	
 	<category name="BIBBOXApplicationStore">
 		<portlet id="application-store"></portlet>
-		<portlet id="instance"></portlet>
+		<portlet id="bibboxjscontainer"></portlet>
+	</category>
+	<category name="category.sample">
+		<portlet id="schedular"></portlet>
 	</category>
 </display>

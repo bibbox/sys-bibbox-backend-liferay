@@ -106,6 +106,10 @@ public interface ApplicationInstanceLocalService extends BaseLocalService,
 	public ApplicationInstance fetchApplicationInstance(
 		long applicationInstanceId);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ApplicationInstance getApplicationInstance(
+		java.lang.String instanceId);
+
 	/**
 	* Returns the application instance with the primary key.
 	*
@@ -207,6 +211,9 @@ public interface ApplicationInstanceLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ApplicationInstance> getActiveApplicationInstances();
 
 	/**
 	* Returns a range of all the application instances.

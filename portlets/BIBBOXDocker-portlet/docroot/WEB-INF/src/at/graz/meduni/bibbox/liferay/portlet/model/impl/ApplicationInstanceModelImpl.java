@@ -79,11 +79,17 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "instanceId", Types.VARCHAR },
 			{ "name", Types.VARCHAR },
-			{ "folderName", Types.VARCHAR },
 			{ "shortName", Types.VARCHAR },
+			{ "baseurl", Types.VARCHAR },
+			{ "folderName", Types.VARCHAR },
 			{ "application", Types.VARCHAR },
 			{ "version", Types.VARCHAR },
+			{ "status", Types.BOOLEAN },
+			{ "deleted", Types.BOOLEAN },
+			{ "shortdescription", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
+			{ "maintenance", Types.VARCHAR },
+			{ "ismaintenance", Types.BOOLEAN },
 			{ "installlog", Types.VARCHAR }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -98,15 +104,21 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("instanceId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("folderName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("shortName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("baseurl", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("folderName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("application", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("version", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("deleted", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("shortdescription", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("maintenance", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("ismaintenance", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("installlog", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,folderName TEXT null,shortName TEXT null,application TEXT null,version TEXT null,description TEXT null,installlog TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,shortName TEXT null,baseurl VARCHAR(75) null,folderName TEXT null,application TEXT null,version TEXT null,status BOOLEAN,deleted BOOLEAN,shortdescription TEXT null,description TEXT null,maintenance TEXT null,ismaintenance BOOLEAN,installlog TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table bibboxdocker_ApplicationInstance";
 	public static final String ORDER_BY_JPQL = " ORDER BY applicationInstance.folderName ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY bibboxdocker_ApplicationInstance.folderName ASC";
@@ -122,8 +134,9 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.column.bitmask.enabled.at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance"),
 			true);
-	public static final long FOLDERNAME_COLUMN_BITMASK = 1L;
-	public static final long INSTANCEID_COLUMN_BITMASK = 2L;
+	public static final long DELETED_COLUMN_BITMASK = 1L;
+	public static final long FOLDERNAME_COLUMN_BITMASK = 2L;
+	public static final long INSTANCEID_COLUMN_BITMASK = 4L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -147,11 +160,17 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setInstanceId(soapModel.getInstanceId());
 		model.setName(soapModel.getName());
-		model.setFolderName(soapModel.getFolderName());
 		model.setShortName(soapModel.getShortName());
+		model.setBaseurl(soapModel.getBaseurl());
+		model.setFolderName(soapModel.getFolderName());
 		model.setApplication(soapModel.getApplication());
 		model.setVersion(soapModel.getVersion());
+		model.setStatus(soapModel.getStatus());
+		model.setDeleted(soapModel.getDeleted());
+		model.setShortdescription(soapModel.getShortdescription());
 		model.setDescription(soapModel.getDescription());
+		model.setMaintenance(soapModel.getMaintenance());
+		model.setIsmaintenance(soapModel.getIsmaintenance());
 		model.setInstalllog(soapModel.getInstalllog());
 
 		return model;
@@ -227,11 +246,17 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("instanceId", getInstanceId());
 		attributes.put("name", getName());
-		attributes.put("folderName", getFolderName());
 		attributes.put("shortName", getShortName());
+		attributes.put("baseurl", getBaseurl());
+		attributes.put("folderName", getFolderName());
 		attributes.put("application", getApplication());
 		attributes.put("version", getVersion());
+		attributes.put("status", getStatus());
+		attributes.put("deleted", getDeleted());
+		attributes.put("shortdescription", getShortdescription());
 		attributes.put("description", getDescription());
+		attributes.put("maintenance", getMaintenance());
+		attributes.put("ismaintenance", getIsmaintenance());
 		attributes.put("installlog", getInstalllog());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -297,16 +322,22 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			setName(name);
 		}
 
-		String folderName = (String)attributes.get("folderName");
-
-		if (folderName != null) {
-			setFolderName(folderName);
-		}
-
 		String shortName = (String)attributes.get("shortName");
 
 		if (shortName != null) {
 			setShortName(shortName);
+		}
+
+		String baseurl = (String)attributes.get("baseurl");
+
+		if (baseurl != null) {
+			setBaseurl(baseurl);
+		}
+
+		String folderName = (String)attributes.get("folderName");
+
+		if (folderName != null) {
+			setFolderName(folderName);
 		}
 
 		String application = (String)attributes.get("application");
@@ -321,10 +352,40 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			setVersion(version);
 		}
 
+		Boolean status = (Boolean)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Boolean deleted = (Boolean)attributes.get("deleted");
+
+		if (deleted != null) {
+			setDeleted(deleted);
+		}
+
+		String shortdescription = (String)attributes.get("shortdescription");
+
+		if (shortdescription != null) {
+			setShortdescription(shortdescription);
+		}
+
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String maintenance = (String)attributes.get("maintenance");
+
+		if (maintenance != null) {
+			setMaintenance(maintenance);
+		}
+
+		Boolean ismaintenance = (Boolean)attributes.get("ismaintenance");
+
+		if (ismaintenance != null) {
+			setIsmaintenance(ismaintenance);
 		}
 
 		String installlog = (String)attributes.get("installlog");
@@ -482,6 +543,38 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@JSON
 	@Override
+	public String getShortName() {
+		if (_shortName == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _shortName;
+		}
+	}
+
+	@Override
+	public void setShortName(String shortName) {
+		_shortName = shortName;
+	}
+
+	@JSON
+	@Override
+	public String getBaseurl() {
+		if (_baseurl == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _baseurl;
+		}
+	}
+
+	@Override
+	public void setBaseurl(String baseurl) {
+		_baseurl = baseurl;
+	}
+
+	@JSON
+	@Override
 	public String getFolderName() {
 		if (_folderName == null) {
 			return StringPool.BLANK;
@@ -504,22 +597,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	public String getOriginalFolderName() {
 		return GetterUtil.getString(_originalFolderName);
-	}
-
-	@JSON
-	@Override
-	public String getShortName() {
-		if (_shortName == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _shortName;
-		}
-	}
-
-	@Override
-	public void setShortName(String shortName) {
-		_shortName = shortName;
 	}
 
 	@JSON
@@ -556,6 +633,66 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@JSON
 	@Override
+	public boolean getStatus() {
+		return _status;
+	}
+
+	@Override
+	public boolean isStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(boolean status) {
+		_status = status;
+	}
+
+	@JSON
+	@Override
+	public boolean getDeleted() {
+		return _deleted;
+	}
+
+	@Override
+	public boolean isDeleted() {
+		return _deleted;
+	}
+
+	@Override
+	public void setDeleted(boolean deleted) {
+		_columnBitmask |= DELETED_COLUMN_BITMASK;
+
+		if (!_setOriginalDeleted) {
+			_setOriginalDeleted = true;
+
+			_originalDeleted = _deleted;
+		}
+
+		_deleted = deleted;
+	}
+
+	public boolean getOriginalDeleted() {
+		return _originalDeleted;
+	}
+
+	@JSON
+	@Override
+	public String getShortdescription() {
+		if (_shortdescription == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _shortdescription;
+		}
+	}
+
+	@Override
+	public void setShortdescription(String shortdescription) {
+		_shortdescription = shortdescription;
+	}
+
+	@JSON
+	@Override
 	public String getDescription() {
 		if (_description == null) {
 			return StringPool.BLANK;
@@ -568,6 +705,38 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 	@Override
 	public void setDescription(String description) {
 		_description = description;
+	}
+
+	@JSON
+	@Override
+	public String getMaintenance() {
+		if (_maintenance == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _maintenance;
+		}
+	}
+
+	@Override
+	public void setMaintenance(String maintenance) {
+		_maintenance = maintenance;
+	}
+
+	@JSON
+	@Override
+	public boolean getIsmaintenance() {
+		return _ismaintenance;
+	}
+
+	@Override
+	public boolean isIsmaintenance() {
+		return _ismaintenance;
+	}
+
+	@Override
+	public void setIsmaintenance(boolean ismaintenance) {
+		_ismaintenance = ismaintenance;
 	}
 
 	@JSON
@@ -626,11 +795,17 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		applicationInstanceImpl.setModifiedDate(getModifiedDate());
 		applicationInstanceImpl.setInstanceId(getInstanceId());
 		applicationInstanceImpl.setName(getName());
-		applicationInstanceImpl.setFolderName(getFolderName());
 		applicationInstanceImpl.setShortName(getShortName());
+		applicationInstanceImpl.setBaseurl(getBaseurl());
+		applicationInstanceImpl.setFolderName(getFolderName());
 		applicationInstanceImpl.setApplication(getApplication());
 		applicationInstanceImpl.setVersion(getVersion());
+		applicationInstanceImpl.setStatus(getStatus());
+		applicationInstanceImpl.setDeleted(getDeleted());
+		applicationInstanceImpl.setShortdescription(getShortdescription());
 		applicationInstanceImpl.setDescription(getDescription());
+		applicationInstanceImpl.setMaintenance(getMaintenance());
+		applicationInstanceImpl.setIsmaintenance(getIsmaintenance());
 		applicationInstanceImpl.setInstalllog(getInstalllog());
 
 		applicationInstanceImpl.resetOriginalValues();
@@ -698,6 +873,10 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 		applicationInstanceModelImpl._originalFolderName = applicationInstanceModelImpl._folderName;
 
+		applicationInstanceModelImpl._originalDeleted = applicationInstanceModelImpl._deleted;
+
+		applicationInstanceModelImpl._setOriginalDeleted = false;
+
 		applicationInstanceModelImpl._columnBitmask = 0;
 	}
 
@@ -755,20 +934,28 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			applicationInstanceCacheModel.name = null;
 		}
 
-		applicationInstanceCacheModel.folderName = getFolderName();
-
-		String folderName = applicationInstanceCacheModel.folderName;
-
-		if ((folderName != null) && (folderName.length() == 0)) {
-			applicationInstanceCacheModel.folderName = null;
-		}
-
 		applicationInstanceCacheModel.shortName = getShortName();
 
 		String shortName = applicationInstanceCacheModel.shortName;
 
 		if ((shortName != null) && (shortName.length() == 0)) {
 			applicationInstanceCacheModel.shortName = null;
+		}
+
+		applicationInstanceCacheModel.baseurl = getBaseurl();
+
+		String baseurl = applicationInstanceCacheModel.baseurl;
+
+		if ((baseurl != null) && (baseurl.length() == 0)) {
+			applicationInstanceCacheModel.baseurl = null;
+		}
+
+		applicationInstanceCacheModel.folderName = getFolderName();
+
+		String folderName = applicationInstanceCacheModel.folderName;
+
+		if ((folderName != null) && (folderName.length() == 0)) {
+			applicationInstanceCacheModel.folderName = null;
 		}
 
 		applicationInstanceCacheModel.application = getApplication();
@@ -787,6 +974,18 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			applicationInstanceCacheModel.version = null;
 		}
 
+		applicationInstanceCacheModel.status = getStatus();
+
+		applicationInstanceCacheModel.deleted = getDeleted();
+
+		applicationInstanceCacheModel.shortdescription = getShortdescription();
+
+		String shortdescription = applicationInstanceCacheModel.shortdescription;
+
+		if ((shortdescription != null) && (shortdescription.length() == 0)) {
+			applicationInstanceCacheModel.shortdescription = null;
+		}
+
 		applicationInstanceCacheModel.description = getDescription();
 
 		String description = applicationInstanceCacheModel.description;
@@ -794,6 +993,16 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		if ((description != null) && (description.length() == 0)) {
 			applicationInstanceCacheModel.description = null;
 		}
+
+		applicationInstanceCacheModel.maintenance = getMaintenance();
+
+		String maintenance = applicationInstanceCacheModel.maintenance;
+
+		if ((maintenance != null) && (maintenance.length() == 0)) {
+			applicationInstanceCacheModel.maintenance = null;
+		}
+
+		applicationInstanceCacheModel.ismaintenance = getIsmaintenance();
 
 		applicationInstanceCacheModel.installlog = getInstalllog();
 
@@ -808,7 +1017,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
@@ -828,16 +1037,28 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		sb.append(getInstanceId());
 		sb.append(", name=");
 		sb.append(getName());
-		sb.append(", folderName=");
-		sb.append(getFolderName());
 		sb.append(", shortName=");
 		sb.append(getShortName());
+		sb.append(", baseurl=");
+		sb.append(getBaseurl());
+		sb.append(", folderName=");
+		sb.append(getFolderName());
 		sb.append(", application=");
 		sb.append(getApplication());
 		sb.append(", version=");
 		sb.append(getVersion());
+		sb.append(", status=");
+		sb.append(getStatus());
+		sb.append(", deleted=");
+		sb.append(getDeleted());
+		sb.append(", shortdescription=");
+		sb.append(getShortdescription());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", maintenance=");
+		sb.append(getMaintenance());
+		sb.append(", ismaintenance=");
+		sb.append(getIsmaintenance());
 		sb.append(", installlog=");
 		sb.append(getInstalllog());
 		sb.append("}");
@@ -847,7 +1068,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -891,12 +1112,16 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>folderName</column-name><column-value><![CDATA[");
-		sb.append(getFolderName());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>shortName</column-name><column-value><![CDATA[");
 		sb.append(getShortName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>baseurl</column-name><column-value><![CDATA[");
+		sb.append(getBaseurl());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>folderName</column-name><column-value><![CDATA[");
+		sb.append(getFolderName());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>application</column-name><column-value><![CDATA[");
@@ -907,8 +1132,28 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		sb.append(getVersion());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>deleted</column-name><column-value><![CDATA[");
+		sb.append(getDeleted());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>shortdescription</column-name><column-value><![CDATA[");
+		sb.append(getShortdescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>maintenance</column-name><column-value><![CDATA[");
+		sb.append(getMaintenance());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>ismaintenance</column-name><column-value><![CDATA[");
+		sb.append(getIsmaintenance());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>installlog</column-name><column-value><![CDATA[");
@@ -935,12 +1180,20 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 	private String _instanceId;
 	private String _originalInstanceId;
 	private String _name;
+	private String _shortName;
+	private String _baseurl;
 	private String _folderName;
 	private String _originalFolderName;
-	private String _shortName;
 	private String _application;
 	private String _version;
+	private boolean _status;
+	private boolean _deleted;
+	private boolean _originalDeleted;
+	private boolean _setOriginalDeleted;
+	private String _shortdescription;
 	private String _description;
+	private String _maintenance;
+	private boolean _ismaintenance;
 	private String _installlog;
 	private long _columnBitmask;
 	private ApplicationInstance _escapedModel;

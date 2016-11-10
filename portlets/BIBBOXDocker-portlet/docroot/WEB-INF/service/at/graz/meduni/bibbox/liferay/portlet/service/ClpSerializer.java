@@ -17,6 +17,7 @@ package at.graz.meduni.bibbox.liferay.portlet.service;
 import aQute.bnd.annotation.ProviderType;
 
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceClp;
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainerClp;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePortClp;
 
 import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
@@ -108,6 +109,11 @@ public class ClpSerializer {
 			return translateInputApplicationInstance(oldModel);
 		}
 
+		if (oldModelClassName.equals(
+					ApplicationInstanceContainerClp.class.getName())) {
+			return translateInputApplicationInstanceContainer(oldModel);
+		}
+
 		if (oldModelClassName.equals(ApplicationInstancePortClp.class.getName())) {
 			return translateInputApplicationInstancePort(oldModel);
 		}
@@ -132,6 +138,17 @@ public class ClpSerializer {
 		ApplicationInstanceClp oldClpModel = (ApplicationInstanceClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getApplicationInstanceRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputApplicationInstanceContainer(
+		BaseModel<?> oldModel) {
+		ApplicationInstanceContainerClp oldClpModel = (ApplicationInstanceContainerClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getApplicationInstanceContainerRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -169,6 +186,43 @@ public class ClpSerializer {
 		if (oldModelClassName.equals(
 					"at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationInstanceImpl")) {
 			return translateOutputApplicationInstance(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationInstanceContainerImpl")) {
+			return translateOutputApplicationInstanceContainer(oldModel);
 		}
 		else if (oldModelClassName.endsWith("Clp")) {
 			try {
@@ -326,6 +380,12 @@ public class ClpSerializer {
 		}
 
 		if (className.equals(
+					"at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchApplicationInstanceContainerException")) {
+			return new at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchApplicationInstanceContainerException(throwable.getMessage(),
+				throwable.getCause());
+		}
+
+		if (className.equals(
 					"at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchApplicationInstancePortException")) {
 			return new at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchApplicationInstancePortException(throwable.getMessage(),
 				throwable.getCause());
@@ -341,6 +401,17 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setApplicationInstanceRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputApplicationInstanceContainer(
+		BaseModel<?> oldModel) {
+		ApplicationInstanceContainerClp newModel = new ApplicationInstanceContainerClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setApplicationInstanceContainerRemoteModel(oldModel);
 
 		return newModel;
 	}

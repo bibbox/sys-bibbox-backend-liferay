@@ -224,6 +224,142 @@ public interface ApplicationInstancePersistence extends BasePersistence<Applicat
 	public int countByInstanceId(java.lang.String instanceId);
 
 	/**
+	* Returns all the application instances where deleted = &#63;.
+	*
+	* @param deleted the deleted
+	* @return the matching application instances
+	*/
+	public java.util.List<ApplicationInstance> findByInstancesNotDeleted(
+		boolean deleted);
+
+	/**
+	* Returns a range of all the application instances where deleted = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ApplicationInstanceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param deleted the deleted
+	* @param start the lower bound of the range of application instances
+	* @param end the upper bound of the range of application instances (not inclusive)
+	* @return the range of matching application instances
+	*/
+	public java.util.List<ApplicationInstance> findByInstancesNotDeleted(
+		boolean deleted, int start, int end);
+
+	/**
+	* Returns an ordered range of all the application instances where deleted = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ApplicationInstanceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param deleted the deleted
+	* @param start the lower bound of the range of application instances
+	* @param end the upper bound of the range of application instances (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching application instances
+	*/
+	public java.util.List<ApplicationInstance> findByInstancesNotDeleted(
+		boolean deleted, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ApplicationInstance> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the application instances where deleted = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link ApplicationInstanceModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param deleted the deleted
+	* @param start the lower bound of the range of application instances
+	* @param end the upper bound of the range of application instances (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching application instances
+	*/
+	public java.util.List<ApplicationInstance> findByInstancesNotDeleted(
+		boolean deleted, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ApplicationInstance> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first application instance in the ordered set where deleted = &#63;.
+	*
+	* @param deleted the deleted
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching application instance
+	* @throws NoSuchApplicationInstanceException if a matching application instance could not be found
+	*/
+	public ApplicationInstance findByInstancesNotDeleted_First(
+		boolean deleted,
+		com.liferay.portal.kernel.util.OrderByComparator<ApplicationInstance> orderByComparator)
+		throws NoSuchApplicationInstanceException;
+
+	/**
+	* Returns the first application instance in the ordered set where deleted = &#63;.
+	*
+	* @param deleted the deleted
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching application instance, or <code>null</code> if a matching application instance could not be found
+	*/
+	public ApplicationInstance fetchByInstancesNotDeleted_First(
+		boolean deleted,
+		com.liferay.portal.kernel.util.OrderByComparator<ApplicationInstance> orderByComparator);
+
+	/**
+	* Returns the last application instance in the ordered set where deleted = &#63;.
+	*
+	* @param deleted the deleted
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching application instance
+	* @throws NoSuchApplicationInstanceException if a matching application instance could not be found
+	*/
+	public ApplicationInstance findByInstancesNotDeleted_Last(boolean deleted,
+		com.liferay.portal.kernel.util.OrderByComparator<ApplicationInstance> orderByComparator)
+		throws NoSuchApplicationInstanceException;
+
+	/**
+	* Returns the last application instance in the ordered set where deleted = &#63;.
+	*
+	* @param deleted the deleted
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching application instance, or <code>null</code> if a matching application instance could not be found
+	*/
+	public ApplicationInstance fetchByInstancesNotDeleted_Last(
+		boolean deleted,
+		com.liferay.portal.kernel.util.OrderByComparator<ApplicationInstance> orderByComparator);
+
+	/**
+	* Returns the application instances before and after the current application instance in the ordered set where deleted = &#63;.
+	*
+	* @param applicationInstanceId the primary key of the current application instance
+	* @param deleted the deleted
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next application instance
+	* @throws NoSuchApplicationInstanceException if a application instance with the primary key could not be found
+	*/
+	public ApplicationInstance[] findByInstancesNotDeleted_PrevAndNext(
+		long applicationInstanceId, boolean deleted,
+		com.liferay.portal.kernel.util.OrderByComparator<ApplicationInstance> orderByComparator)
+		throws NoSuchApplicationInstanceException;
+
+	/**
+	* Removes all the application instances where deleted = &#63; from the database.
+	*
+	* @param deleted the deleted
+	*/
+	public void removeByInstancesNotDeleted(boolean deleted);
+
+	/**
+	* Returns the number of application instances where deleted = &#63;.
+	*
+	* @param deleted the deleted
+	* @return the number of matching application instances
+	*/
+	public int countByInstancesNotDeleted(boolean deleted);
+
+	/**
 	* Caches the application instance in the entity cache if it is enabled.
 	*
 	* @param applicationInstance the application instance

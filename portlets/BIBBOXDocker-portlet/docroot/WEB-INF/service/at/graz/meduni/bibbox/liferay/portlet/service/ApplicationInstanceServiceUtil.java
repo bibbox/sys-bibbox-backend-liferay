@@ -41,6 +41,11 @@ public class ApplicationInstanceServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.portal.kernel.json.JSONObject deleteInstanceStatusAPI(
+		java.lang.String instanceId) {
+		return getService().deleteInstanceStatusAPI(instanceId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getApplicationStoreItemAPI(
 		java.lang.String applicationname, java.lang.String version) {
 		return getService().getApplicationStoreItemAPI(applicationname, version);
@@ -50,8 +55,28 @@ public class ApplicationInstanceServiceUtil {
 		return getService().getApplicationStoreListAPI();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getInstanceDashboardAPI(
+		java.lang.String instanceId) {
+		return getService().getInstanceDashboardAPI(instanceId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getInstanceInfoAPI(
+		java.lang.String instanceId) {
+		return getService().getInstanceInfoAPI(instanceId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getInstanceListAPI() {
 		return getService().getInstanceListAPI();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
+		java.lang.String instanceId, java.lang.String logtype) {
+		return getService().getInstanceLogdAPI(instanceId, logtype);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getInstanceMaintenanceAPI(
+		java.lang.String instanceId) {
+		return getService().getInstanceMaintenanceAPI(instanceId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getUpdatedApplicationStoreListAPI() {
@@ -61,10 +86,26 @@ public class ApplicationInstanceServiceUtil {
 	public static com.liferay.portal.kernel.json.JSONObject installApplicationAPI(
 		java.lang.String applicationname, java.lang.String version,
 		java.lang.String instanceid, java.lang.String instancename,
-		java.lang.String description, java.lang.String data) {
+		java.lang.String data) {
 		return getService()
 				   .installApplicationAPI(applicationname, version, instanceid,
-			instancename, description, data);
+			instancename, data);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject setInstanceStatusAPI(
+		java.lang.String instanceId, java.lang.String status) {
+		return getService().setInstanceStatusAPI(instanceId, status);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject updateInstanceInfoAPI(
+		java.lang.String instanceId, java.lang.String instancename,
+		java.lang.String instanceshortname, java.lang.String description,
+		java.lang.String shortdescription, boolean ismaintenance,
+		java.lang.String maintenance) {
+		return getService()
+				   .updateInstanceInfoAPI(instanceId, instancename,
+			instanceshortname, description, shortdescription, ismaintenance,
+			maintenance);
 	}
 
 	public static java.lang.Object invokeMethod(java.lang.String name,

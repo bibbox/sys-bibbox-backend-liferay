@@ -223,21 +223,6 @@ public interface ApplicationInstanceModel extends BaseModel<ApplicationInstance>
 	public void setName(String name);
 
 	/**
-	 * Returns the folder name of this application instance.
-	 *
-	 * @return the folder name of this application instance
-	 */
-	@AutoEscape
-	public String getFolderName();
-
-	/**
-	 * Sets the folder name of this application instance.
-	 *
-	 * @param folderName the folder name of this application instance
-	 */
-	public void setFolderName(String folderName);
-
-	/**
 	 * Returns the short name of this application instance.
 	 *
 	 * @return the short name of this application instance
@@ -251,6 +236,36 @@ public interface ApplicationInstanceModel extends BaseModel<ApplicationInstance>
 	 * @param shortName the short name of this application instance
 	 */
 	public void setShortName(String shortName);
+
+	/**
+	 * Returns the baseurl of this application instance.
+	 *
+	 * @return the baseurl of this application instance
+	 */
+	@AutoEscape
+	public String getBaseurl();
+
+	/**
+	 * Sets the baseurl of this application instance.
+	 *
+	 * @param baseurl the baseurl of this application instance
+	 */
+	public void setBaseurl(String baseurl);
+
+	/**
+	 * Returns the folder name of this application instance.
+	 *
+	 * @return the folder name of this application instance
+	 */
+	@AutoEscape
+	public String getFolderName();
+
+	/**
+	 * Sets the folder name of this application instance.
+	 *
+	 * @param folderName the folder name of this application instance
+	 */
+	public void setFolderName(String folderName);
 
 	/**
 	 * Returns the application of this application instance.
@@ -283,6 +298,63 @@ public interface ApplicationInstanceModel extends BaseModel<ApplicationInstance>
 	public void setVersion(String version);
 
 	/**
+	 * Returns the status of this application instance.
+	 *
+	 * @return the status of this application instance
+	 */
+	public boolean getStatus();
+
+	/**
+	 * Returns <code>true</code> if this application instance is status.
+	 *
+	 * @return <code>true</code> if this application instance is status; <code>false</code> otherwise
+	 */
+	public boolean isStatus();
+
+	/**
+	 * Sets whether this application instance is status.
+	 *
+	 * @param status the status of this application instance
+	 */
+	public void setStatus(boolean status);
+
+	/**
+	 * Returns the deleted of this application instance.
+	 *
+	 * @return the deleted of this application instance
+	 */
+	public boolean getDeleted();
+
+	/**
+	 * Returns <code>true</code> if this application instance is deleted.
+	 *
+	 * @return <code>true</code> if this application instance is deleted; <code>false</code> otherwise
+	 */
+	public boolean isDeleted();
+
+	/**
+	 * Sets whether this application instance is deleted.
+	 *
+	 * @param deleted the deleted of this application instance
+	 */
+	public void setDeleted(boolean deleted);
+
+	/**
+	 * Returns the shortdescription of this application instance.
+	 *
+	 * @return the shortdescription of this application instance
+	 */
+	@AutoEscape
+	public String getShortdescription();
+
+	/**
+	 * Sets the shortdescription of this application instance.
+	 *
+	 * @param shortdescription the shortdescription of this application instance
+	 */
+	public void setShortdescription(String shortdescription);
+
+	/**
 	 * Returns the description of this application instance.
 	 *
 	 * @return the description of this application instance
@@ -296,6 +368,42 @@ public interface ApplicationInstanceModel extends BaseModel<ApplicationInstance>
 	 * @param description the description of this application instance
 	 */
 	public void setDescription(String description);
+
+	/**
+	 * Returns the maintenance of this application instance.
+	 *
+	 * @return the maintenance of this application instance
+	 */
+	@AutoEscape
+	public String getMaintenance();
+
+	/**
+	 * Sets the maintenance of this application instance.
+	 *
+	 * @param maintenance the maintenance of this application instance
+	 */
+	public void setMaintenance(String maintenance);
+
+	/**
+	 * Returns the ismaintenance of this application instance.
+	 *
+	 * @return the ismaintenance of this application instance
+	 */
+	public boolean getIsmaintenance();
+
+	/**
+	 * Returns <code>true</code> if this application instance is ismaintenance.
+	 *
+	 * @return <code>true</code> if this application instance is ismaintenance; <code>false</code> otherwise
+	 */
+	public boolean isIsmaintenance();
+
+	/**
+	 * Sets whether this application instance is ismaintenance.
+	 *
+	 * @param ismaintenance the ismaintenance of this application instance
+	 */
+	public void setIsmaintenance(boolean ismaintenance);
 
 	/**
 	 * Returns the installlog of this application instance.

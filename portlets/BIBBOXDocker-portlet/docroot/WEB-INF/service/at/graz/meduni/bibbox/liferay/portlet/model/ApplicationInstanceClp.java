@@ -90,11 +90,17 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("instanceId", getInstanceId());
 		attributes.put("name", getName());
-		attributes.put("folderName", getFolderName());
 		attributes.put("shortName", getShortName());
+		attributes.put("baseurl", getBaseurl());
+		attributes.put("folderName", getFolderName());
 		attributes.put("application", getApplication());
 		attributes.put("version", getVersion());
+		attributes.put("status", getStatus());
+		attributes.put("deleted", getDeleted());
+		attributes.put("shortdescription", getShortdescription());
 		attributes.put("description", getDescription());
+		attributes.put("maintenance", getMaintenance());
+		attributes.put("ismaintenance", getIsmaintenance());
 		attributes.put("installlog", getInstalllog());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -160,16 +166,22 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 			setName(name);
 		}
 
-		String folderName = (String)attributes.get("folderName");
-
-		if (folderName != null) {
-			setFolderName(folderName);
-		}
-
 		String shortName = (String)attributes.get("shortName");
 
 		if (shortName != null) {
 			setShortName(shortName);
+		}
+
+		String baseurl = (String)attributes.get("baseurl");
+
+		if (baseurl != null) {
+			setBaseurl(baseurl);
+		}
+
+		String folderName = (String)attributes.get("folderName");
+
+		if (folderName != null) {
+			setFolderName(folderName);
 		}
 
 		String application = (String)attributes.get("application");
@@ -184,10 +196,40 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 			setVersion(version);
 		}
 
+		Boolean status = (Boolean)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
+		}
+
+		Boolean deleted = (Boolean)attributes.get("deleted");
+
+		if (deleted != null) {
+			setDeleted(deleted);
+		}
+
+		String shortdescription = (String)attributes.get("shortdescription");
+
+		if (shortdescription != null) {
+			setShortdescription(shortdescription);
+		}
+
 		String description = (String)attributes.get("description");
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String maintenance = (String)attributes.get("maintenance");
+
+		if (maintenance != null) {
+			setMaintenance(maintenance);
+		}
+
+		Boolean ismaintenance = (Boolean)attributes.get("ismaintenance");
+
+		if (ismaintenance != null) {
+			setIsmaintenance(ismaintenance);
 		}
 
 		String installlog = (String)attributes.get("installlog");
@@ -426,29 +468,6 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
-	public String getFolderName() {
-		return _folderName;
-	}
-
-	@Override
-	public void setFolderName(String folderName) {
-		_folderName = folderName;
-
-		if (_applicationInstanceRemoteModel != null) {
-			try {
-				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
-
-				Method method = clazz.getMethod("setFolderName", String.class);
-
-				method.invoke(_applicationInstanceRemoteModel, folderName);
-			}
-			catch (Exception e) {
-				throw new UnsupportedOperationException(e);
-			}
-		}
-	}
-
-	@Override
 	public String getShortName() {
 		return _shortName;
 	}
@@ -464,6 +483,52 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 				Method method = clazz.getMethod("setShortName", String.class);
 
 				method.invoke(_applicationInstanceRemoteModel, shortName);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getBaseurl() {
+		return _baseurl;
+	}
+
+	@Override
+	public void setBaseurl(String baseurl) {
+		_baseurl = baseurl;
+
+		if (_applicationInstanceRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setBaseurl", String.class);
+
+				method.invoke(_applicationInstanceRemoteModel, baseurl);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getFolderName() {
+		return _folderName;
+	}
+
+	@Override
+	public void setFolderName(String folderName) {
+		_folderName = folderName;
+
+		if (_applicationInstanceRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setFolderName", String.class);
+
+				method.invoke(_applicationInstanceRemoteModel, folderName);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -518,6 +583,86 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
+	public boolean getStatus() {
+		return _status;
+	}
+
+	@Override
+	public boolean isStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(boolean status) {
+		_status = status;
+
+		if (_applicationInstanceRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setStatus", boolean.class);
+
+				method.invoke(_applicationInstanceRemoteModel, status);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public boolean getDeleted() {
+		return _deleted;
+	}
+
+	@Override
+	public boolean isDeleted() {
+		return _deleted;
+	}
+
+	@Override
+	public void setDeleted(boolean deleted) {
+		_deleted = deleted;
+
+		if (_applicationInstanceRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setDeleted", boolean.class);
+
+				method.invoke(_applicationInstanceRemoteModel, deleted);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getShortdescription() {
+		return _shortdescription;
+	}
+
+	@Override
+	public void setShortdescription(String shortdescription) {
+		_shortdescription = shortdescription;
+
+		if (_applicationInstanceRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setShortdescription",
+						String.class);
+
+				method.invoke(_applicationInstanceRemoteModel, shortdescription);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public String getDescription() {
 		return _description;
 	}
@@ -533,6 +678,58 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 				Method method = clazz.getMethod("setDescription", String.class);
 
 				method.invoke(_applicationInstanceRemoteModel, description);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getMaintenance() {
+		return _maintenance;
+	}
+
+	@Override
+	public void setMaintenance(String maintenance) {
+		_maintenance = maintenance;
+
+		if (_applicationInstanceRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setMaintenance", String.class);
+
+				method.invoke(_applicationInstanceRemoteModel, maintenance);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public boolean getIsmaintenance() {
+		return _ismaintenance;
+	}
+
+	@Override
+	public boolean isIsmaintenance() {
+		return _ismaintenance;
+	}
+
+	@Override
+	public void setIsmaintenance(boolean ismaintenance) {
+		_ismaintenance = ismaintenance;
+
+		if (_applicationInstanceRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setIsmaintenance",
+						boolean.class);
+
+				method.invoke(_applicationInstanceRemoteModel, ismaintenance);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -640,6 +837,26 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort> getApplicationPorts() {
+		try {
+			String methodName = "getApplicationPorts";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort> returnObj =
+				(java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort>)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
 	public void startUpApplicationInstance() {
 		try {
 			String methodName = "startUpApplicationInstance";
@@ -649,6 +866,141 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 			Object[] parameterValues = new Object[] {  };
 
 			invokeOnRemoteModel(methodName, parameterTypes, parameterValues);
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getInstanceJSONObject() {
+		try {
+			String methodName = "getInstanceJSONObject";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			com.liferay.portal.kernel.json.JSONObject returnObj = (com.liferay.portal.kernel.json.JSONObject)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.lang.String getInstanceUrl() {
+		try {
+			String methodName = "getInstanceUrl";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer> getContainersNeedToRun() {
+		try {
+			String methodName = "getContainersNeedToRun";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer> returnObj =
+				(java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer>)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer> getContainers() {
+		try {
+			String methodName = "getContainers";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer> returnObj =
+				(java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer>)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.lang.String getApplicationStatus() {
+		try {
+			String methodName = "getApplicationStatus";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.lang.String getApplicationname() {
+		try {
+			String methodName = "getApplicationname";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getApplicationTags() {
+		try {
+			String methodName = "getApplicationTags";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			com.liferay.portal.kernel.json.JSONArray returnObj = (com.liferay.portal.kernel.json.JSONArray)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
 		}
 		catch (Exception e) {
 			throw new UnsupportedOperationException(e);
@@ -735,11 +1087,17 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		clone.setModifiedDate(getModifiedDate());
 		clone.setInstanceId(getInstanceId());
 		clone.setName(getName());
-		clone.setFolderName(getFolderName());
 		clone.setShortName(getShortName());
+		clone.setBaseurl(getBaseurl());
+		clone.setFolderName(getFolderName());
 		clone.setApplication(getApplication());
 		clone.setVersion(getVersion());
+		clone.setStatus(getStatus());
+		clone.setDeleted(getDeleted());
+		clone.setShortdescription(getShortdescription());
 		clone.setDescription(getDescription());
+		clone.setMaintenance(getMaintenance());
+		clone.setIsmaintenance(getIsmaintenance());
 		clone.setInstalllog(getInstalllog());
 
 		return clone;
@@ -801,7 +1159,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
@@ -821,16 +1179,28 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		sb.append(getInstanceId());
 		sb.append(", name=");
 		sb.append(getName());
-		sb.append(", folderName=");
-		sb.append(getFolderName());
 		sb.append(", shortName=");
 		sb.append(getShortName());
+		sb.append(", baseurl=");
+		sb.append(getBaseurl());
+		sb.append(", folderName=");
+		sb.append(getFolderName());
 		sb.append(", application=");
 		sb.append(getApplication());
 		sb.append(", version=");
 		sb.append(getVersion());
+		sb.append(", status=");
+		sb.append(getStatus());
+		sb.append(", deleted=");
+		sb.append(getDeleted());
+		sb.append(", shortdescription=");
+		sb.append(getShortdescription());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", maintenance=");
+		sb.append(getMaintenance());
+		sb.append(", ismaintenance=");
+		sb.append(getIsmaintenance());
 		sb.append(", installlog=");
 		sb.append(getInstalllog());
 		sb.append("}");
@@ -840,7 +1210,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(67);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -884,12 +1254,16 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		sb.append(getName());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>folderName</column-name><column-value><![CDATA[");
-		sb.append(getFolderName());
-		sb.append("]]></column-value></column>");
-		sb.append(
 			"<column><column-name>shortName</column-name><column-value><![CDATA[");
 		sb.append(getShortName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>baseurl</column-name><column-value><![CDATA[");
+		sb.append(getBaseurl());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>folderName</column-name><column-value><![CDATA[");
+		sb.append(getFolderName());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>application</column-name><column-value><![CDATA[");
@@ -900,8 +1274,28 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		sb.append(getVersion());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>deleted</column-name><column-value><![CDATA[");
+		sb.append(getDeleted());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>shortdescription</column-name><column-value><![CDATA[");
+		sb.append(getShortdescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>description</column-name><column-value><![CDATA[");
 		sb.append(getDescription());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>maintenance</column-name><column-value><![CDATA[");
+		sb.append(getMaintenance());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>ismaintenance</column-name><column-value><![CDATA[");
+		sb.append(getIsmaintenance());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>installlog</column-name><column-value><![CDATA[");
@@ -922,11 +1316,17 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	private Date _modifiedDate;
 	private String _instanceId;
 	private String _name;
-	private String _folderName;
 	private String _shortName;
+	private String _baseurl;
+	private String _folderName;
 	private String _application;
 	private String _version;
+	private boolean _status;
+	private boolean _deleted;
+	private String _shortdescription;
 	private String _description;
+	private String _maintenance;
+	private boolean _ismaintenance;
 	private String _installlog;
 	private BaseModel<?> _applicationInstanceRemoteModel;
 	private Class<?> _clpSerializerClass = ClpSerializer.class;

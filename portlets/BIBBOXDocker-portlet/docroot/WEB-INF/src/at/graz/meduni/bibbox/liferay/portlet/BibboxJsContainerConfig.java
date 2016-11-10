@@ -6,7 +6,7 @@ import javax.portlet.PortletConfig;
 
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 
-public class InstanceConfig extends DefaultConfigurationAction {	
+public class BibboxJsContainerConfig extends DefaultConfigurationAction {	
 	public void processAction(PortletConfig portletConfig, ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}

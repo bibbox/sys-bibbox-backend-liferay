@@ -4,6 +4,9 @@
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalService" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceService" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.ApplicationInstancePersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstancePersistence" parent="basePersistence" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceContainerLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceContainerServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.ApplicationInstanceContainerPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstanceContainerPersistence" parent="basePersistence" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstancePortLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalService" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstancePortServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortService" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.ApplicationInstancePortPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstancePortPersistence" parent="basePersistence" />

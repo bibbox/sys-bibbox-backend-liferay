@@ -42,18 +42,18 @@
 		</security-role-ref>
 	</portlet>
 	<portlet>
-		<portlet-name>instance</portlet-name>
-		<display-name>Instance</display-name>
+		<portlet-name>bibboxjscontainer</portlet-name>
+		<display-name>BibboxJsContainer</display-name>
 		<portlet-class>
-			at.graz.meduni.bibbox.liferay.portlet.Instance
+			at.graz.meduni.bibbox.liferay.portlet.BibboxJsContainer
 		</portlet-class>
 		<init-param>
 			<name>view-template</name>
-			<value>/html/instance/view.jsp</value>
+			<value>/html/bibboxjscontainer/view.jsp</value>
 		</init-param>
 		<init-param>
 			<name>config-template</name>
-			<value>/html/instance/config.jsp</value>
+			<value>/html/bibboxjscontainer/config.jsp</value>
 		</init-param>
 		<expiration-cache>0</expiration-cache>
 		<supports>
@@ -63,8 +63,47 @@
 		</supports>
 		<resource-bundle>content.Language</resource-bundle>
 		<portlet-info>
-			<title>Instance</title>
-			<short-title>Instance</short-title>
+			<title>BibboxJsContainer</title>
+			<short-title>BibboxJsContainer</short-title>
+			<keywords></keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
+	<portlet>
+		<portlet-name>schedular</portlet-name>
+		<display-name>Schedular</display-name>
+		<portlet-class>
+			at.graz.meduni.bibbox.liferay.portlet.BibboxJsContainer
+		</portlet-class>
+		<init-param>
+			<name>view-template</name>
+			<value>/html/schedular/view.jsp</value>
+		</init-param>
+		<init-param>
+			<name>config-template</name>
+			<value>/html/schedular/config.jsp</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>config</portlet-mode>
+		</supports>
+		<resource-bundle>content.Language</resource-bundle>
+		<portlet-info>
+			<title>Schedular</title>
+			<short-title>Schedular</short-title>
 			<keywords></keywords>
 		</portlet-info>
 		<security-role-ref>

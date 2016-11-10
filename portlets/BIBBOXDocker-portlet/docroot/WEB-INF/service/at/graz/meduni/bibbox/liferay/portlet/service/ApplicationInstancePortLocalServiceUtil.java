@@ -223,6 +223,12 @@ public class ApplicationInstancePortLocalServiceUtil {
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
 	}
 
+	public static java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort> getApplicationInstancePortForInstance(
+		long applicationInstanceId) {
+		return getService()
+				   .getApplicationInstancePortForInstance(applicationInstanceId);
+	}
+
 	/**
 	* Returns a range of all the application instance ports.
 	*

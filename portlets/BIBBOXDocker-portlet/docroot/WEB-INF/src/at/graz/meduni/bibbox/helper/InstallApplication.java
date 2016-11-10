@@ -12,12 +12,15 @@ import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance;
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.base.ApplicationInstancePortLocalServiceBaseImpl;
@@ -33,7 +36,6 @@ public class InstallApplication {
 	String version_ = ""; 
 	String instanceid_ = ""; 
 	String instancename_ = ""; 
-	String description_ = ""; 
 	JSONObject data_ = null;
 	ApplicationInstance installapplicationinstance_ = null;
 	
@@ -45,14 +47,14 @@ public class InstallApplication {
 		return installapplicationinstance_.getInstanceId();
 	}
 	
-	public InstallApplication(String applicationname, String version, String instanceid, String instancename, String description, String data) {
+	public InstallApplication(String applicationname, String version, String instanceid, String instancename, String data) {
 		applicationname_ = applicationname;
 		version_ = version;
 		instanceid_ = instanceid;
 		instancename_ = instancename;
-		description_ = description;
-		installapplicationinstance_ = registerApplicationInstance(applicationname, version, instanceid, instancename, description);
+		installapplicationinstance_ = registerApplicationInstance(applicationname, version, instanceid, instancename);
 		registerPort();
+		registerContainers();
 		try {
 			data_ = JSONFactoryUtil.createJSONObject(data);
 		} catch (JSONException e) {
@@ -160,13 +162,16 @@ public class InstallApplication {
 		installapplicationinstance_.startUpApplicationInstance();
 	}
 	
-	private ApplicationInstance registerApplicationInstance(String applicationname, String version, String instanceid, String instancename, String description) {
+	private ApplicationInstance registerApplicationInstance(String applicationname, String version, String instanceid, String instancename) {
 		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.createApplicationInstance(CounterLocalServiceUtil.increment());
 		applicationinstance.setApplication(applicationname);
 		applicationinstance.setVersion(version);
 		applicationinstance.setInstanceId(instanceid);
 		applicationinstance.setName(instancename);
-		applicationinstance.setDescription(description);
+		applicationinstance.setShortName(instancename);
+		applicationinstance.setBaseurl(BibboxConfigReader.getBaseURL());
+		applicationinstance.setIsmaintenance(true);
+		applicationinstance.setDeleted(false);
 		applicationinstance.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "Application instance registered"));
 		applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 		applicationinstance.setFolderName(instanceid + "-" + applicationname);
@@ -181,6 +186,40 @@ public class InstallApplication {
 		applicationinstanceport.setPrimary(true);
 		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "Setting primary port for application to " + port, installapplicationinstance_.getInstalllog()));
 		applicationinstanceport = ApplicationInstancePortLocalServiceUtil.updateApplicationInstancePort(applicationinstanceport);
+	}
+	
+	private void registerContainers() {
+		String applicationfolder = BibboxConfigReader.getApplicationFolder(installapplicationinstance_.getApplication(), installapplicationinstance_.getVersion());
+		//TODO: Split into seperate class
+		String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder + "/sys-info.json");
+		try {
+			JSONObject sysinfo = JSONFactoryUtil.createJSONObject(jsonstring);
+			JSONArray runningcontainers = sysinfo.getJSONArray("runningcontainers");
+			Iterator<String> iterator = runningcontainers.iterator();
+			while (iterator.hasNext()) {
+				String containername = iterator.next().toString();
+				ApplicationInstanceContainer applicationinstancecontainer = ApplicationInstanceContainerLocalServiceUtil.createApplicationInstanceContainer(CounterLocalServiceUtil.increment());
+				applicationinstancecontainer.setContainerName(installapplicationinstance_.getInstanceId() + containername);
+				applicationinstancecontainer.setNeedrunning(true);
+				applicationinstancecontainer.setApplicationInstanceId(installapplicationinstance_.getApplicationInstanceId());
+				ApplicationInstanceContainerLocalServiceUtil.updateApplicationInstanceContainer(applicationinstancecontainer);
+			}
+			JSONArray supportcontainers = sysinfo.getJSONArray("supportcontainers");
+			iterator = supportcontainers.iterator();
+			while (iterator.hasNext()) {
+				String containername = iterator.next();
+				ApplicationInstanceContainer applicationinstancecontainer = ApplicationInstanceContainerLocalServiceUtil.createApplicationInstanceContainer(CounterLocalServiceUtil.increment());
+				applicationinstancecontainer.setContainerName(installapplicationinstance_.getInstanceId() + containername);
+				applicationinstancecontainer.setNeedrunning(false);
+				applicationinstancecontainer.setApplicationInstanceId(installapplicationinstance_.getApplicationInstanceId());
+				ApplicationInstanceContainerLocalServiceUtil.updateApplicationInstanceContainer(applicationinstancecontainer);
+			}
+		} catch (JSONException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "registerContainers()", "Error reading sys-info file. applicationfolder:" + applicationfolder));
+			e.printStackTrace();
+			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "registerContainers()", "Error reading sys-info file. applicationfolder:" + applicationfolder, e.getStackTrace(), installapplicationinstance_.getInstalllog()));
+			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
+		}
 	}
 	
 	private String getInstallationConfigString() {

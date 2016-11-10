@@ -35,6 +35,12 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject deleteInstanceStatusAPI(
+		java.lang.String instanceId) {
+		return _applicationInstanceService.deleteInstanceStatusAPI(instanceId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getApplicationStoreItemAPI(
 		java.lang.String applicationname, java.lang.String version) {
 		return _applicationInstanceService.getApplicationStoreItemAPI(applicationname,
@@ -47,8 +53,33 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getInstanceDashboardAPI(
+		java.lang.String instanceId) {
+		return _applicationInstanceService.getInstanceDashboardAPI(instanceId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getInstanceInfoAPI(
+		java.lang.String instanceId) {
+		return _applicationInstanceService.getInstanceInfoAPI(instanceId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getInstanceListAPI() {
 		return _applicationInstanceService.getInstanceListAPI();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
+		java.lang.String instanceId, java.lang.String logtype) {
+		return _applicationInstanceService.getInstanceLogdAPI(instanceId,
+			logtype);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getInstanceMaintenanceAPI(
+		java.lang.String instanceId) {
+		return _applicationInstanceService.getInstanceMaintenanceAPI(instanceId);
 	}
 
 	@Override
@@ -60,9 +91,27 @@ public class ApplicationInstanceServiceWrapper
 	public com.liferay.portal.kernel.json.JSONObject installApplicationAPI(
 		java.lang.String applicationname, java.lang.String version,
 		java.lang.String instanceid, java.lang.String instancename,
-		java.lang.String description, java.lang.String data) {
+		java.lang.String data) {
 		return _applicationInstanceService.installApplicationAPI(applicationname,
-			version, instanceid, instancename, description, data);
+			version, instanceid, instancename, data);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject setInstanceStatusAPI(
+		java.lang.String instanceId, java.lang.String status) {
+		return _applicationInstanceService.setInstanceStatusAPI(instanceId,
+			status);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject updateInstanceInfoAPI(
+		java.lang.String instanceId, java.lang.String instancename,
+		java.lang.String instanceshortname, java.lang.String description,
+		java.lang.String shortdescription, boolean ismaintenance,
+		java.lang.String maintenance) {
+		return _applicationInstanceService.updateInstanceInfoAPI(instanceId,
+			instancename, instanceshortname, description, shortdescription,
+			ismaintenance, maintenance);
 	}
 
 	@Override

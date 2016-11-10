@@ -123,13 +123,21 @@ public class ApplicationInstanceLocalServiceClpInvoker {
 				"at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance"
 			};
 
-		_methodName42 = "getOSGiServiceIdentifier";
+		_methodName46 = "getOSGiServiceIdentifier";
 
-		_methodParameterTypes42 = new String[] {  };
+		_methodParameterTypes46 = new String[] {  };
 
-		_methodName47 = "checkInstanceNameAvailable";
+		_methodName51 = "checkInstanceNameAvailable";
 
-		_methodParameterTypes47 = new String[] { "java.lang.String" };
+		_methodParameterTypes51 = new String[] { "java.lang.String" };
+
+		_methodName52 = "getApplicationInstance";
+
+		_methodParameterTypes52 = new String[] { "java.lang.String" };
+
+		_methodName53 = "getActiveApplicationInstances";
+
+		_methodParameterTypes53 = new String[] {  };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -236,14 +244,24 @@ public class ApplicationInstanceLocalServiceClpInvoker {
 			return ApplicationInstanceLocalServiceUtil.updateApplicationInstance((at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance)arguments[0]);
 		}
 
-		if (_methodName42.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes42, parameterTypes)) {
+		if (_methodName46.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes46, parameterTypes)) {
 			return ApplicationInstanceLocalServiceUtil.getOSGiServiceIdentifier();
 		}
 
-		if (_methodName47.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
+		if (_methodName51.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
 			return ApplicationInstanceLocalServiceUtil.checkInstanceNameAvailable((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName52.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
+			return ApplicationInstanceLocalServiceUtil.getApplicationInstance((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName53.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
+			return ApplicationInstanceLocalServiceUtil.getActiveApplicationInstances();
 		}
 
 		throw new UnsupportedOperationException();
@@ -287,8 +305,12 @@ public class ApplicationInstanceLocalServiceClpInvoker {
 	private String[] _methodParameterTypes18;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
-	private String _methodName42;
-	private String[] _methodParameterTypes42;
-	private String _methodName47;
-	private String[] _methodParameterTypes47;
+	private String _methodName46;
+	private String[] _methodParameterTypes46;
+	private String _methodName51;
+	private String[] _methodParameterTypes51;
+	private String _methodName52;
+	private String[] _methodParameterTypes52;
+	private String _methodName53;
+	private String[] _methodParameterTypes53;
 }

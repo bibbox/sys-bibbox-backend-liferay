@@ -15,10 +15,11 @@
 		<field name="name" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
-		<field name="folderName" type="String">
+		<field name="shortName" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
-		<field name="shortName" type="String">
+		<field name="baseurl" type="String" />
+		<field name="folderName" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
 		<field name="application" type="String">
@@ -27,12 +28,33 @@
 		<field name="version" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
+		<field name="status" type="boolean" />
+		<field name="deleted" type="boolean" />
+		<field name="shortdescription" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
 		<field name="description" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
+		<field name="maintenance" type="String">
+			<hint name="max-length">5000</hint>
+		</field>
+		<field name="ismaintenance" type="boolean" />
 		<field name="installlog" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
+	</model>
+	<model name="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer">
+		<field name="applicationInstanceContainerId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="containerName" type="String" />
+		<field name="needrunning" type="boolean" />
+		<field name="applicationInstanceId" type="long" />
 	</model>
 	<model name="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort">
 		<field name="applicationInstancePortId" type="long" />

@@ -66,7 +66,7 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(31);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(applicationInstanceId);
@@ -86,16 +86,28 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		sb.append(instanceId);
 		sb.append(", name=");
 		sb.append(name);
-		sb.append(", folderName=");
-		sb.append(folderName);
 		sb.append(", shortName=");
 		sb.append(shortName);
+		sb.append(", baseurl=");
+		sb.append(baseurl);
+		sb.append(", folderName=");
+		sb.append(folderName);
 		sb.append(", application=");
 		sb.append(application);
 		sb.append(", version=");
 		sb.append(version);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", deleted=");
+		sb.append(deleted);
+		sb.append(", shortdescription=");
+		sb.append(shortdescription);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", maintenance=");
+		sb.append(maintenance);
+		sb.append(", ismaintenance=");
+		sb.append(ismaintenance);
 		sb.append(", installlog=");
 		sb.append(installlog);
 		sb.append("}");
@@ -147,18 +159,25 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 			applicationInstanceImpl.setName(name);
 		}
 
-		if (folderName == null) {
-			applicationInstanceImpl.setFolderName(StringPool.BLANK);
-		}
-		else {
-			applicationInstanceImpl.setFolderName(folderName);
-		}
-
 		if (shortName == null) {
 			applicationInstanceImpl.setShortName(StringPool.BLANK);
 		}
 		else {
 			applicationInstanceImpl.setShortName(shortName);
+		}
+
+		if (baseurl == null) {
+			applicationInstanceImpl.setBaseurl(StringPool.BLANK);
+		}
+		else {
+			applicationInstanceImpl.setBaseurl(baseurl);
+		}
+
+		if (folderName == null) {
+			applicationInstanceImpl.setFolderName(StringPool.BLANK);
+		}
+		else {
+			applicationInstanceImpl.setFolderName(folderName);
 		}
 
 		if (application == null) {
@@ -175,12 +194,31 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 			applicationInstanceImpl.setVersion(version);
 		}
 
+		applicationInstanceImpl.setStatus(status);
+		applicationInstanceImpl.setDeleted(deleted);
+
+		if (shortdescription == null) {
+			applicationInstanceImpl.setShortdescription(StringPool.BLANK);
+		}
+		else {
+			applicationInstanceImpl.setShortdescription(shortdescription);
+		}
+
 		if (description == null) {
 			applicationInstanceImpl.setDescription(StringPool.BLANK);
 		}
 		else {
 			applicationInstanceImpl.setDescription(description);
 		}
+
+		if (maintenance == null) {
+			applicationInstanceImpl.setMaintenance(StringPool.BLANK);
+		}
+		else {
+			applicationInstanceImpl.setMaintenance(maintenance);
+		}
+
+		applicationInstanceImpl.setIsmaintenance(ismaintenance);
 
 		if (installlog == null) {
 			applicationInstanceImpl.setInstalllog(StringPool.BLANK);
@@ -208,11 +246,20 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		modifiedDate = objectInput.readLong();
 		instanceId = objectInput.readUTF();
 		name = objectInput.readUTF();
-		folderName = objectInput.readUTF();
 		shortName = objectInput.readUTF();
+		baseurl = objectInput.readUTF();
+		folderName = objectInput.readUTF();
 		application = objectInput.readUTF();
 		version = objectInput.readUTF();
+
+		status = objectInput.readBoolean();
+
+		deleted = objectInput.readBoolean();
+		shortdescription = objectInput.readUTF();
 		description = objectInput.readUTF();
+		maintenance = objectInput.readUTF();
+
+		ismaintenance = objectInput.readBoolean();
 		installlog = objectInput.readUTF();
 	}
 
@@ -251,18 +298,25 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 			objectOutput.writeUTF(name);
 		}
 
-		if (folderName == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(folderName);
-		}
-
 		if (shortName == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(shortName);
+		}
+
+		if (baseurl == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(baseurl);
+		}
+
+		if (folderName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(folderName);
 		}
 
 		if (application == null) {
@@ -279,12 +333,32 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 			objectOutput.writeUTF(version);
 		}
 
+		objectOutput.writeBoolean(status);
+
+		objectOutput.writeBoolean(deleted);
+
+		if (shortdescription == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(shortdescription);
+		}
+
 		if (description == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
 			objectOutput.writeUTF(description);
 		}
+
+		if (maintenance == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(maintenance);
+		}
+
+		objectOutput.writeBoolean(ismaintenance);
 
 		if (installlog == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -303,10 +377,16 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 	public long modifiedDate;
 	public String instanceId;
 	public String name;
-	public String folderName;
 	public String shortName;
+	public String baseurl;
+	public String folderName;
 	public String application;
 	public String version;
+	public boolean status;
+	public boolean deleted;
+	public String shortdescription;
 	public String description;
+	public String maintenance;
+	public boolean ismaintenance;
 	public String installlog;
 }

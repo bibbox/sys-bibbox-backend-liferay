@@ -49,6 +49,9 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	 *
 	 * Never modify or reference this interface directly. Always use {@link ApplicationInstanceServiceUtil} to access the application instance remote service. Add custom service methods to {@link at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	@JSONWebService(value = "/delete-instance-status")
+	public JSONObject deleteInstanceStatusAPI(java.lang.String instanceId);
+
 	@JSONWebService(value = "/get-application-store-item")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getApplicationStoreItemAPI(
@@ -58,9 +61,26 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getApplicationStoreListAPI();
 
-	@JSONWebService(value = "/instance-list", method = "POST")
+	@JSONWebService(value = "/get-instance-dashboard")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getInstanceDashboardAPI(java.lang.String instanceId);
+
+	@JSONWebService(value = "/get-instance-info")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getInstanceInfoAPI(java.lang.String instanceId);
+
+	@JSONWebService(value = "/get-instance-list")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getInstanceListAPI();
+
+	@JSONWebService(value = "/get-instance-log")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getInstanceLogdAPI(java.lang.String instanceId,
+		java.lang.String logtype);
+
+	@JSONWebService(value = "/get-instance-maintenance")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getInstanceMaintenanceAPI(java.lang.String instanceId);
 
 	@JSONWebService(value = "/get-updated-application-store-list")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -69,8 +89,17 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	@JSONWebService(value = "/install-application", method = "POST")
 	public JSONObject installApplicationAPI(java.lang.String applicationname,
 		java.lang.String version, java.lang.String instanceid,
-		java.lang.String instancename, java.lang.String description,
-		java.lang.String data);
+		java.lang.String instancename, java.lang.String data);
+
+	@JSONWebService(value = "/set-instance-status")
+	public JSONObject setInstanceStatusAPI(java.lang.String instanceId,
+		java.lang.String status);
+
+	@JSONWebService(value = "/update-instance-info", method = "POST")
+	public JSONObject updateInstanceInfoAPI(java.lang.String instanceId,
+		java.lang.String instancename, java.lang.String instanceshortname,
+		java.lang.String description, java.lang.String shortdescription,
+		boolean ismaintenance, java.lang.String maintenance);
 
 	@Override
 	public java.lang.Object invokeMethod(java.lang.String name,

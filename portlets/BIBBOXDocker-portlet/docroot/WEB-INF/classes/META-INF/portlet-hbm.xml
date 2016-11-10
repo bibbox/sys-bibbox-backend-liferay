@@ -3,6 +3,7 @@
 
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance" />
+	<import class="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer" />
 	<import class="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort" />
 	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationInstanceImpl" table="bibboxdocker_ApplicationInstance">
 		<id name="applicationInstanceId" type="long">
@@ -16,12 +17,32 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="instanceId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="folderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="shortName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="baseurl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="folderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="application" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="version" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="deleted" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="shortdescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="maintenance" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="ismaintenance" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="installlog" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationInstanceContainerImpl" table="bibboxdocker_ApplicationInstanceContainer">
+		<id name="applicationInstanceContainerId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="containerName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="needrunning" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="applicationInstanceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationInstancePortImpl" table="bibboxdocker_ApplicationInstancePort">
 		<id name="applicationInstancePortId" type="long">

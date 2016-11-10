@@ -112,11 +112,10 @@ public class ApplicationInstanceServiceSoap {
 	public static java.lang.String installApplicationAPI(
 		java.lang.String applicationname, java.lang.String version,
 		java.lang.String instanceid, java.lang.String instancename,
-		java.lang.String description, java.lang.String data)
-		throws RemoteException {
+		java.lang.String data) throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.installApplicationAPI(applicationname,
-					version, instanceid, instancename, description, data);
+					version, instanceid, instancename, data);
 
 			return returnValue.toString();
 		}
@@ -131,6 +130,113 @@ public class ApplicationInstanceServiceSoap {
 		throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getInstanceListAPI();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getInstanceInfoAPI(
+		java.lang.String instanceId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getInstanceInfoAPI(instanceId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getInstanceDashboardAPI(
+		java.lang.String instanceId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getInstanceDashboardAPI(instanceId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getInstanceLogdAPI(
+		java.lang.String instanceId, java.lang.String logtype)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getInstanceLogdAPI(instanceId,
+					logtype);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getInstanceMaintenanceAPI(
+		java.lang.String instanceId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getInstanceMaintenanceAPI(instanceId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String updateInstanceInfoAPI(
+		java.lang.String instanceId, java.lang.String instancename,
+		java.lang.String instanceshortname, java.lang.String description,
+		java.lang.String shortdescription, boolean ismaintenance,
+		java.lang.String maintenance) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.updateInstanceInfoAPI(instanceId,
+					instancename, instanceshortname, description,
+					shortdescription, ismaintenance, maintenance);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String deleteInstanceStatusAPI(
+		java.lang.String instanceId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.deleteInstanceStatusAPI(instanceId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String setInstanceStatusAPI(
+		java.lang.String instanceId, java.lang.String status)
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.setInstanceStatusAPI(instanceId,
+					status);
 
 			return returnValue.toString();
 		}

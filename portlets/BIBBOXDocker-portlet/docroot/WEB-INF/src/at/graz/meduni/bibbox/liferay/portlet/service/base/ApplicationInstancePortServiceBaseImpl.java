@@ -16,6 +16,7 @@ package at.graz.meduni.bibbox.liferay.portlet.service.base;
 
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortService;
+import at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstanceContainerPersistence;
 import at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstancePersistence;
 import at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstancePortPersistence;
 
@@ -109,6 +110,63 @@ public abstract class ApplicationInstancePortServiceBaseImpl
 	public void setApplicationInstancePersistence(
 		ApplicationInstancePersistence applicationInstancePersistence) {
 		this.applicationInstancePersistence = applicationInstancePersistence;
+	}
+
+	/**
+	 * Returns the application instance container local service.
+	 *
+	 * @return the application instance container local service
+	 */
+	public at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalService getApplicationInstanceContainerLocalService() {
+		return applicationInstanceContainerLocalService;
+	}
+
+	/**
+	 * Sets the application instance container local service.
+	 *
+	 * @param applicationInstanceContainerLocalService the application instance container local service
+	 */
+	public void setApplicationInstanceContainerLocalService(
+		at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalService applicationInstanceContainerLocalService) {
+		this.applicationInstanceContainerLocalService = applicationInstanceContainerLocalService;
+	}
+
+	/**
+	 * Returns the application instance container remote service.
+	 *
+	 * @return the application instance container remote service
+	 */
+	public at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerService getApplicationInstanceContainerService() {
+		return applicationInstanceContainerService;
+	}
+
+	/**
+	 * Sets the application instance container remote service.
+	 *
+	 * @param applicationInstanceContainerService the application instance container remote service
+	 */
+	public void setApplicationInstanceContainerService(
+		at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerService applicationInstanceContainerService) {
+		this.applicationInstanceContainerService = applicationInstanceContainerService;
+	}
+
+	/**
+	 * Returns the application instance container persistence.
+	 *
+	 * @return the application instance container persistence
+	 */
+	public ApplicationInstanceContainerPersistence getApplicationInstanceContainerPersistence() {
+		return applicationInstanceContainerPersistence;
+	}
+
+	/**
+	 * Sets the application instance container persistence.
+	 *
+	 * @param applicationInstanceContainerPersistence the application instance container persistence
+	 */
+	public void setApplicationInstanceContainerPersistence(
+		ApplicationInstanceContainerPersistence applicationInstanceContainerPersistence) {
+		this.applicationInstanceContainerPersistence = applicationInstanceContainerPersistence;
 	}
 
 	/**
@@ -397,6 +455,12 @@ public abstract class ApplicationInstancePortServiceBaseImpl
 	protected at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceService applicationInstanceService;
 	@BeanReference(type = ApplicationInstancePersistence.class)
 	protected ApplicationInstancePersistence applicationInstancePersistence;
+	@BeanReference(type = at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalService.class)
+	protected at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalService applicationInstanceContainerLocalService;
+	@BeanReference(type = at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerService.class)
+	protected at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerService applicationInstanceContainerService;
+	@BeanReference(type = ApplicationInstanceContainerPersistence.class)
+	protected ApplicationInstanceContainerPersistence applicationInstanceContainerPersistence;
 	@BeanReference(type = at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalService.class)
 	protected at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalService applicationInstancePortLocalService;
 	@BeanReference(type = ApplicationInstancePortService.class)

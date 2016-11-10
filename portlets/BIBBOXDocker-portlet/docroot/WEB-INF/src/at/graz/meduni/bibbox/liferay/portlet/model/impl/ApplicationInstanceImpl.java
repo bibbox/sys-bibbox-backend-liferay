@@ -18,10 +18,19 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 
 import aQute.bnd.annotation.ProviderType;
 import at.graz.meduni.bibbox.helper.BibboxConfigReader;
 import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer;
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalServiceUtil;
 
 /**
@@ -49,6 +58,9 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 	private static String log_portlet_ = "BIBBOXDocker";
 	private static String log_classname_ = "at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationInstanceImpl";
 	
+	private static String applicationname_ = null;
+	private static JSONArray tags_ = null;
+	
 	public String getBaseInstallationConfigString() {
 		String installationconfigstring = "";
 		installationconfigstring += " -i \"" + this.getInstanceId() + "\"";
@@ -72,6 +84,10 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 	
 	public long getPrimaryPort() {
 		return ApplicationInstancePortLocalServiceUtil.getPrimaryPortForInstance(this.getApplicationInstanceId());
+	}
+	
+	public List<ApplicationInstancePort> getApplicationPorts() {
+		return ApplicationInstancePortLocalServiceUtil.getApplicationInstancePortForInstance(this.getApplicationInstanceId());
 	}
 	
 	public void startUpApplicationInstance() {
@@ -112,5 +128,75 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
 			e.printStackTrace();
 		}
+	}
+	
+	public JSONObject getInstanceJSONObject() {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		returnobject.put("instancename", this.getName());
+		returnobject.put("instanceshortname", this.getShortName());
+		returnobject.put("instanceid", this.getInstanceId());
+		returnobject.put("url", this.getInstanceUrl());
+		returnobject.put("longdescription", this.getDescription());
+		returnobject.put("shortdescription", this.getShortdescription());
+		returnobject.put("applicationname", this.getApplication());
+		returnobject.put("version", this.getVersion());
+		returnobject.put("status", this.getStatus());
+		return returnobject;
+	}
+	
+	public String getInstanceUrl() {
+		return "http://" + this.getInstanceId() + "." + this.getBaseurl();
+	}
+	
+	public List<ApplicationInstanceContainer> getContainersNeedToRun() {
+		return ApplicationInstanceContainerLocalServiceUtil.getApplicationInstanceContainerNeedToRun(this.getApplicationInstanceId());
+	}
+	
+	public List<ApplicationInstanceContainer> getContainers() {
+		return ApplicationInstanceContainerLocalServiceUtil.getApplicationInstanceContainerForInstance(this.getApplicationInstanceId());
+	}
+	
+	public String getApplicationStatus() {
+		if(this.getIsmaintenance()) {
+			return "maintenance";
+		} else {
+			if(this.getStatus()) {
+				return "running";
+			} else {
+				return "stopped";
+			}
+		}
+	}
+	
+	public String getApplicationname() {
+		if(applicationname_ == null) {
+			JSONObject application = getApplicationfile();
+			String applicationname_ = application.getString("short_name");
+			if(applicationname_.equals("")) {
+				applicationname_ = this.getApplication();
+			}
+		}
+		return applicationname_;
+	}
+	
+	public JSONArray getApplicationTags() {
+		if(tags_ == null) {
+			JSONObject application = getApplicationfile();
+			tags_ = application.getJSONArray("tags");
+		}
+		return tags_;
+	}
+	
+	private JSONObject getApplicationfile() {
+		String applicationfolder = BibboxConfigReader.getApplicationFolder(this.getApplication(), this.getVersion());
+		String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder + "/appinfo.json");
+		JSONObject object = JSONFactoryUtil.createJSONObject();
+		try {
+			object = JSONFactoryUtil.createJSONObject(jsonstring);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return object;
 	}
 }

@@ -21,11 +21,19 @@
 		<!-- Other fields -->
 		<column name="instanceId" type="String" />
 		<column name="name" type="String" />
-		<column name="folderName" type="String" />
 		<column name="shortName" type="String" />
+		<column name="baseurl" type="String" />
+		
+		<column name="folderName" type="String" />
 		<column name="application" type="String" />
 		<column name="version" type="String" />
+		<column name="status" type="boolean" />
+		<column name="deleted" type="boolean" />
+		
+		<column name="shortdescription" type="String" />
 		<column name="description" type="String" />
+		<column name="maintenance" type="String" />
+		<column name="ismaintenance" type="boolean" />
 		<column name="installlog" type="String" />
 		
 
@@ -40,6 +48,9 @@
 		</finder>
 		<finder name="InstanceId" return-type="ApplicationInstance">
 			<finder-column name="instanceId" />
+		</finder>
+		<finder name="InstancesNotDeleted" return-type="Collection">
+			<finder-column name="deleted" />
 		</finder>
 	</entity>
 	<entity name="ApplicationInstancePort" local-service="true" remote-service="true">
@@ -73,6 +84,39 @@
 		<finder name="PrimaryApplicationInstancePort" return-type="Collection">
 			<finder-column name="applicationInstanceId" />
 			<finder-column name="primary" />
+		</finder>
+	</entity>
+	<entity name="ApplicationInstanceContainer" local-service="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="applicationInstanceContainerId" type="long" primary="true" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="containerName" type="String" />
+		<column name="needrunning" type="boolean" />
+		<column name="applicationInstanceId" type="long" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="applicationInstanceId" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="ApplicationInstance" return-type="Collection">
+			<finder-column name="applicationInstanceId" />
+		</finder>
+		<finder name="ApplicationInstanceRunning" return-type="Collection">
+			<finder-column name="applicationInstanceId" />
+			<finder-column name="needrunning" />
 		</finder>
 	</entity>
 </service-builder>

@@ -123,13 +123,17 @@ public class ApplicationInstancePortLocalServiceClpInvoker {
 				"at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort"
 			};
 
-		_methodName42 = "getOSGiServiceIdentifier";
+		_methodName46 = "getOSGiServiceIdentifier";
 
-		_methodParameterTypes42 = new String[] {  };
+		_methodParameterTypes46 = new String[] {  };
 
-		_methodName47 = "getPrimaryPortForInstance";
+		_methodName51 = "getPrimaryPortForInstance";
 
-		_methodParameterTypes47 = new String[] { "long" };
+		_methodParameterTypes51 = new String[] { "long" };
+
+		_methodName52 = "getApplicationInstancePortForInstance";
+
+		_methodParameterTypes52 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -236,14 +240,19 @@ public class ApplicationInstancePortLocalServiceClpInvoker {
 			return ApplicationInstancePortLocalServiceUtil.updateApplicationInstancePort((at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort)arguments[0]);
 		}
 
-		if (_methodName42.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes42, parameterTypes)) {
+		if (_methodName46.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes46, parameterTypes)) {
 			return ApplicationInstancePortLocalServiceUtil.getOSGiServiceIdentifier();
 		}
 
-		if (_methodName47.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
+		if (_methodName51.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
 			return ApplicationInstancePortLocalServiceUtil.getPrimaryPortForInstance(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName52.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
+			return ApplicationInstancePortLocalServiceUtil.getApplicationInstancePortForInstance(((Long)arguments[0]).longValue());
 		}
 
 		throw new UnsupportedOperationException();
@@ -287,8 +296,10 @@ public class ApplicationInstancePortLocalServiceClpInvoker {
 	private String[] _methodParameterTypes18;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
-	private String _methodName42;
-	private String[] _methodParameterTypes42;
-	private String _methodName47;
-	private String[] _methodParameterTypes47;
+	private String _methodName46;
+	private String[] _methodParameterTypes46;
+	private String _methodName51;
+	private String[] _methodParameterTypes51;
+	private String _methodName52;
+	private String[] _methodParameterTypes52;
 }
