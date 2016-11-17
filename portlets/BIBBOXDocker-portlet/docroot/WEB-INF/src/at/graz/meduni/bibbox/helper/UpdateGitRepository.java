@@ -96,7 +96,7 @@ public class UpdateGitRepository {
 			Process process = processbuilder.start();
 			git.close();
 			process.waitFor();
-			git.checkout().setName( "master" ).call();
+			git.checkout().setName("master").call();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -111,6 +111,14 @@ public class ApplicationInstanceLocalServiceUtil {
 		return getService().getApplicationInstance(applicationInstanceId);
 	}
 
+	public static at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance registerApplication(
+		java.lang.String applicationname, java.lang.String version,
+		java.lang.String instanceid, java.lang.String instancename) {
+		return getService()
+				   .registerApplication(applicationname, version, instanceid,
+			instancename);
+	}
+
 	/**
 	* Updates the application instance in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

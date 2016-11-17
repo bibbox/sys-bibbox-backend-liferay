@@ -20,10 +20,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+
 import aQute.bnd.annotation.ProviderType;
+import at.graz.meduni.bibbox.helper.BibboxConfigReader;
 import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
 import at.graz.meduni.bibbox.liferay.portlet.exception.NoSuchApplicationInstanceException;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.base.ApplicationInstanceLocalServiceBaseImpl;
 
 /**
@@ -76,5 +80,21 @@ public class ApplicationInstanceLocalServiceImpl
 	
 	public List<ApplicationInstance> getActiveApplicationInstances() {
 		return applicationInstancePersistence.findByInstancesNotDeleted(false);
+	}
+	
+	public ApplicationInstance registerApplication(String applicationname, String version, String instanceid, String instancename) {
+		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.createApplicationInstance(CounterLocalServiceUtil.increment());
+		applicationinstance.setApplication(applicationname);
+		applicationinstance.setVersion(version);
+		applicationinstance.setInstanceId(instanceid);
+		applicationinstance.setName(instancename);
+		applicationinstance.setShortName(instancename);
+		applicationinstance.setBaseurl(BibboxConfigReader.getBaseURL());
+		applicationinstance.setIsmaintenance(true);
+		applicationinstance.setDeleted(false);
+		applicationinstance.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "Application instance registered"));
+		applicationinstance.setFolderName(instanceid + "-" + applicationname);
+		applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
+		return applicationinstance;
 	}
 }

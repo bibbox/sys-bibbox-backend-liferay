@@ -50,13 +50,12 @@ public class BibboxConfigReader {
 	public static String readApplicationsStoreJsonFile(String filename) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filename));
-			StringBuilder sb = null;
+			String sb = "";
 			try {
-			    sb = new StringBuilder();
 			    String line = br.readLine();
 	
 			    while (line != null) {
-			        sb.append(line);
+			        sb += line;
 			        line = br.readLine();
 			    }
 			} finally {

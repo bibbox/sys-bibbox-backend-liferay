@@ -66,7 +66,7 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(applicationInstanceId);
@@ -104,6 +104,8 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		sb.append(shortdescription);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", adminnode=");
+		sb.append(adminnode);
 		sb.append(", maintenance=");
 		sb.append(maintenance);
 		sb.append(", ismaintenance=");
@@ -211,6 +213,13 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 			applicationInstanceImpl.setDescription(description);
 		}
 
+		if (adminnode == null) {
+			applicationInstanceImpl.setAdminnode(StringPool.BLANK);
+		}
+		else {
+			applicationInstanceImpl.setAdminnode(adminnode);
+		}
+
 		if (maintenance == null) {
 			applicationInstanceImpl.setMaintenance(StringPool.BLANK);
 		}
@@ -257,6 +266,7 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		deleted = objectInput.readBoolean();
 		shortdescription = objectInput.readUTF();
 		description = objectInput.readUTF();
+		adminnode = objectInput.readUTF();
 		maintenance = objectInput.readUTF();
 
 		ismaintenance = objectInput.readBoolean();
@@ -351,6 +361,13 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 			objectOutput.writeUTF(description);
 		}
 
+		if (adminnode == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(adminnode);
+		}
+
 		if (maintenance == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -386,6 +403,7 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 	public boolean deleted;
 	public String shortdescription;
 	public String description;
+	public String adminnode;
 	public String maintenance;
 	public boolean ismaintenance;
 	public String installlog;

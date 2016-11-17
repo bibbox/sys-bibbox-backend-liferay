@@ -88,6 +88,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			{ "deleted", Types.BOOLEAN },
 			{ "shortdescription", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
+			{ "adminnode", Types.VARCHAR },
 			{ "maintenance", Types.VARCHAR },
 			{ "ismaintenance", Types.BOOLEAN },
 			{ "installlog", Types.VARCHAR }
@@ -113,12 +114,13 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		TABLE_COLUMNS_MAP.put("deleted", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("shortdescription", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("adminnode", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("maintenance", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("ismaintenance", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("installlog", Types.VARCHAR);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,shortName TEXT null,baseurl VARCHAR(75) null,folderName TEXT null,application TEXT null,version TEXT null,status BOOLEAN,deleted BOOLEAN,shortdescription TEXT null,description TEXT null,maintenance TEXT null,ismaintenance BOOLEAN,installlog TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,shortName TEXT null,baseurl VARCHAR(75) null,folderName TEXT null,application TEXT null,version TEXT null,status BOOLEAN,deleted BOOLEAN,shortdescription TEXT null,description TEXT null,adminnode VARCHAR(75) null,maintenance TEXT null,ismaintenance BOOLEAN,installlog TEXT null)";
 	public static final String TABLE_SQL_DROP = "drop table bibboxdocker_ApplicationInstance";
 	public static final String ORDER_BY_JPQL = " ORDER BY applicationInstance.folderName ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY bibboxdocker_ApplicationInstance.folderName ASC";
@@ -169,6 +171,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		model.setDeleted(soapModel.getDeleted());
 		model.setShortdescription(soapModel.getShortdescription());
 		model.setDescription(soapModel.getDescription());
+		model.setAdminnode(soapModel.getAdminnode());
 		model.setMaintenance(soapModel.getMaintenance());
 		model.setIsmaintenance(soapModel.getIsmaintenance());
 		model.setInstalllog(soapModel.getInstalllog());
@@ -255,6 +258,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		attributes.put("deleted", getDeleted());
 		attributes.put("shortdescription", getShortdescription());
 		attributes.put("description", getDescription());
+		attributes.put("adminnode", getAdminnode());
 		attributes.put("maintenance", getMaintenance());
 		attributes.put("ismaintenance", getIsmaintenance());
 		attributes.put("installlog", getInstalllog());
@@ -374,6 +378,12 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String adminnode = (String)attributes.get("adminnode");
+
+		if (adminnode != null) {
+			setAdminnode(adminnode);
 		}
 
 		String maintenance = (String)attributes.get("maintenance");
@@ -709,6 +719,22 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@JSON
 	@Override
+	public String getAdminnode() {
+		if (_adminnode == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _adminnode;
+		}
+	}
+
+	@Override
+	public void setAdminnode(String adminnode) {
+		_adminnode = adminnode;
+	}
+
+	@JSON
+	@Override
 	public String getMaintenance() {
 		if (_maintenance == null) {
 			return StringPool.BLANK;
@@ -804,6 +830,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		applicationInstanceImpl.setDeleted(getDeleted());
 		applicationInstanceImpl.setShortdescription(getShortdescription());
 		applicationInstanceImpl.setDescription(getDescription());
+		applicationInstanceImpl.setAdminnode(getAdminnode());
 		applicationInstanceImpl.setMaintenance(getMaintenance());
 		applicationInstanceImpl.setIsmaintenance(getIsmaintenance());
 		applicationInstanceImpl.setInstalllog(getInstalllog());
@@ -994,6 +1021,14 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			applicationInstanceCacheModel.description = null;
 		}
 
+		applicationInstanceCacheModel.adminnode = getAdminnode();
+
+		String adminnode = applicationInstanceCacheModel.adminnode;
+
+		if ((adminnode != null) && (adminnode.length() == 0)) {
+			applicationInstanceCacheModel.adminnode = null;
+		}
+
 		applicationInstanceCacheModel.maintenance = getMaintenance();
 
 		String maintenance = applicationInstanceCacheModel.maintenance;
@@ -1017,7 +1052,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
@@ -1055,6 +1090,8 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		sb.append(getShortdescription());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", adminnode=");
+		sb.append(getAdminnode());
 		sb.append(", maintenance=");
 		sb.append(getMaintenance());
 		sb.append(", ismaintenance=");
@@ -1068,7 +1105,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(70);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -1148,6 +1185,10 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>adminnode</column-name><column-value><![CDATA[");
+		sb.append(getAdminnode());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>maintenance</column-name><column-value><![CDATA[");
 		sb.append(getMaintenance());
 		sb.append("]]></column-value></column>");
@@ -1192,6 +1233,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 	private boolean _setOriginalDeleted;
 	private String _shortdescription;
 	private String _description;
+	private String _adminnode;
 	private String _maintenance;
 	private boolean _ismaintenance;
 	private String _installlog;

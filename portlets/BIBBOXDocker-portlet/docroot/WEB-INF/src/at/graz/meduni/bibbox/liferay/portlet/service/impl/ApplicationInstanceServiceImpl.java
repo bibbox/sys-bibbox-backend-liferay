@@ -16,14 +16,26 @@ package at.graz.meduni.bibbox.liferay.portlet.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskExecutorRegistryUtil;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 
 import aQute.bnd.annotation.ProviderType;
 
@@ -34,6 +46,8 @@ import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
 import at.graz.meduni.bibbox.helper.InstallApplication;
 import at.graz.meduni.bibbox.helper.UpdateGitRepositoriesBackgroundTask;
 import at.graz.meduni.bibbox.helper.UpdateGitRepository;
+import at.graz.meduni.bibbox.liferay.backgroundtasks.BibboxBackgroundTaskExecutorNames;
+import at.graz.meduni.bibbox.liferay.backgroundtasks.InstallApplicationBG;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort;
@@ -41,6 +55,7 @@ import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContaine
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.base.ApplicationInstanceServiceBaseImpl;
+import at.graz.meduni.bibbox.threadtasks.ThreadTaskController;
 
 /**
  * The implementation of the application instance remote service.
@@ -144,8 +159,8 @@ public class ApplicationInstanceServiceImpl
 	}
 	
 	@JSONWebService(value = "/update-instance-info", method = "POST")
-	public JSONObject updateInstanceInfoAPI(String instanceId, String instancename, String instanceshortname, String description, String shortdescription, boolean ismaintenance, String maintenance) {
-		JSONObject returnobject = updateInstanceInfo(instanceId, instancename, instanceshortname, description, shortdescription, ismaintenance, maintenance);
+	public JSONObject updateInstanceInfoAPI(String instanceId, String instancename, String instanceshortname, String description, String shortdescription, String adminnode, String maintenance) {
+		JSONObject returnobject = updateInstanceInfo(instanceId, instancename, instanceshortname, description, shortdescription, adminnode, maintenance);
 		returnobject.put("user", getUserObject());
 		return returnobject;
 	}
@@ -161,10 +176,163 @@ public class ApplicationInstanceServiceImpl
 	@JSONWebService(value = "/set-instance-status")
 	public JSONObject setInstanceStatusAPI(String instanceId, String status) {
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
-		if(status.equalsIgnoreCase("delete")) {
-			deleteInstance(instanceId);
+		if(status.equalsIgnoreCase("start")) {
+			startInstance(instanceId);
+		} else if(status.equalsIgnoreCase("stop")) {
+			stopInstance(instanceId);
+		} else if(status.equalsIgnoreCase("restart")) {
+			restartInstance(instanceId);
+		} else {
+			returnobject.put("status", "error");
+			returnobject.put("error", "Status not know!");
 		}
 		returnobject.put("user", getUserObject());
+		return returnobject;
+	}
+	
+	@JSONWebService(value = "/toggl-instance-maintenance-status")
+	public JSONObject togglInstanceMaintenanceStatusAPI(String instanceId) {
+		JSONObject returnobject = togglInstanceMaintenanceStatus(instanceId);
+		returnobject.put("user", getUserObject());
+		return returnobject;
+	}
+	
+	@JSONWebService(value = "/get-id-mapping-info")
+	public JSONObject getIdMappingInfoAPI(String instanceId) {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
+		if(applicationinstance == null) {
+			returnobject.put("status", "error");
+			returnobject.put("error", "InstanceId dose not exist!");
+		} else {
+			try {
+				String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(BibboxConfigReader.getApplicationFolder(applicationinstance.getApplication(), applicationinstance.getVersion()) + "/id-mapping-info.json");
+				return JSONFactoryUtil.createJSONObject(jsonstring);
+			} catch (JSONException e) {
+				returnobject.put("status", "error");
+				returnobject.put("error", "Parsing JSON file: " + e.getMessage());
+				System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getIdMappingInfoAPI(String instanceId)", "Error parsing id-mapping-info.json for instance: " + instanceId));
+				e.printStackTrace();
+			}
+		}
+		return returnobject;
+	}
+	
+	@JSONWebService(value = "/test")
+	public void getTestAPI(String applicationname, String version, String instanceid, String instancename, String data) {
+		/*System.out.println("T3");
+		testInstallApplication(applicationname, version, instanceid, instancename, data);
+		System.out.println("T4");*/
+		/*String line = "";
+		String abc = "";
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("/Users/reihsr/Documents/BiBBox/docker/app-openspecimen" + "/sys-info.json"));
+			System.out.println("/Users/reihsr/Documents/BiBBox/docker/app-openspecimen" + "/sys-info.json");
+			StringBuilder sb = null;
+			
+			try {
+			    sb = new StringBuilder();
+			    System.out.println("T1");
+			    line = br.readLine();
+			    System.out.println("T2");
+			    while (line != null) {
+			    	System.out.println("T3");
+			    	System.out.println(line);
+			        sb.append(line);
+			        abc += line;
+			        line = br.readLine();
+			        System.out.println("T4");
+			    }
+			} finally {
+			    br.close();
+			}
+			System.out.println("T5");
+		} catch (Exception e) {
+			System.out.println("----");
+			e.printStackTrace();
+		}
+		System.out.println(line);
+		System.out.println("T6");
+		String jsonstring = line;
+		System.out.println("T7");
+		System.out.println(abc);
+		System.out.println("T8");
+		System.out.println(abc.replaceAll("[§][§]INSTANCE", "test"));
+		System.out.println("T9");*/
+		
+		/*for(int i = 0; i < 30; i++) {
+			ThreadTaskController.addNewTast("T" + i);
+		}*/
+		
+		long userId = 0;
+		long groupId = 0;
+		//String taskExecutorClassName = "Test";
+		String taskExecutorClassName = BibboxBackgroundTaskExecutorNames.BIBBOX_INSTANCE_INSTALLER_BACKGROUND_TASK_EXECUTOR;
+		try {
+			User user = this.getGuestOrUser();
+			Company company = CompanyLocalServiceUtil.getCompany(user.getCompanyId());
+			groupId = company.getGroupId();
+			userId = user.getUserId();
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getUserObject()", "Error getting user from api call"));
+			e.printStackTrace();
+		}
+		
+		Map<String, Serializable> taskContextMap = new HashMap<>();
+
+		taskContextMap.put("configId", 123456);
+		
+		try {
+			BackgroundTask backgroundTask = BackgroundTaskManagerUtil.addBackgroundTask(userId, groupId, taskExecutorClassName, new String[]{"BIBBOXDocker-portlet"}, InstallApplicationBG.class, taskContextMap, new ServiceContext());
+			//BackgroundTask backgroundTask = BackgroundTaskManagerUtil.addBackgroundTask(userId, groupId, taskExecutorClassName, taskExecutorClassName, 
+					//taskContextMap, new ServiceContext());
+			
+			System.out.println(backgroundTask.getStatus());
+			
+			System.out.println("BackgroundTaskId" + backgroundTask.getBackgroundTaskId());
+		} catch (PortalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/*BackgroundTask backgroundTask =
+		BackgroundTaskManagerUtil.addBackgroundTask(
+			userId, exportImportConfiguration.getGroupId(),
+			exportImportConfiguration.getName(),
+			BackgroundTaskExecutorNames.
+				LAYOUT_EXPORT_BACKGROUND_TASK_EXECUTOR,
+			taskContextMap, new ServiceContext());*/
+		
+		//BackgroundTaskExecutorRegistryUtil.registerBackgroundTaskExecutor(InstallApplicationBG.class.getName(), test);
+	}
+	
+	private JSONObject testInstallApplication(String applicationname, String version, String instanceid, String instancename, String data) {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		
+		if(ApplicationInstanceLocalServiceUtil.checkInstanceNameAvailable(instanceid)) {
+			returnobject.put("status", "error");
+			returnobject.put("error", "InstanceId alredy exists!");
+			return returnobject;
+		}
+		
+		//ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.registerApplication(applicationname, version, instanceid, instancename);
+		HashMap<String, String> config_ = new HashMap<String, String>();
+		//config_.put("ApplicationInstanceId", applicationinstance.getApplicationInstanceId() + "");
+		//ThreadTaskController.addNewTast(applicationinstance.getInstanceId(), "InstallApplicationTask", config_);
+		ThreadTaskController.addNewTast("test", "InstallApplicationTask", config_);
+		
+		returnobject.put("status", "installing");
+		returnobject.put("instanceid", instanceid);
+		
+		/*
+		String applicationfodler = BibboxConfigReader.getApplicationFolder(applicationname, version);
+		
+		InstallApplication installapplication = new InstallApplication(applicationname, version, instanceid, instancename, data);
+		installapplication.callInstallScript(applicationfodler);
+		installapplication.addProxyEntry(applicationfodler);
+		installapplication.startDockerCompose();
+		*/
+		
 		return returnobject;
 	}
 	
@@ -179,8 +347,6 @@ public class ApplicationInstanceServiceImpl
 		}
 		return JSONFactoryUtil.createJSONArray();
 	}
-	
-	
 	
 	private JSONObject getApplicationStoreItem(String applicationname, String version) {
 		JSONObject retrunobject = null;
@@ -302,6 +468,7 @@ public class ApplicationInstanceServiceImpl
 		} else {
 			returnobject = applicationinstance.getInstanceJSONObject();
 			returnobject.put("application", getApplicationStoreItem(applicationinstance.getApplication(), applicationinstance.getVersion()));
+			returnobject.put("ismaintenance", applicationinstance.getIsmaintenance());
 			return returnobject;
 		}
 		return returnobject;
@@ -316,7 +483,7 @@ public class ApplicationInstanceServiceImpl
 		} else {
 			returnobject = applicationinstance.getInstanceJSONObject();
 			returnobject.put("maintenance", applicationinstance.getMaintenance());
-			returnobject.put("ismaintenance", applicationinstance.getIsmaintenance());
+			returnobject.put("adminnode", applicationinstance.getAdminnode());
 			returnobject.put("application", getApplicationStoreItem(applicationinstance.getApplication(), applicationinstance.getVersion()));
 			return returnobject;
 		}
@@ -338,7 +505,7 @@ public class ApplicationInstanceServiceImpl
 		return returnobject;
 	}
 	
-	private JSONObject updateInstanceInfo(String instanceId, String instancename, String instanceshortname, String description, String shortdescription, boolean ismaintenance, String maintenance) {
+	private JSONObject updateInstanceInfo(String instanceId, String instancename, String instanceshortname, String description, String shortdescription, String adminnode, String maintenance) {
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
 		if(applicationinstance == null) {
@@ -349,8 +516,8 @@ public class ApplicationInstanceServiceImpl
 			applicationinstance.setShortName(instanceshortname);
 			applicationinstance.setDescription(description);
 			applicationinstance.setShortdescription(shortdescription);
-			applicationinstance.setIsmaintenance(ismaintenance);
 			applicationinstance.setMaintenance(maintenance);
+			applicationinstance.setAdminnode(adminnode);
 			ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 			returnobject = applicationinstance.getInstanceJSONObject();
 			returnobject.put("maintenance", applicationinstance.getMaintenance());
@@ -367,6 +534,10 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("status", "error");
 			returnobject.put("error", "InstanceId dose not exist!");
 		} else {
+			returnobject.put("application", applicationinstance.getApplication());
+			returnobject.put("applicationname", applicationinstance.getApplicationname());
+			returnobject.put("version", applicationinstance.getVersion());
+			returnobject.put("longname", applicationinstance.getName());
 			if(logtype.equalsIgnoreCase("install")) {
 				returnobject.put("log", getInstallLog(applicationinstance));
 			} else {
@@ -382,7 +553,7 @@ public class ApplicationInstanceServiceImpl
 	}
 	
 	private String getComposeLog(ApplicationInstance applicationinstance) {
-		return "not yet implemented";
+		return applicationinstance.getComposeLog();
 	}
 	
 	private JSONObject deleteInstance(String instanceId) {
@@ -475,6 +646,55 @@ public class ApplicationInstanceServiceImpl
 		for(ApplicationInstanceContainer container : containers) {
 			ApplicationInstanceContainerLocalServiceUtil.deleteApplicationInstanceContainer(container);
 		}
+	}
+	
+	private JSONObject startInstance(String instanceId) {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
+		if(applicationinstance == null) {
+			returnobject.put("status", "error");
+			returnobject.put("error", "InstanceId dose not exist!");
+		} else {
+			returnobject.put("log", applicationinstance.startApplicationInstance());
+		}
+		return returnobject;
+	}
+	
+	private JSONObject stopInstance(String instanceId) {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
+		if(applicationinstance == null) {
+			returnobject.put("status", "error");
+			returnobject.put("error", "InstanceId dose not exist!");
+		} else {
+			returnobject.put("log", applicationinstance.stopApplicationInstance());
+		}
+		return returnobject;
+	}
+	
+	private JSONObject restartInstance(String instanceId) {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
+		if(applicationinstance == null) {
+			returnobject.put("status", "error");
+			returnobject.put("error", "InstanceId dose not exist!");
+		} else {
+			returnobject.put("log", applicationinstance.restartApplicationInstance());
+		}
+		return returnobject;
+	}
+	
+	private JSONObject togglInstanceMaintenanceStatus(String instanceId) {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
+		if(applicationinstance == null) {
+			returnobject.put("status", "error");
+			returnobject.put("error", "InstanceId dose not exist!");
+		} else {
+			applicationinstance.setIsmaintenance(!applicationinstance.getIsmaintenance());;
+			returnobject = getInstanceDashboard(instanceId);
+		}
+		return returnobject;
 	}
 	
 	private JSONObject getUserObject() {

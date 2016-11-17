@@ -159,7 +159,9 @@ public class InstallApplication {
 	}
 	
 	public void startDockerCompose() {
-		installapplicationinstance_.startUpApplicationInstance();
+		String log = installapplicationinstance_.startApplicationInstance();
+		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", log, installapplicationinstance_.getInstalllog()));
+		
 	}
 	
 	private ApplicationInstance registerApplicationInstance(String applicationname, String version, String instanceid, String instancename) {
@@ -173,8 +175,8 @@ public class InstallApplication {
 		applicationinstance.setIsmaintenance(true);
 		applicationinstance.setDeleted(false);
 		applicationinstance.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "Application instance registered"));
-		applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 		applicationinstance.setFolderName(instanceid + "-" + applicationname);
+		applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 		return applicationinstance;
 	}
 	
@@ -191,8 +193,8 @@ public class InstallApplication {
 	private void registerContainers() {
 		String applicationfolder = BibboxConfigReader.getApplicationFolder(installapplicationinstance_.getApplication(), installapplicationinstance_.getVersion());
 		//TODO: Split into seperate class
-		String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder + "/sys-info.json");
 		try {
+			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder + "/sys-info.json");
 			JSONObject sysinfo = JSONFactoryUtil.createJSONObject(jsonstring);
 			JSONArray runningcontainers = sysinfo.getJSONArray("runningcontainers");
 			Iterator<String> iterator = runningcontainers.iterator();

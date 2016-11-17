@@ -66,7 +66,13 @@ public interface ApplicationInstance extends ApplicationInstanceModel,
 
 	public java.util.List<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort> getApplicationPorts();
 
-	public void startUpApplicationInstance();
+	public java.lang.String stopApplicationInstance();
+
+	public java.lang.String startApplicationInstance();
+
+	public java.lang.String restartApplicationInstance();
+
+	public java.lang.String getComposeLog();
 
 	public com.liferay.portal.kernel.json.JSONObject getInstanceJSONObject();
 

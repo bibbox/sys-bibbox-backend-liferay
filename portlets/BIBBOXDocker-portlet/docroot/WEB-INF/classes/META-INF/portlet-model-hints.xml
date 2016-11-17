@@ -36,6 +36,7 @@
 		<field name="description" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
+		<field name="adminnode" type="String" />
 		<field name="maintenance" type="String">
 			<hint name="max-length">5000</hint>
 		</field>

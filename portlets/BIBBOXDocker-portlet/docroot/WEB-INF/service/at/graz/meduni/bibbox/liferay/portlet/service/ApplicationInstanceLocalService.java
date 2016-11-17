@@ -121,6 +121,10 @@ public interface ApplicationInstanceLocalService extends BaseLocalService,
 	public ApplicationInstance getApplicationInstance(
 		long applicationInstanceId) throws PortalException;
 
+	public ApplicationInstance registerApplication(
+		java.lang.String applicationname, java.lang.String version,
+		java.lang.String instanceid, java.lang.String instancename);
+
 	/**
 	* Updates the application instance in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*

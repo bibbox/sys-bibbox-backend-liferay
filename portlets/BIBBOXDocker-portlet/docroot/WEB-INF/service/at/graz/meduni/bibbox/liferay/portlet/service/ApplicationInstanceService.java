@@ -61,6 +61,10 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getApplicationStoreListAPI();
 
+	@JSONWebService(value = "/get-id-mapping-info")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getIdMappingInfoAPI(java.lang.String instanceId);
+
 	@JSONWebService(value = "/get-instance-dashboard")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getInstanceDashboardAPI(java.lang.String instanceId);
@@ -95,11 +99,15 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	public JSONObject setInstanceStatusAPI(java.lang.String instanceId,
 		java.lang.String status);
 
+	@JSONWebService(value = "/toggl-instance-maintenance-status")
+	public JSONObject togglInstanceMaintenanceStatusAPI(
+		java.lang.String instanceId);
+
 	@JSONWebService(value = "/update-instance-info", method = "POST")
 	public JSONObject updateInstanceInfoAPI(java.lang.String instanceId,
 		java.lang.String instancename, java.lang.String instanceshortname,
 		java.lang.String description, java.lang.String shortdescription,
-		boolean ismaintenance, java.lang.String maintenance);
+		java.lang.String adminnode, java.lang.String maintenance);
 
 	@Override
 	public java.lang.Object invokeMethod(java.lang.String name,
@@ -112,4 +120,10 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	* @return the OSGi service identifier
 	*/
 	public java.lang.String getOSGiServiceIdentifier();
+
+	@JSONWebService(value = "/test")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public void getTestAPI(java.lang.String applicationname,
+		java.lang.String version, java.lang.String instanceid,
+		java.lang.String instancename, java.lang.String data);
 }

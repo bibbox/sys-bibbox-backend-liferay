@@ -90,16 +90,17 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 		return ApplicationInstancePortLocalServiceUtil.getApplicationInstancePortForInstance(this.getApplicationInstanceId());
 	}
 	
-	public void startUpApplicationInstance() {
+	public String stopApplicationInstance() {
+		String installlog = "";
 		try {
-			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose up -d");
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose stop");
 			processbuilder.directory(new File(this.getFolderPath()));
 			Process process = processbuilder.start();
 			process.waitFor();
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			String log;
-			String installlog = "";
+			
 			while ((log = reader.readLine()) != null) 
 			{
 				String loglevel = "INFO";
@@ -119,7 +120,45 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
-			System.out.println(installlog);
+		} catch(IOException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		}
+		return installlog;
+	}
+	
+	public String startApplicationInstance() {
+		String installlog = "";
+		try {
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose up -d");
+			processbuilder.directory(new File(this.getFolderPath()));
+			Process process = processbuilder.start();
+			process.waitFor();
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String log;
+			
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+				}
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+			}
+			
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+				}
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+			}
 			
 		} catch(IOException e) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
@@ -128,6 +167,87 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
 			e.printStackTrace();
 		}
+		return installlog;
+	}
+	
+	public String restartApplicationInstance() {
+		String installlog = "";
+		try {
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose restart");
+			processbuilder.directory(new File(this.getFolderPath()));
+			Process process = processbuilder.start();
+			process.waitFor();
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String log;
+			
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+				}
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+			}
+			
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+				}
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+			}
+			
+		} catch(IOException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		}
+		return installlog;
+	}
+	
+	public String getComposeLog() {
+		String composelog = "";
+		try {
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose logs");
+			processbuilder.directory(new File(this.getFolderPath()));
+			Process process = processbuilder.start();
+			process.waitFor();
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String log;
+			
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+				}
+				composelog = FormatExceptionMessage.formatLogMessage(loglevel, log, composelog);
+			}
+			
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+				}
+				composelog = FormatExceptionMessage.formatLogMessage(loglevel, log, composelog);
+			}
+			
+		} catch(IOException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		}
+		return composelog;
 	}
 	
 	public JSONObject getInstanceJSONObject() {
@@ -140,6 +260,7 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 		returnobject.put("shortdescription", this.getShortdescription());
 		returnobject.put("applicationname", this.getApplication());
 		returnobject.put("version", this.getVersion());
+		returnobject.put("status", this.getStatus());
 		returnobject.put("status", this.getStatus());
 		return returnobject;
 	}

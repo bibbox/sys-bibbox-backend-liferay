@@ -52,6 +52,7 @@ public class ApplicationInstanceSoap implements Serializable {
 		soapModel.setDeleted(model.getDeleted());
 		soapModel.setShortdescription(model.getShortdescription());
 		soapModel.setDescription(model.getDescription());
+		soapModel.setAdminnode(model.getAdminnode());
 		soapModel.setMaintenance(model.getMaintenance());
 		soapModel.setIsmaintenance(model.getIsmaintenance());
 		soapModel.setInstalllog(model.getInstalllog());
@@ -262,6 +263,14 @@ public class ApplicationInstanceSoap implements Serializable {
 		_description = description;
 	}
 
+	public String getAdminnode() {
+		return _adminnode;
+	}
+
+	public void setAdminnode(String adminnode) {
+		_adminnode = adminnode;
+	}
+
 	public String getMaintenance() {
 		return _maintenance;
 	}
@@ -308,6 +317,7 @@ public class ApplicationInstanceSoap implements Serializable {
 	private boolean _deleted;
 	private String _shortdescription;
 	private String _description;
+	private String _adminnode;
 	private String _maintenance;
 	private boolean _ismaintenance;
 	private String _installlog;

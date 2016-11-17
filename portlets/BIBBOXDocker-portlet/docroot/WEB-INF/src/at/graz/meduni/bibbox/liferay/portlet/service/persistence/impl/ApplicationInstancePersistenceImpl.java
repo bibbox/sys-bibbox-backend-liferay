@@ -1795,6 +1795,7 @@ public class ApplicationInstancePersistenceImpl extends BasePersistenceImpl<Appl
 		applicationInstanceImpl.setDeleted(applicationInstance.isDeleted());
 		applicationInstanceImpl.setShortdescription(applicationInstance.getShortdescription());
 		applicationInstanceImpl.setDescription(applicationInstance.getDescription());
+		applicationInstanceImpl.setAdminnode(applicationInstance.getAdminnode());
 		applicationInstanceImpl.setMaintenance(applicationInstance.getMaintenance());
 		applicationInstanceImpl.setIsmaintenance(applicationInstance.isIsmaintenance());
 		applicationInstanceImpl.setInstalllog(applicationInstance.getInstalllog());

@@ -78,7 +78,7 @@ public class ApplicationInstanceServiceClpInvoker {
 
 		_methodParameterTypes50 = new String[] {
 				"java.lang.String", "java.lang.String", "java.lang.String",
-				"java.lang.String", "java.lang.String", "boolean",
+				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String"
 			};
 
@@ -89,6 +89,21 @@ public class ApplicationInstanceServiceClpInvoker {
 		_methodName52 = "setInstanceStatusAPI";
 
 		_methodParameterTypes52 = new String[] {
+				"java.lang.String", "java.lang.String"
+			};
+
+		_methodName53 = "togglInstanceMaintenanceStatusAPI";
+
+		_methodParameterTypes53 = new String[] { "java.lang.String" };
+
+		_methodName54 = "getIdMappingInfoAPI";
+
+		_methodParameterTypes54 = new String[] { "java.lang.String" };
+
+		_methodName55 = "getTestAPI";
+
+		_methodParameterTypes55 = new String[] {
+				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String"
 			};
 	}
@@ -154,8 +169,7 @@ public class ApplicationInstanceServiceClpInvoker {
 			return ApplicationInstanceServiceUtil.updateInstanceInfoAPI((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
 				(java.lang.String)arguments[3], (java.lang.String)arguments[4],
-				((Boolean)arguments[5]).booleanValue(),
-				(java.lang.String)arguments[6]);
+				(java.lang.String)arguments[5], (java.lang.String)arguments[6]);
 		}
 
 		if (_methodName51.equals(name) &&
@@ -167,6 +181,25 @@ public class ApplicationInstanceServiceClpInvoker {
 				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
 			return ApplicationInstanceServiceUtil.setInstanceStatusAPI((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1]);
+		}
+
+		if (_methodName53.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.togglInstanceMaintenanceStatusAPI((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName54.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getIdMappingInfoAPI((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName55.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
+			ApplicationInstanceServiceUtil.getTestAPI((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
+				(java.lang.String)arguments[3], (java.lang.String)arguments[4]);
+
+			return null;
 		}
 
 		throw new UnsupportedOperationException();
@@ -198,4 +231,10 @@ public class ApplicationInstanceServiceClpInvoker {
 	private String[] _methodParameterTypes51;
 	private String _methodName52;
 	private String[] _methodParameterTypes52;
+	private String _methodName53;
+	private String[] _methodParameterTypes53;
+	private String _methodName54;
+	private String[] _methodParameterTypes54;
+	private String _methodName55;
+	private String[] _methodParameterTypes55;
 }

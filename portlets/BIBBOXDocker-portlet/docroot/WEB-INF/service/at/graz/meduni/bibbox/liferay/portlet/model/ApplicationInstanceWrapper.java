@@ -76,6 +76,7 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		attributes.put("deleted", getDeleted());
 		attributes.put("shortdescription", getShortdescription());
 		attributes.put("description", getDescription());
+		attributes.put("adminnode", getAdminnode());
 		attributes.put("maintenance", getMaintenance());
 		attributes.put("ismaintenance", getIsmaintenance());
 		attributes.put("installlog", getInstalllog());
@@ -192,6 +193,12 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String adminnode = (String)attributes.get("adminnode");
+
+		if (adminnode != null) {
+			setAdminnode(adminnode);
 		}
 
 		String maintenance = (String)attributes.get("maintenance");
@@ -340,6 +347,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	}
 
 	/**
+	* Returns the adminnode of this application instance.
+	*
+	* @return the adminnode of this application instance
+	*/
+	@Override
+	public java.lang.String getAdminnode() {
+		return _applicationInstance.getAdminnode();
+	}
+
+	/**
 	* Returns the application of this application instance.
 	*
 	* @return the application of this application instance
@@ -377,6 +394,11 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public java.lang.String getBasicProxyConfigString() {
 		return _applicationInstance.getBasicProxyConfigString();
+	}
+
+	@Override
+	public java.lang.String getComposeLog() {
+		return _applicationInstance.getComposeLog();
 	}
 
 	/**
@@ -500,6 +522,21 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	}
 
 	@Override
+	public java.lang.String restartApplicationInstance() {
+		return _applicationInstance.restartApplicationInstance();
+	}
+
+	@Override
+	public java.lang.String startApplicationInstance() {
+		return _applicationInstance.startApplicationInstance();
+	}
+
+	@Override
+	public java.lang.String stopApplicationInstance() {
+		return _applicationInstance.stopApplicationInstance();
+	}
+
+	@Override
 	public java.lang.String toString() {
 		return _applicationInstance.toString();
 	}
@@ -602,6 +639,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public void persist() {
 		_applicationInstance.persist();
+	}
+
+	/**
+	* Sets the adminnode of this application instance.
+	*
+	* @param adminnode the adminnode of this application instance
+	*/
+	@Override
+	public void setAdminnode(java.lang.String adminnode) {
+		_applicationInstance.setAdminnode(adminnode);
 	}
 
 	/**
@@ -863,11 +910,6 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public void setVersion(java.lang.String version) {
 		_applicationInstance.setVersion(version);
-	}
-
-	@Override
-	public void startUpApplicationInstance() {
-		_applicationInstance.startUpApplicationInstance();
 	}
 
 	@Override

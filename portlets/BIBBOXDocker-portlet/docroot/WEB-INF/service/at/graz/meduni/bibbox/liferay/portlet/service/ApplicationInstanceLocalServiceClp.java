@@ -61,82 +61,89 @@ public class ApplicationInstanceLocalServiceClp
 
 		_methodParameterTypes6 = new String[] { "long" };
 
-		_methodName7 = "updateApplicationInstance";
+		_methodName7 = "registerApplication";
 
 		_methodParameterTypes7 = new String[] {
+				"java.lang.String", "java.lang.String", "java.lang.String",
+				"java.lang.String"
+			};
+
+		_methodName8 = "updateApplicationInstance";
+
+		_methodParameterTypes8 = new String[] {
 				"at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance"
 			};
 
-		_methodName8 = "checkInstanceNameAvailable";
+		_methodName9 = "checkInstanceNameAvailable";
 
-		_methodParameterTypes8 = new String[] { "java.lang.String" };
+		_methodParameterTypes9 = new String[] { "java.lang.String" };
 
-		_methodName9 = "getActionableDynamicQuery";
-
-		_methodParameterTypes9 = new String[] {  };
-
-		_methodName10 = "dynamicQuery";
+		_methodName10 = "getActionableDynamicQuery";
 
 		_methodParameterTypes10 = new String[] {  };
 
-		_methodName11 = "getIndexableActionableDynamicQuery";
+		_methodName11 = "dynamicQuery";
 
 		_methodParameterTypes11 = new String[] {  };
 
-		_methodName12 = "deletePersistedModel";
+		_methodName12 = "getIndexableActionableDynamicQuery";
 
-		_methodParameterTypes12 = new String[] {
+		_methodParameterTypes12 = new String[] {  };
+
+		_methodName13 = "deletePersistedModel";
+
+		_methodParameterTypes13 = new String[] {
 				"com.liferay.portal.kernel.model.PersistedModel"
 			};
 
-		_methodName13 = "getPersistedModel";
+		_methodName14 = "getPersistedModel";
 
-		_methodParameterTypes13 = new String[] { "java.io.Serializable" };
+		_methodParameterTypes14 = new String[] { "java.io.Serializable" };
 
-		_methodName14 = "getApplicationInstancesCount";
+		_methodName15 = "getApplicationInstancesCount";
 
-		_methodParameterTypes14 = new String[] {  };
+		_methodParameterTypes15 = new String[] {  };
 
-		_methodName16 = "getOSGiServiceIdentifier";
+		_methodName17 = "getOSGiServiceIdentifier";
 
-		_methodParameterTypes16 = new String[] {  };
-
-		_methodName17 = "dynamicQuery";
-
-		_methodParameterTypes17 = new String[] {
-				"com.liferay.portal.kernel.dao.orm.DynamicQuery"
-			};
+		_methodParameterTypes17 = new String[] {  };
 
 		_methodName18 = "dynamicQuery";
 
 		_methodParameterTypes18 = new String[] {
-				"com.liferay.portal.kernel.dao.orm.DynamicQuery", "int", "int"
+				"com.liferay.portal.kernel.dao.orm.DynamicQuery"
 			};
 
 		_methodName19 = "dynamicQuery";
 
 		_methodParameterTypes19 = new String[] {
+				"com.liferay.portal.kernel.dao.orm.DynamicQuery", "int", "int"
+			};
+
+		_methodName20 = "dynamicQuery";
+
+		_methodParameterTypes20 = new String[] {
 				"com.liferay.portal.kernel.dao.orm.DynamicQuery", "int", "int",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			};
 
-		_methodName20 = "getActiveApplicationInstances";
+		_methodName21 = "getActiveApplicationInstances";
 
-		_methodParameterTypes20 = new String[] {  };
+		_methodParameterTypes21 = new String[] {  };
 
-		_methodName21 = "getApplicationInstances";
+		_methodName22 = "getApplicationInstances";
 
-		_methodParameterTypes21 = new String[] { "int", "int" };
-
-		_methodName22 = "dynamicQueryCount";
-
-		_methodParameterTypes22 = new String[] {
-				"com.liferay.portal.kernel.dao.orm.DynamicQuery"
-			};
+		_methodParameterTypes22 = new String[] { "int", "int" };
 
 		_methodName23 = "dynamicQueryCount";
 
 		_methodParameterTypes23 = new String[] {
+				"com.liferay.portal.kernel.dao.orm.DynamicQuery"
+			};
+
+		_methodName24 = "dynamicQueryCount";
+
+		_methodParameterTypes24 = new String[] {
 				"com.liferay.portal.kernel.dao.orm.DynamicQuery",
 				"com.liferay.portal.kernel.dao.orm.Projection"
 			};
@@ -332,13 +339,47 @@ public class ApplicationInstanceLocalServiceClp
 	}
 
 	@Override
-	public at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance updateApplicationInstance(
-		at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance applicationInstance) {
+	public at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance registerApplication(
+		java.lang.String applicationname, java.lang.String version,
+		java.lang.String instanceid, java.lang.String instancename) {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName7,
 					_methodParameterTypes7,
+					new Object[] {
+						ClpSerializer.translateInput(applicationname),
+						
+					ClpSerializer.translateInput(version),
+						
+					ClpSerializer.translateInput(instanceid),
+						
+					ClpSerializer.translateInput(instancename)
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance updateApplicationInstance(
+		at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance applicationInstance) {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName8,
+					_methodParameterTypes8,
 					new Object[] {
 						ClpSerializer.translateInput(applicationInstance)
 					});
@@ -363,8 +404,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName8,
-					_methodParameterTypes8,
+			returnObj = _invokableLocalService.invokeMethod(_methodName9,
+					_methodParameterTypes9,
 					new Object[] { ClpSerializer.translateInput(instanceId) });
 		}
 		catch (Throwable t) {
@@ -387,8 +428,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName9,
-					_methodParameterTypes9, new Object[] {  });
+			returnObj = _invokableLocalService.invokeMethod(_methodName10,
+					_methodParameterTypes10, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -410,8 +451,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName10,
-					_methodParameterTypes10, new Object[] {  });
+			returnObj = _invokableLocalService.invokeMethod(_methodName11,
+					_methodParameterTypes11, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -433,8 +474,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName11,
-					_methodParameterTypes11, new Object[] {  });
+			returnObj = _invokableLocalService.invokeMethod(_methodName12,
+					_methodParameterTypes12, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -458,8 +499,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName12,
-					_methodParameterTypes12,
+			returnObj = _invokableLocalService.invokeMethod(_methodName13,
+					_methodParameterTypes13,
 					new Object[] { ClpSerializer.translateInput(persistedModel) });
 		}
 		catch (Throwable t) {
@@ -488,8 +529,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName13,
-					_methodParameterTypes13,
+			returnObj = _invokableLocalService.invokeMethod(_methodName14,
+					_methodParameterTypes14,
 					new Object[] { ClpSerializer.translateInput(primaryKeyObj) });
 		}
 		catch (Throwable t) {
@@ -516,8 +557,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName14,
-					_methodParameterTypes14, new Object[] {  });
+			returnObj = _invokableLocalService.invokeMethod(_methodName15,
+					_methodParameterTypes15, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -546,8 +587,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName16,
-					_methodParameterTypes16, new Object[] {  });
+			returnObj = _invokableLocalService.invokeMethod(_methodName17,
+					_methodParameterTypes17, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -570,8 +611,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName17,
-					_methodParameterTypes17,
+			returnObj = _invokableLocalService.invokeMethod(_methodName18,
+					_methodParameterTypes18,
 					new Object[] { ClpSerializer.translateInput(dynamicQuery) });
 		}
 		catch (Throwable t) {
@@ -596,8 +637,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName18,
-					_methodParameterTypes18,
+			returnObj = _invokableLocalService.invokeMethod(_methodName19,
+					_methodParameterTypes19,
 					new Object[] {
 						ClpSerializer.translateInput(dynamicQuery),
 						
@@ -629,8 +670,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName19,
-					_methodParameterTypes19,
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20,
 					new Object[] {
 						ClpSerializer.translateInput(dynamicQuery),
 						
@@ -661,8 +702,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName20,
-					_methodParameterTypes20, new Object[] {  });
+			returnObj = _invokableLocalService.invokeMethod(_methodName21,
+					_methodParameterTypes21, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -685,8 +726,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName21,
-					_methodParameterTypes21, new Object[] { start, end });
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22, new Object[] { start, end });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -709,8 +750,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName22,
-					_methodParameterTypes22,
+			returnObj = _invokableLocalService.invokeMethod(_methodName23,
+					_methodParameterTypes23,
 					new Object[] { ClpSerializer.translateInput(dynamicQuery) });
 		}
 		catch (Throwable t) {
@@ -735,8 +776,8 @@ public class ApplicationInstanceLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName23,
-					_methodParameterTypes23,
+			returnObj = _invokableLocalService.invokeMethod(_methodName24,
+					_methodParameterTypes24,
 					new Object[] {
 						ClpSerializer.translateInput(dynamicQuery),
 						
@@ -789,8 +830,8 @@ public class ApplicationInstanceLocalServiceClp
 	private String[] _methodParameterTypes13;
 	private String _methodName14;
 	private String[] _methodParameterTypes14;
-	private String _methodName16;
-	private String[] _methodParameterTypes16;
+	private String _methodName15;
+	private String[] _methodParameterTypes15;
 	private String _methodName17;
 	private String[] _methodParameterTypes17;
 	private String _methodName18;
@@ -805,4 +846,6 @@ public class ApplicationInstanceLocalServiceClp
 	private String[] _methodParameterTypes22;
 	private String _methodName23;
 	private String[] _methodParameterTypes23;
+	private String _methodName24;
+	private String[] _methodParameterTypes24;
 }

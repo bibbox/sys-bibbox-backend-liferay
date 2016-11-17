@@ -201,12 +201,12 @@ public class ApplicationInstanceServiceSoap {
 	public static java.lang.String updateInstanceInfoAPI(
 		java.lang.String instanceId, java.lang.String instancename,
 		java.lang.String instanceshortname, java.lang.String description,
-		java.lang.String shortdescription, boolean ismaintenance,
+		java.lang.String shortdescription, java.lang.String adminnode,
 		java.lang.String maintenance) throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.updateInstanceInfoAPI(instanceId,
 					instancename, instanceshortname, description,
-					shortdescription, ismaintenance, maintenance);
+					shortdescription, adminnode, maintenance);
 
 			return returnValue.toString();
 		}
@@ -239,6 +239,49 @@ public class ApplicationInstanceServiceSoap {
 					status);
 
 			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String togglInstanceMaintenanceStatusAPI(
+		java.lang.String instanceId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.togglInstanceMaintenanceStatusAPI(instanceId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getIdMappingInfoAPI(
+		java.lang.String instanceId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getIdMappingInfoAPI(instanceId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void getTestAPI(java.lang.String applicationname,
+		java.lang.String version, java.lang.String instanceid,
+		java.lang.String instancename, java.lang.String data)
+		throws RemoteException {
+		try {
+			ApplicationInstanceServiceUtil.getTestAPI(applicationname, version,
+				instanceid, instancename, data);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

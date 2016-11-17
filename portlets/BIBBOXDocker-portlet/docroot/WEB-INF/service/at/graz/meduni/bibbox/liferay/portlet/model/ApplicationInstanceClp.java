@@ -99,6 +99,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		attributes.put("deleted", getDeleted());
 		attributes.put("shortdescription", getShortdescription());
 		attributes.put("description", getDescription());
+		attributes.put("adminnode", getAdminnode());
 		attributes.put("maintenance", getMaintenance());
 		attributes.put("ismaintenance", getIsmaintenance());
 		attributes.put("installlog", getInstalllog());
@@ -218,6 +219,12 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		String adminnode = (String)attributes.get("adminnode");
+
+		if (adminnode != null) {
+			setAdminnode(adminnode);
 		}
 
 		String maintenance = (String)attributes.get("maintenance");
@@ -686,6 +693,29 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
+	public String getAdminnode() {
+		return _adminnode;
+	}
+
+	@Override
+	public void setAdminnode(String adminnode) {
+		_adminnode = adminnode;
+
+		if (_applicationInstanceRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setAdminnode", String.class);
+
+				method.invoke(_applicationInstanceRemoteModel, adminnode);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public String getMaintenance() {
 		return _maintenance;
 	}
@@ -857,15 +887,75 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
-	public void startUpApplicationInstance() {
+	public java.lang.String stopApplicationInstance() {
 		try {
-			String methodName = "startUpApplicationInstance";
+			String methodName = "stopApplicationInstance";
 
 			Class<?>[] parameterTypes = new Class<?>[] {  };
 
 			Object[] parameterValues = new Object[] {  };
 
-			invokeOnRemoteModel(methodName, parameterTypes, parameterValues);
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.lang.String startApplicationInstance() {
+		try {
+			String methodName = "startApplicationInstance";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.lang.String restartApplicationInstance() {
+		try {
+			String methodName = "restartApplicationInstance";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.lang.String getComposeLog() {
+		try {
+			String methodName = "getComposeLog";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
 		}
 		catch (Exception e) {
 			throw new UnsupportedOperationException(e);
@@ -1096,6 +1186,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		clone.setDeleted(getDeleted());
 		clone.setShortdescription(getShortdescription());
 		clone.setDescription(getDescription());
+		clone.setAdminnode(getAdminnode());
 		clone.setMaintenance(getMaintenance());
 		clone.setIsmaintenance(getIsmaintenance());
 		clone.setInstalllog(getInstalllog());
@@ -1159,7 +1250,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
@@ -1197,6 +1288,8 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		sb.append(getShortdescription());
 		sb.append(", description=");
 		sb.append(getDescription());
+		sb.append(", adminnode=");
+		sb.append(getAdminnode());
 		sb.append(", maintenance=");
 		sb.append(getMaintenance());
 		sb.append(", ismaintenance=");
@@ -1210,7 +1303,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(67);
+		StringBundler sb = new StringBundler(70);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -1290,6 +1383,10 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		sb.append(getDescription());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>adminnode</column-name><column-value><![CDATA[");
+		sb.append(getAdminnode());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>maintenance</column-name><column-value><![CDATA[");
 		sb.append(getMaintenance());
 		sb.append("]]></column-value></column>");
@@ -1325,6 +1422,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	private boolean _deleted;
 	private String _shortdescription;
 	private String _description;
+	private String _adminnode;
 	private String _maintenance;
 	private boolean _ismaintenance;
 	private String _installlog;

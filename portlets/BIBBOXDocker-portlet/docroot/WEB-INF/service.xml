@@ -32,6 +32,7 @@
 		
 		<column name="shortdescription" type="String" />
 		<column name="description" type="String" />
+		<column name="adminnode" type="String" />
 		<column name="maintenance" type="String" />
 		<column name="ismaintenance" type="boolean" />
 		<column name="installlog" type="String" />

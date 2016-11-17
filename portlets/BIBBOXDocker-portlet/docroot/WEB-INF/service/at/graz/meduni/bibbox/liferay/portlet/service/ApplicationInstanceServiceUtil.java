@@ -55,6 +55,11 @@ public class ApplicationInstanceServiceUtil {
 		return getService().getApplicationStoreListAPI();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getIdMappingInfoAPI(
+		java.lang.String instanceId) {
+		return getService().getIdMappingInfoAPI(instanceId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getInstanceDashboardAPI(
 		java.lang.String instanceId) {
 		return getService().getInstanceDashboardAPI(instanceId);
@@ -97,14 +102,19 @@ public class ApplicationInstanceServiceUtil {
 		return getService().setInstanceStatusAPI(instanceId, status);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject togglInstanceMaintenanceStatusAPI(
+		java.lang.String instanceId) {
+		return getService().togglInstanceMaintenanceStatusAPI(instanceId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject updateInstanceInfoAPI(
 		java.lang.String instanceId, java.lang.String instancename,
 		java.lang.String instanceshortname, java.lang.String description,
-		java.lang.String shortdescription, boolean ismaintenance,
+		java.lang.String shortdescription, java.lang.String adminnode,
 		java.lang.String maintenance) {
 		return getService()
 				   .updateInstanceInfoAPI(instanceId, instancename,
-			instanceshortname, description, shortdescription, ismaintenance,
+			instanceshortname, description, shortdescription, adminnode,
 			maintenance);
 	}
 
@@ -121,6 +131,13 @@ public class ApplicationInstanceServiceUtil {
 	*/
 	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static void getTestAPI(java.lang.String applicationname,
+		java.lang.String version, java.lang.String instanceid,
+		java.lang.String instancename, java.lang.String data) {
+		getService()
+			.getTestAPI(applicationname, version, instanceid, instancename, data);
 	}
 
 	public static void clearService() {

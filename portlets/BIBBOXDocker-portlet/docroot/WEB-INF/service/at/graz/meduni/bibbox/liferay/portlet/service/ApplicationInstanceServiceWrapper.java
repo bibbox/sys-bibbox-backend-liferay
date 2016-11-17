@@ -53,6 +53,12 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getIdMappingInfoAPI(
+		java.lang.String instanceId) {
+		return _applicationInstanceService.getIdMappingInfoAPI(instanceId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getInstanceDashboardAPI(
 		java.lang.String instanceId) {
 		return _applicationInstanceService.getInstanceDashboardAPI(instanceId);
@@ -104,14 +110,20 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject togglInstanceMaintenanceStatusAPI(
+		java.lang.String instanceId) {
+		return _applicationInstanceService.togglInstanceMaintenanceStatusAPI(instanceId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject updateInstanceInfoAPI(
 		java.lang.String instanceId, java.lang.String instancename,
 		java.lang.String instanceshortname, java.lang.String description,
-		java.lang.String shortdescription, boolean ismaintenance,
+		java.lang.String shortdescription, java.lang.String adminnode,
 		java.lang.String maintenance) {
 		return _applicationInstanceService.updateInstanceInfoAPI(instanceId,
 			instancename, instanceshortname, description, shortdescription,
-			ismaintenance, maintenance);
+			adminnode, maintenance);
 	}
 
 	@Override
@@ -130,6 +142,14 @@ public class ApplicationInstanceServiceWrapper
 	@Override
 	public java.lang.String getOSGiServiceIdentifier() {
 		return _applicationInstanceService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public void getTestAPI(java.lang.String applicationname,
+		java.lang.String version, java.lang.String instanceid,
+		java.lang.String instancename, java.lang.String data) {
+		_applicationInstanceService.getTestAPI(applicationname, version,
+			instanceid, instancename, data);
 	}
 
 	@Override

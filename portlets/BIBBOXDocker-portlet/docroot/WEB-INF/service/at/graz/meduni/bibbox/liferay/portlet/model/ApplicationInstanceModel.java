@@ -370,6 +370,21 @@ public interface ApplicationInstanceModel extends BaseModel<ApplicationInstance>
 	public void setDescription(String description);
 
 	/**
+	 * Returns the adminnode of this application instance.
+	 *
+	 * @return the adminnode of this application instance
+	 */
+	@AutoEscape
+	public String getAdminnode();
+
+	/**
+	 * Sets the adminnode of this application instance.
+	 *
+	 * @param adminnode the adminnode of this application instance
+	 */
+	public void setAdminnode(String adminnode);
+
+	/**
 	 * Returns the maintenance of this application instance.
 	 *
 	 * @return the maintenance of this application instance

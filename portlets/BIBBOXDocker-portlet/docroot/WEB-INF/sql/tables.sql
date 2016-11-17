@@ -17,6 +17,7 @@ create table bibboxdocker_ApplicationInstance (
 	deleted BOOLEAN,
 	shortdescription TEXT null,
 	description TEXT null,
+	adminnode VARCHAR(75) null,
 	maintenance TEXT null,
 	ismaintenance BOOLEAN,
 	installlog TEXT null
