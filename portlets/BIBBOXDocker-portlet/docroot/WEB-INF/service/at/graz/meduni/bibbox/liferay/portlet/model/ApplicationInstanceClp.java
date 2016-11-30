@@ -103,6 +103,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		attributes.put("maintenance", getMaintenance());
 		attributes.put("ismaintenance", getIsmaintenance());
 		attributes.put("installlog", getInstalllog());
+		attributes.put("isinstalling", getIsinstalling());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -243,6 +244,12 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 		if (installlog != null) {
 			setInstalllog(installlog);
+		}
+
+		Boolean isinstalling = (Boolean)attributes.get("isinstalling");
+
+		if (isinstalling != null) {
+			setIsinstalling(isinstalling);
 		}
 
 		_entityCacheEnabled = GetterUtil.getBoolean("entityCacheEnabled");
@@ -791,6 +798,34 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
+	public boolean getIsinstalling() {
+		return _isinstalling;
+	}
+
+	@Override
+	public boolean isIsinstalling() {
+		return _isinstalling;
+	}
+
+	@Override
+	public void setIsinstalling(boolean isinstalling) {
+		_isinstalling = isinstalling;
+
+		if (_applicationInstanceRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setIsinstalling", boolean.class);
+
+				method.invoke(_applicationInstanceRemoteModel, isinstalling);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public java.lang.String getBaseInstallationConfigString() {
 		try {
 			String methodName = "getBaseInstallationConfigString";
@@ -944,13 +979,13 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
-	public java.lang.String getComposeLog() {
+	public java.lang.String getComposeLog(java.lang.String lines) {
 		try {
 			String methodName = "getComposeLog";
 
-			Class<?>[] parameterTypes = new Class<?>[] {  };
+			Class<?>[] parameterTypes = new Class<?>[] { java.lang.String.class };
 
-			Object[] parameterValues = new Object[] {  };
+			Object[] parameterValues = new Object[] { lines };
 
 			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
 					parameterTypes, parameterValues);
@@ -1190,6 +1225,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		clone.setMaintenance(getMaintenance());
 		clone.setIsmaintenance(getIsmaintenance());
 		clone.setInstalllog(getInstalllog());
+		clone.setIsinstalling(getIsinstalling());
 
 		return clone;
 	}
@@ -1250,7 +1286,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
@@ -1296,6 +1332,8 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		sb.append(getIsmaintenance());
 		sb.append(", installlog=");
 		sb.append(getInstalllog());
+		sb.append(", isinstalling=");
+		sb.append(getIsinstalling());
 		sb.append("}");
 
 		return sb.toString();
@@ -1303,7 +1341,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(70);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -1398,6 +1436,10 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 			"<column><column-name>installlog</column-name><column-value><![CDATA[");
 		sb.append(getInstalllog());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isinstalling</column-name><column-value><![CDATA[");
+		sb.append(getIsinstalling());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1426,6 +1468,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	private String _maintenance;
 	private boolean _ismaintenance;
 	private String _installlog;
+	private boolean _isinstalling;
 	private BaseModel<?> _applicationInstanceRemoteModel;
 	private Class<?> _clpSerializerClass = ClpSerializer.class;
 	private boolean _entityCacheEnabled;

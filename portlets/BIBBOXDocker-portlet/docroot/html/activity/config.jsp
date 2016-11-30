@@ -2,8 +2,7 @@
 
 <%
 String baseurl_cfg = GetterUtil.getString(portletPreferences.getValue("baseurl", "http://datastore.development.bibbox.org/js"));
-String firstparameter_cfg = GetterUtil.getString(portletPreferences.getValue("firstparameter", "%"));
-String baseportalurl_cfg = GetterUtil.getString(portletPreferences.getValue("baseportalurl", "demo.bibbox.org"));
+String baseactivityurl_cfg = GetterUtil.getString(portletPreferences.getValue("baseactivityurl", "http://activities.demo.bibbox.org"));
 %>
 
 <liferay-portlet:actionURL portletConfiguration="true" var="configurationURL" />
@@ -12,8 +11,7 @@ String baseportalurl_cfg = GetterUtil.getString(portletPreferences.getValue("bas
    		<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>" />
 		<!-- Record Name -->
 		<aui:input name="preferences--baseurl--" label="Base URL for the js files" type="text" value ="<%= baseurl_cfg %>" />
-		<aui:input name="preferences--firstparameter--" label="First Parameter (% will only use url parameters)" type="text" value ="<%= firstparameter_cfg %>" />
-		<aui:input name="preferences--baseportalurl--" label="Base Portal URL" type="text" value ="<%= baseportalurl_cfg %>" />
+		<aui:input name="preferences--baseactivityurl--" label="URL of the activity portal" type="text" value ="<%= baseactivityurl_cfg %>" />
 	</aui:fieldset>
 	<aui:button-row>
 		<aui:button type="submit" />

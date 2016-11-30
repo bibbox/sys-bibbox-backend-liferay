@@ -91,7 +91,8 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			{ "adminnode", Types.VARCHAR },
 			{ "maintenance", Types.VARCHAR },
 			{ "ismaintenance", Types.BOOLEAN },
-			{ "installlog", Types.VARCHAR }
+			{ "installlog", Types.VARCHAR },
+			{ "isinstalling", Types.BOOLEAN }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -118,9 +119,10 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		TABLE_COLUMNS_MAP.put("maintenance", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("ismaintenance", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("installlog", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("isinstalling", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,shortName TEXT null,baseurl VARCHAR(75) null,folderName TEXT null,application TEXT null,version TEXT null,status BOOLEAN,deleted BOOLEAN,shortdescription TEXT null,description TEXT null,adminnode VARCHAR(75) null,maintenance TEXT null,ismaintenance BOOLEAN,installlog TEXT null)";
+	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,shortName TEXT null,baseurl VARCHAR(75) null,folderName TEXT null,application TEXT null,version TEXT null,status BOOLEAN,deleted BOOLEAN,shortdescription TEXT null,description TEXT null,adminnode VARCHAR(75) null,maintenance TEXT null,ismaintenance BOOLEAN,installlog TEXT null,isinstalling BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table bibboxdocker_ApplicationInstance";
 	public static final String ORDER_BY_JPQL = " ORDER BY applicationInstance.folderName ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY bibboxdocker_ApplicationInstance.folderName ASC";
@@ -175,6 +177,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		model.setMaintenance(soapModel.getMaintenance());
 		model.setIsmaintenance(soapModel.getIsmaintenance());
 		model.setInstalllog(soapModel.getInstalllog());
+		model.setIsinstalling(soapModel.getIsinstalling());
 
 		return model;
 	}
@@ -262,6 +265,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		attributes.put("maintenance", getMaintenance());
 		attributes.put("ismaintenance", getIsmaintenance());
 		attributes.put("installlog", getInstalllog());
+		attributes.put("isinstalling", getIsinstalling());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -402,6 +406,12 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 		if (installlog != null) {
 			setInstalllog(installlog);
+		}
+
+		Boolean isinstalling = (Boolean)attributes.get("isinstalling");
+
+		if (isinstalling != null) {
+			setIsinstalling(isinstalling);
 		}
 	}
 
@@ -781,6 +791,22 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		_installlog = installlog;
 	}
 
+	@JSON
+	@Override
+	public boolean getIsinstalling() {
+		return _isinstalling;
+	}
+
+	@Override
+	public boolean isIsinstalling() {
+		return _isinstalling;
+	}
+
+	@Override
+	public void setIsinstalling(boolean isinstalling) {
+		_isinstalling = isinstalling;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -834,6 +860,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		applicationInstanceImpl.setMaintenance(getMaintenance());
 		applicationInstanceImpl.setIsmaintenance(getIsmaintenance());
 		applicationInstanceImpl.setInstalllog(getInstalllog());
+		applicationInstanceImpl.setIsinstalling(getIsinstalling());
 
 		applicationInstanceImpl.resetOriginalValues();
 
@@ -1047,12 +1074,14 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			applicationInstanceCacheModel.installlog = null;
 		}
 
+		applicationInstanceCacheModel.isinstalling = getIsinstalling();
+
 		return applicationInstanceCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
@@ -1098,6 +1127,8 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		sb.append(getIsmaintenance());
 		sb.append(", installlog=");
 		sb.append(getInstalllog());
+		sb.append(", isinstalling=");
+		sb.append(getIsinstalling());
 		sb.append("}");
 
 		return sb.toString();
@@ -1105,7 +1136,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(70);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -1200,6 +1231,10 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			"<column><column-name>installlog</column-name><column-value><![CDATA[");
 		sb.append(getInstalllog());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>isinstalling</column-name><column-value><![CDATA[");
+		sb.append(getIsinstalling());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1237,6 +1272,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 	private String _maintenance;
 	private boolean _ismaintenance;
 	private String _installlog;
+	private boolean _isinstalling;
 	private long _columnBitmask;
 	private ApplicationInstance _escapedModel;
 }

@@ -150,6 +150,11 @@ public class ApplicationInstanceLocalServiceWrapper
 		return _applicationInstanceLocalService.getIndexableActionableDynamicQuery();
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getUsedInstanceIds() {
+		return _applicationInstanceLocalService.getUsedInstanceIds();
+	}
+
 	/**
 	* @throws PortalException
 	*/

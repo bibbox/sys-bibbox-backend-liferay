@@ -30,6 +30,7 @@
 		<property name="maintenance" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="ismaintenance" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="installlog" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="isinstalling" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationInstanceContainerImpl" table="bibboxdocker_ApplicationInstanceContainer">
 		<id name="applicationInstanceContainerId" type="long">

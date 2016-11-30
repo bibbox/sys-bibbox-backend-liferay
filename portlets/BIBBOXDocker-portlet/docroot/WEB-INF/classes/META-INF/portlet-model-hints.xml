@@ -44,6 +44,7 @@
 		<field name="installlog" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
+		<field name="isinstalling" type="boolean" />
 	</model>
 	<model name="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer">
 		<field name="applicationInstanceContainerId" type="long" />

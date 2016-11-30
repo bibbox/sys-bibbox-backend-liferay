@@ -145,6 +145,10 @@ public class ApplicationInstanceLocalServiceClpInvoker {
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String"
 			};
+
+		_methodName55 = "getUsedInstanceIds";
+
+		_methodParameterTypes55 = new String[] {  };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -278,6 +282,11 @@ public class ApplicationInstanceLocalServiceClpInvoker {
 				(java.lang.String)arguments[3]);
 		}
 
+		if (_methodName55.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
+			return ApplicationInstanceLocalServiceUtil.getUsedInstanceIds();
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -329,4 +338,6 @@ public class ApplicationInstanceLocalServiceClpInvoker {
 	private String[] _methodParameterTypes53;
 	private String _methodName54;
 	private String[] _methodParameterTypes54;
+	private String _methodName55;
+	private String[] _methodParameterTypes55;
 }

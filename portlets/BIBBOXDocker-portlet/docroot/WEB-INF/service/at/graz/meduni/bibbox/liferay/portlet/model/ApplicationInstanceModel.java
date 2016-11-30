@@ -435,6 +435,27 @@ public interface ApplicationInstanceModel extends BaseModel<ApplicationInstance>
 	 */
 	public void setInstalllog(String installlog);
 
+	/**
+	 * Returns the isinstalling of this application instance.
+	 *
+	 * @return the isinstalling of this application instance
+	 */
+	public boolean getIsinstalling();
+
+	/**
+	 * Returns <code>true</code> if this application instance is isinstalling.
+	 *
+	 * @return <code>true</code> if this application instance is isinstalling; <code>false</code> otherwise
+	 */
+	public boolean isIsinstalling();
+
+	/**
+	 * Sets whether this application instance is isinstalling.
+	 *
+	 * @param isinstalling the isinstalling of this application instance
+	 */
+	public void setIsinstalling(boolean isinstalling);
+
 	@Override
 	public boolean isNew();
 

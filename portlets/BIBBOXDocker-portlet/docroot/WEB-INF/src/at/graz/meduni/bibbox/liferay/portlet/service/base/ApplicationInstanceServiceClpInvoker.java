@@ -70,39 +70,45 @@ public class ApplicationInstanceServiceClpInvoker {
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName49 = "getInstanceMaintenanceAPI";
+		_methodName49 = "getInstanceLogdAPI";
 
-		_methodParameterTypes49 = new String[] { "java.lang.String" };
+		_methodParameterTypes49 = new String[] {
+				"java.lang.String", "java.lang.String", "java.lang.String"
+			};
 
-		_methodName50 = "updateInstanceInfoAPI";
+		_methodName50 = "getInstanceMaintenanceAPI";
 
-		_methodParameterTypes50 = new String[] {
+		_methodParameterTypes50 = new String[] { "java.lang.String" };
+
+		_methodName51 = "updateInstanceInfoAPI";
+
+		_methodParameterTypes51 = new String[] {
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String"
 			};
 
-		_methodName51 = "deleteInstanceStatusAPI";
+		_methodName52 = "deleteInstanceStatusAPI";
 
-		_methodParameterTypes51 = new String[] { "java.lang.String" };
+		_methodParameterTypes52 = new String[] { "java.lang.String" };
 
-		_methodName52 = "setInstanceStatusAPI";
+		_methodName53 = "setInstanceStatusAPI";
 
-		_methodParameterTypes52 = new String[] {
+		_methodParameterTypes53 = new String[] {
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName53 = "togglInstanceMaintenanceStatusAPI";
-
-		_methodParameterTypes53 = new String[] { "java.lang.String" };
-
-		_methodName54 = "getIdMappingInfoAPI";
+		_methodName54 = "toggleInstanceMaintenanceStatusAPI";
 
 		_methodParameterTypes54 = new String[] { "java.lang.String" };
 
-		_methodName55 = "getTestAPI";
+		_methodName55 = "getIdMappingInfoAPI";
 
-		_methodParameterTypes55 = new String[] {
+		_methodParameterTypes55 = new String[] { "java.lang.String" };
+
+		_methodName56 = "getTestAPI";
+
+		_methodParameterTypes56 = new String[] {
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String"
 			};
@@ -161,40 +167,46 @@ public class ApplicationInstanceServiceClpInvoker {
 
 		if (_methodName49.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes49, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getInstanceMaintenanceAPI((java.lang.String)arguments[0]);
+			return ApplicationInstanceServiceUtil.getInstanceLogdAPI((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1], (java.lang.String)arguments[2]);
 		}
 
 		if (_methodName50.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes50, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getInstanceMaintenanceAPI((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName51.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
 			return ApplicationInstanceServiceUtil.updateInstanceInfoAPI((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
 				(java.lang.String)arguments[3], (java.lang.String)arguments[4],
 				(java.lang.String)arguments[5], (java.lang.String)arguments[6]);
 		}
 
-		if (_methodName51.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.deleteInstanceStatusAPI((java.lang.String)arguments[0]);
-		}
-
 		if (_methodName52.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.setInstanceStatusAPI((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1]);
+			return ApplicationInstanceServiceUtil.deleteInstanceStatusAPI((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName53.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.togglInstanceMaintenanceStatusAPI((java.lang.String)arguments[0]);
+			return ApplicationInstanceServiceUtil.setInstanceStatusAPI((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1]);
 		}
 
 		if (_methodName54.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getIdMappingInfoAPI((java.lang.String)arguments[0]);
+			return ApplicationInstanceServiceUtil.toggleInstanceMaintenanceStatusAPI((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName55.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getIdMappingInfoAPI((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName56.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
 			ApplicationInstanceServiceUtil.getTestAPI((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
 				(java.lang.String)arguments[3], (java.lang.String)arguments[4]);
@@ -237,4 +249,6 @@ public class ApplicationInstanceServiceClpInvoker {
 	private String[] _methodParameterTypes54;
 	private String _methodName55;
 	private String[] _methodParameterTypes55;
+	private String _methodName56;
+	private String[] _methodParameterTypes56;
 }

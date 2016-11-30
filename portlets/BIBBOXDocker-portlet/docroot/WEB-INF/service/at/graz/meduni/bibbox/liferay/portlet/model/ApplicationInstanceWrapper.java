@@ -80,6 +80,7 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		attributes.put("maintenance", getMaintenance());
 		attributes.put("ismaintenance", getIsmaintenance());
 		attributes.put("installlog", getInstalllog());
+		attributes.put("isinstalling", getIsinstalling());
 
 		return attributes;
 	}
@@ -218,6 +219,12 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		if (installlog != null) {
 			setInstalllog(installlog);
 		}
+
+		Boolean isinstalling = (Boolean)attributes.get("isinstalling");
+
+		if (isinstalling != null) {
+			setIsinstalling(isinstalling);
+		}
 	}
 
 	@Override
@@ -238,6 +245,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public boolean getDeleted() {
 		return _applicationInstance.getDeleted();
+	}
+
+	/**
+	* Returns the isinstalling of this application instance.
+	*
+	* @return the isinstalling of this application instance
+	*/
+	@Override
+	public boolean getIsinstalling() {
+		return _applicationInstance.getIsinstalling();
 	}
 
 	/**
@@ -278,6 +295,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public boolean isEscapedModel() {
 		return _applicationInstance.isEscapedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this application instance is isinstalling.
+	*
+	* @return <code>true</code> if this application instance is isinstalling; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIsinstalling() {
+		return _applicationInstance.isIsinstalling();
 	}
 
 	/**
@@ -397,8 +424,8 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	}
 
 	@Override
-	public java.lang.String getComposeLog() {
-		return _applicationInstance.getComposeLog();
+	public java.lang.String getComposeLog(java.lang.String lines) {
+		return _applicationInstance.getComposeLog(lines);
 	}
 
 	/**
@@ -780,6 +807,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public void setInstanceId(java.lang.String instanceId) {
 		_applicationInstance.setInstanceId(instanceId);
+	}
+
+	/**
+	* Sets whether this application instance is isinstalling.
+	*
+	* @param isinstalling the isinstalling of this application instance
+	*/
+	@Override
+	public void setIsinstalling(boolean isinstalling) {
+		_applicationInstance.setIsinstalling(isinstalling);
 	}
 
 	/**

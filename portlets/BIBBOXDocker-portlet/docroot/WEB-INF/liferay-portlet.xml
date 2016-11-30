@@ -33,7 +33,7 @@
 			<scheduler-event-listener-class>at.graz.meduni.bibbox.liferay.schedular.Schedular</scheduler-event-listener-class>
 			<trigger>
 				<simple>
-					<simple-trigger-value>60</simple-trigger-value>
+					<simple-trigger-value>5</simple-trigger-value>
 					<time-unit>second</time-unit>
 				</simple>
 			</trigger>
@@ -43,6 +43,16 @@
 			/js/main.js
 		</footer-portlet-javascript>
 		<css-class-wrapper>schedular-portlet</css-class-wrapper>
+	</portlet>
+	<portlet>
+		<portlet-name>activity</portlet-name>
+		<icon>/icon.png</icon>
+		<configuration-action-class>at.graz.meduni.bibbox.liferay.portlet.ActivityConfig</configuration-action-class>
+		<header-portlet-css>/css/main.css</header-portlet-css>
+		<footer-portlet-javascript>
+			/js/main.js
+		</footer-portlet-javascript>
+		<css-class-wrapper>activity-portlet</css-class-wrapper>
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>

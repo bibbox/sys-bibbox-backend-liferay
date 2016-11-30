@@ -21,6 +21,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 
 import aQute.bnd.annotation.ProviderType;
 import at.graz.meduni.bibbox.helper.BibboxConfigReader;
@@ -92,9 +94,20 @@ public class ApplicationInstanceLocalServiceImpl
 		applicationinstance.setBaseurl(BibboxConfigReader.getBaseURL());
 		applicationinstance.setIsmaintenance(true);
 		applicationinstance.setDeleted(false);
+		applicationinstance.setIsinstalling(true);
 		applicationinstance.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "Application instance registered"));
 		applicationinstance.setFolderName(instanceid + "-" + applicationname);
 		applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 		return applicationinstance;
+	}
+	
+	public JSONArray getUsedInstanceIds() {
+		JSONArray returnobject = JSONFactoryUtil.createJSONArray();
+		returnobject.put("activities");
+		List<ApplicationInstance> applicationinstances = ApplicationInstanceLocalServiceUtil.getApplicationInstances(-1, -1);
+		for(ApplicationInstance applicationinstance : applicationinstances) {
+			returnobject.put(applicationinstance.getInstanceId());
+		}
+		return returnobject;
 	}
 }

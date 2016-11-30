@@ -79,6 +79,12 @@ public class ApplicationInstanceServiceUtil {
 		return getService().getInstanceLogdAPI(instanceId, logtype);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
+		java.lang.String instanceId, java.lang.String logtype,
+		java.lang.String lines) {
+		return getService().getInstanceLogdAPI(instanceId, logtype, lines);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getInstanceMaintenanceAPI(
 		java.lang.String instanceId) {
 		return getService().getInstanceMaintenanceAPI(instanceId);
@@ -102,9 +108,9 @@ public class ApplicationInstanceServiceUtil {
 		return getService().setInstanceStatusAPI(instanceId, status);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject togglInstanceMaintenanceStatusAPI(
+	public static com.liferay.portal.kernel.json.JSONObject toggleInstanceMaintenanceStatusAPI(
 		java.lang.String instanceId) {
-		return getService().togglInstanceMaintenanceStatusAPI(instanceId);
+		return getService().toggleInstanceMaintenanceStatusAPI(instanceId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject updateInstanceInfoAPI(

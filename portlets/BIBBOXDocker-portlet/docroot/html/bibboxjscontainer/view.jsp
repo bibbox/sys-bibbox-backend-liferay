@@ -3,6 +3,7 @@
 <%
 String baseurl_cfg = GetterUtil.getString(portletPreferences.getValue("baseurl", "http://datastore.development.bibbox.org/js"));
 String firstparameter_cfg = GetterUtil.getString(portletPreferences.getValue("firstparameter", "%"));
+String baseportalurl_cfg = GetterUtil.getString(portletPreferences.getValue("baseportalurl", "demo.bibbox.org"));
 %>
 
 <link rel="stylesheet" type="text/css" href="<%=baseurl_cfg%>/css/apps.css">
@@ -12,6 +13,8 @@ String firstparameter_cfg = GetterUtil.getString(portletPreferences.getValue("fi
 
  
 <script>
+	var basedomain = "<%= baseportalurl_cfg %>";
+	var datastore = "<%= "http://datastore." + baseportalurl_cfg %>";
    	var params = {
 		<% 
 		int parcounter = 1;

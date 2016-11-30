@@ -36,6 +36,7 @@
 		<column name="maintenance" type="String" />
 		<column name="ismaintenance" type="boolean" />
 		<column name="installlog" type="String" />
+		<column name="isinstalling" type="boolean" />
 		
 
 		<!-- Order -->

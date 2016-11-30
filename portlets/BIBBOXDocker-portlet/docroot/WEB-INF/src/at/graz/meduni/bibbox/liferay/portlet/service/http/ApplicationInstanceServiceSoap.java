@@ -184,6 +184,22 @@ public class ApplicationInstanceServiceSoap {
 		}
 	}
 
+	public static java.lang.String getInstanceLogdAPI(
+		java.lang.String instanceId, java.lang.String logtype,
+		java.lang.String lines) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getInstanceLogdAPI(instanceId,
+					logtype, lines);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static java.lang.String getInstanceMaintenanceAPI(
 		java.lang.String instanceId) throws RemoteException {
 		try {
@@ -247,10 +263,10 @@ public class ApplicationInstanceServiceSoap {
 		}
 	}
 
-	public static java.lang.String togglInstanceMaintenanceStatusAPI(
+	public static java.lang.String toggleInstanceMaintenanceStatusAPI(
 		java.lang.String instanceId) throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.togglInstanceMaintenanceStatusAPI(instanceId);
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.toggleInstanceMaintenanceStatusAPI(instanceId);
 
 			return returnValue.toString();
 		}

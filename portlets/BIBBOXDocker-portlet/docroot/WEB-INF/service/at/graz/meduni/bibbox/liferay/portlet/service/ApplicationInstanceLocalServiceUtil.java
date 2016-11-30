@@ -147,6 +147,10 @@ public class ApplicationInstanceLocalServiceUtil {
 		return getService().getIndexableActionableDynamicQuery();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONArray getUsedInstanceIds() {
+		return getService().getUsedInstanceIds();
+	}
+
 	/**
 	* @throws PortalException
 	*/

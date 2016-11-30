@@ -72,7 +72,7 @@ public interface ApplicationInstance extends ApplicationInstanceModel,
 
 	public java.lang.String restartApplicationInstance();
 
-	public java.lang.String getComposeLog();
+	public java.lang.String getComposeLog(java.lang.String lines);
 
 	public com.liferay.portal.kernel.json.JSONObject getInstanceJSONObject();
 

@@ -6,6 +6,7 @@
 	<category name="BIBBOXApplicationStore">
 		<portlet id="application-store"></portlet>
 		<portlet id="bibboxjscontainer"></portlet>
+		<portlet id="activity"></portlet>
 	</category>
 	<category name="category.sample">
 		<portlet id="schedular"></portlet>

@@ -63,46 +63,52 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName8 = "getInstanceMaintenanceAPI";
+		_methodName8 = "getInstanceLogdAPI";
 
-		_methodParameterTypes8 = new String[] { "java.lang.String" };
+		_methodParameterTypes8 = new String[] {
+				"java.lang.String", "java.lang.String", "java.lang.String"
+			};
 
-		_methodName9 = "getUpdatedApplicationStoreListAPI";
+		_methodName9 = "getInstanceMaintenanceAPI";
 
-		_methodParameterTypes9 = new String[] {  };
+		_methodParameterTypes9 = new String[] { "java.lang.String" };
 
-		_methodName10 = "installApplicationAPI";
+		_methodName10 = "getUpdatedApplicationStoreListAPI";
 
-		_methodParameterTypes10 = new String[] {
+		_methodParameterTypes10 = new String[] {  };
+
+		_methodName11 = "installApplicationAPI";
+
+		_methodParameterTypes11 = new String[] {
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName11 = "setInstanceStatusAPI";
+		_methodName12 = "setInstanceStatusAPI";
 
-		_methodParameterTypes11 = new String[] {
+		_methodParameterTypes12 = new String[] {
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName12 = "togglInstanceMaintenanceStatusAPI";
+		_methodName13 = "toggleInstanceMaintenanceStatusAPI";
 
-		_methodParameterTypes12 = new String[] { "java.lang.String" };
+		_methodParameterTypes13 = new String[] { "java.lang.String" };
 
-		_methodName13 = "updateInstanceInfoAPI";
+		_methodName14 = "updateInstanceInfoAPI";
 
-		_methodParameterTypes13 = new String[] {
+		_methodParameterTypes14 = new String[] {
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String"
 			};
 
-		_methodName15 = "getOSGiServiceIdentifier";
+		_methodName16 = "getOSGiServiceIdentifier";
 
-		_methodParameterTypes15 = new String[] {  };
+		_methodParameterTypes16 = new String[] {  };
 
-		_methodName16 = "getTestAPI";
+		_methodName17 = "getTestAPI";
 
-		_methodParameterTypes16 = new String[] {
+		_methodParameterTypes17 = new String[] {
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String"
 			};
@@ -313,13 +319,45 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getInstanceMaintenanceAPI(
-		java.lang.String instanceId) {
+	public com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
+		java.lang.String instanceId, java.lang.String logtype,
+		java.lang.String lines) {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableService.invokeMethod(_methodName8,
 					_methodParameterTypes8,
+					new Object[] {
+						ClpSerializer.translateInput(instanceId),
+						
+					ClpSerializer.translateInput(logtype),
+						
+					ClpSerializer.translateInput(lines)
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.portal.kernel.json.JSONObject)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getInstanceMaintenanceAPI(
+		java.lang.String instanceId) {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableService.invokeMethod(_methodName9,
+					_methodParameterTypes9,
 					new Object[] { ClpSerializer.translateInput(instanceId) });
 		}
 		catch (Throwable t) {
@@ -342,8 +380,8 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName9,
-					_methodParameterTypes9, new Object[] {  });
+			returnObj = _invokableService.invokeMethod(_methodName10,
+					_methodParameterTypes10, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -368,8 +406,8 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName10,
-					_methodParameterTypes10,
+			returnObj = _invokableService.invokeMethod(_methodName11,
+					_methodParameterTypes11,
 					new Object[] {
 						ClpSerializer.translateInput(applicationname),
 						
@@ -403,8 +441,8 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName11,
-					_methodParameterTypes11,
+			returnObj = _invokableService.invokeMethod(_methodName12,
+					_methodParameterTypes12,
 					new Object[] {
 						ClpSerializer.translateInput(instanceId),
 						
@@ -427,13 +465,13 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject togglInstanceMaintenanceStatusAPI(
+	public com.liferay.portal.kernel.json.JSONObject toggleInstanceMaintenanceStatusAPI(
 		java.lang.String instanceId) {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName12,
-					_methodParameterTypes12,
+			returnObj = _invokableService.invokeMethod(_methodName13,
+					_methodParameterTypes13,
 					new Object[] { ClpSerializer.translateInput(instanceId) });
 		}
 		catch (Throwable t) {
@@ -460,8 +498,8 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName13,
-					_methodParameterTypes13,
+			returnObj = _invokableService.invokeMethod(_methodName14,
+					_methodParameterTypes14,
 					new Object[] {
 						ClpSerializer.translateInput(instanceId),
 						
@@ -505,8 +543,8 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName15,
-					_methodParameterTypes15, new Object[] {  });
+			returnObj = _invokableService.invokeMethod(_methodName16,
+					_methodParameterTypes16, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -528,8 +566,8 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 		java.lang.String version, java.lang.String instanceid,
 		java.lang.String instancename, java.lang.String data) {
 		try {
-			_invokableService.invokeMethod(_methodName16,
-				_methodParameterTypes16,
+			_invokableService.invokeMethod(_methodName17,
+				_methodParameterTypes17,
 				new Object[] {
 					ClpSerializer.translateInput(applicationname),
 					
@@ -584,8 +622,10 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 	private String[] _methodParameterTypes12;
 	private String _methodName13;
 	private String[] _methodParameterTypes13;
-	private String _methodName15;
-	private String[] _methodParameterTypes15;
+	private String _methodName14;
+	private String[] _methodParameterTypes14;
 	private String _methodName16;
 	private String[] _methodParameterTypes16;
+	private String _methodName17;
+	private String[] _methodParameterTypes17;
 }

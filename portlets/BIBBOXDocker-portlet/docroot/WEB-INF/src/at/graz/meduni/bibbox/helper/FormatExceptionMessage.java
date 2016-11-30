@@ -12,6 +12,14 @@ public class FormatExceptionMessage {
 		return "[" + date_format_apache_error.format(new Date()) + "] [" + loglevel + "] [" + portlet + "::" + classname + "::" + function + "] " + message;
 	}
 	
+	public static String formatExceptionMessage(String loglevel, String portlet, String classname, String function, String message, StackTraceElement[] stacktrace) {
+		String stack = "";
+		for(StackTraceElement stacktraceelement : stacktrace) {
+			stack += stacktraceelement.toString() + newline;
+		}
+		return newline + "[" + date_format_apache_error.format(new Date()) + "] [" + loglevel + "] [" + portlet + "::" + classname + "::" + function + "] " + message + newline + stack;
+	}
+	
 	public static String formatExceptionMessage(String loglevel, String portlet, String classname, String function, String message, StackTraceElement[] stacktrace, String log) {
 		String stack = "";
 		for(StackTraceElement stacktraceelement : stacktrace) {
@@ -26,5 +34,13 @@ public class FormatExceptionMessage {
 	
 	public static String formatLogMessage(String loglevel, String message, String log) {
 		return log + newline + "[" + date_format_apache_error.format(new Date()) + "] [" + loglevel + "] " + message;
+	}
+	
+	public static String formatLogMessage(String loglevel, String message, String log, StackTraceElement[] stacktrace) {
+		String stack = "";
+		for(StackTraceElement stacktraceelement : stacktrace) {
+			stack += stacktraceelement.toString() + newline;
+		}
+		return log + newline + "[" + date_format_apache_error.format(new Date()) + "] [" + loglevel + "] " + message + newline + stack;
 	}
 }

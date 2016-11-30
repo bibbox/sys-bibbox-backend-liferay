@@ -29,7 +29,7 @@ public class DockerHelper {
 			String line;
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			while ((line = reader.readLine()) != null) {
-				lines += " | " + line;
+				lines += "| " + line;
 			}
 			return lines;
 		} catch(IOException e) {

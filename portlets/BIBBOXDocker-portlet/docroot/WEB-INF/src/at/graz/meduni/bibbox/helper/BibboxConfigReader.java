@@ -22,6 +22,7 @@ public class BibboxConfigReader {
 	private static String applicationstorefolder_ = null;
 	private static String instancefolder_ = null;
 	private static String baseurl_ = null;
+	private static String adminroles_ = null;
 	
 	public static String getApplicationStorePWD() {
 		if(applicationstorefolder_ == null) {
@@ -76,6 +77,13 @@ public class BibboxConfigReader {
 		return baseurl_;
 	}
 	
+	public static String getAdminRoles() {
+		if(adminroles_ == null) {
+			getAdminRolesfromConfig();
+		}
+		return adminroles_;
+	}
+
 	public static String getApplicationFolder(String applicationname, String version) {
 		return getApplicationStorePWD() + "/" + applicationname + "/blob/" + version;
 	}
@@ -141,6 +149,19 @@ public class BibboxConfigReader {
 			is.close();
 		} catch (Exception e) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBibboxApplicationStorePWDfromConfig()", "Error reading bibbox config file."));
+			e.printStackTrace();
+		}
+	}
+	
+	private static void getAdminRolesfromConfig() {
+		try {
+			Properties bibboxproperties = new Properties();
+			InputStream is = new FileInputStream(getLiferayConfigForBibboxConfigFile());
+			bibboxproperties.load(is);
+			adminroles_ = bibboxproperties.getProperty("adminroles").replaceAll("\"", "");
+			is.close();
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getAdminRolesfromConfig()", "Error reading bibbox config file."));
 			e.printStackTrace();
 		}
 	}

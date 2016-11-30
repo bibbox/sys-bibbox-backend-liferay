@@ -56,6 +56,7 @@ public class ApplicationInstanceSoap implements Serializable {
 		soapModel.setMaintenance(model.getMaintenance());
 		soapModel.setIsmaintenance(model.getIsmaintenance());
 		soapModel.setInstalllog(model.getInstalllog());
+		soapModel.setIsinstalling(model.getIsinstalling());
 
 		return soapModel;
 	}
@@ -299,6 +300,18 @@ public class ApplicationInstanceSoap implements Serializable {
 		_installlog = installlog;
 	}
 
+	public boolean getIsinstalling() {
+		return _isinstalling;
+	}
+
+	public boolean isIsinstalling() {
+		return _isinstalling;
+	}
+
+	public void setIsinstalling(boolean isinstalling) {
+		_isinstalling = isinstalling;
+	}
+
 	private long _applicationInstanceId;
 	private long _groupId;
 	private long _companyId;
@@ -321,4 +334,5 @@ public class ApplicationInstanceSoap implements Serializable {
 	private String _maintenance;
 	private boolean _ismaintenance;
 	private String _installlog;
+	private boolean _isinstalling;
 }

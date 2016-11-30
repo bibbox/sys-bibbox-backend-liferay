@@ -66,7 +66,7 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(applicationInstanceId);
@@ -112,6 +112,8 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		sb.append(ismaintenance);
 		sb.append(", installlog=");
 		sb.append(installlog);
+		sb.append(", isinstalling=");
+		sb.append(isinstalling);
 		sb.append("}");
 
 		return sb.toString();
@@ -236,6 +238,8 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 			applicationInstanceImpl.setInstalllog(installlog);
 		}
 
+		applicationInstanceImpl.setIsinstalling(isinstalling);
+
 		applicationInstanceImpl.resetOriginalValues();
 
 		return applicationInstanceImpl;
@@ -271,6 +275,8 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 
 		ismaintenance = objectInput.readBoolean();
 		installlog = objectInput.readUTF();
+
+		isinstalling = objectInput.readBoolean();
 	}
 
 	@Override
@@ -383,6 +389,8 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		else {
 			objectOutput.writeUTF(installlog);
 		}
+
+		objectOutput.writeBoolean(isinstalling);
 	}
 
 	public long applicationInstanceId;
@@ -407,4 +415,5 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 	public String maintenance;
 	public boolean ismaintenance;
 	public String installlog;
+	public boolean isinstalling;
 }

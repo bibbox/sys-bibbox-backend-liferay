@@ -82,6 +82,11 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	public JSONObject getInstanceLogdAPI(java.lang.String instanceId,
 		java.lang.String logtype);
 
+	@JSONWebService(value = "/get-instance-log")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getInstanceLogdAPI(java.lang.String instanceId,
+		java.lang.String logtype, java.lang.String lines);
+
 	@JSONWebService(value = "/get-instance-maintenance")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getInstanceMaintenanceAPI(java.lang.String instanceId);
@@ -100,7 +105,7 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 		java.lang.String status);
 
 	@JSONWebService(value = "/toggl-instance-maintenance-status")
-	public JSONObject togglInstanceMaintenanceStatusAPI(
+	public JSONObject toggleInstanceMaintenanceStatusAPI(
 		java.lang.String instanceId);
 
 	@JSONWebService(value = "/update-instance-info", method = "POST")

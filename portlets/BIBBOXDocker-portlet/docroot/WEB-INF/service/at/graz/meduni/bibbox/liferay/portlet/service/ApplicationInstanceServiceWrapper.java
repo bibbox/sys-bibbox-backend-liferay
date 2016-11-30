@@ -83,6 +83,14 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
+		java.lang.String instanceId, java.lang.String logtype,
+		java.lang.String lines) {
+		return _applicationInstanceService.getInstanceLogdAPI(instanceId,
+			logtype, lines);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getInstanceMaintenanceAPI(
 		java.lang.String instanceId) {
 		return _applicationInstanceService.getInstanceMaintenanceAPI(instanceId);
@@ -110,9 +118,9 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject togglInstanceMaintenanceStatusAPI(
+	public com.liferay.portal.kernel.json.JSONObject toggleInstanceMaintenanceStatusAPI(
 		java.lang.String instanceId) {
-		return _applicationInstanceService.togglInstanceMaintenanceStatusAPI(instanceId);
+		return _applicationInstanceService.toggleInstanceMaintenanceStatusAPI(instanceId);
 	}
 
 	@Override

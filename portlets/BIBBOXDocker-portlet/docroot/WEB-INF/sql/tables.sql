@@ -20,7 +20,8 @@ create table bibboxdocker_ApplicationInstance (
 	adminnode VARCHAR(75) null,
 	maintenance TEXT null,
 	ismaintenance BOOLEAN,
-	installlog TEXT null
+	installlog TEXT null,
+	isinstalling BOOLEAN
 );
 
 create table bibboxdocker_ApplicationInstanceContainer (

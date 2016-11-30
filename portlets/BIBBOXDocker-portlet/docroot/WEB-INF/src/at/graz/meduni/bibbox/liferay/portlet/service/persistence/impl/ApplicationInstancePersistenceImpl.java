@@ -1799,6 +1799,7 @@ public class ApplicationInstancePersistenceImpl extends BasePersistenceImpl<Appl
 		applicationInstanceImpl.setMaintenance(applicationInstance.getMaintenance());
 		applicationInstanceImpl.setIsmaintenance(applicationInstance.isIsmaintenance());
 		applicationInstanceImpl.setInstalllog(applicationInstance.getInstalllog());
+		applicationInstanceImpl.setIsinstalling(applicationInstance.isIsinstalling());
 
 		return applicationInstanceImpl;
 	}

@@ -210,10 +210,10 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 		return installlog;
 	}
 	
-	public String getComposeLog() {
+	public String getComposeLog(String lines) {
 		String composelog = "";
 		try {
-			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose logs");
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose logs --tail " + lines);
 			processbuilder.directory(new File(this.getFolderPath()));
 			Process process = processbuilder.start();
 			process.waitFor();
@@ -260,8 +260,8 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 		returnobject.put("shortdescription", this.getShortdescription());
 		returnobject.put("applicationname", this.getApplication());
 		returnobject.put("version", this.getVersion());
-		returnobject.put("status", this.getStatus());
-		returnobject.put("status", this.getStatus());
+		returnobject.put("status", this.getApplicationStatus());
+		returnobject.put("ismaintenance", this.getIsmaintenance());
 		return returnobject;
 	}
 	
@@ -278,8 +278,8 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 	}
 	
 	public String getApplicationStatus() {
-		if(this.getIsmaintenance()) {
-			return "maintenance";
+		if(this.getIsinstalling()) {
+			return "installing";
 		} else {
 			if(this.getStatus()) {
 				return "running";
