@@ -109,7 +109,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		System.out.println(Thread.currentThread().getName()+" Start. installing Application: " + instanceId_);
 		JSONObject activity = JSONFactoryUtil.createJSONObject();
 		Date curDate = new Date();
-		activity.put("name", "Installing " + installapplicationinstance_.getApplicationname() + " as " + installapplicationinstance_.getName());
+		activity.put("name", "Installing " + installapplicationinstance_.getApplication() + " as " + installapplicationinstance_.getName());
 		activity.put("type", "INSTALLAPP");
 		activity.put("state", "RUNNING");
 		activity.put("start_time", format_date.format(curDate) + "T" + format_time.format(curDate) + "Z");

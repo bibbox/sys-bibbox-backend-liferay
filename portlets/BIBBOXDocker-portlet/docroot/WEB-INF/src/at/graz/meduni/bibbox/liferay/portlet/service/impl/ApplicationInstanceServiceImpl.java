@@ -427,7 +427,7 @@ public class ApplicationInstanceServiceImpl
 			return returnobject;
 		}
 		
-		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.registerApplication(applicationname, version, instanceid, instancename);
+		ApplicationInstanceLocalServiceUtil.registerApplication(applicationname, version, instanceid, instancename);
 		
 		long userId = 0;
 		long groupId = 0;
@@ -437,7 +437,7 @@ public class ApplicationInstanceServiceImpl
 			groupId = company.getGroupId();
 			userId = user.getUserId();
 		} catch (Exception e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getUserObject()", "Error getting user from api call"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "installApplication(String applicationname, String version, String instanceid, String instancename, String data)", "Error getting user from api call."));
 			e.printStackTrace();
 		}
 		
@@ -447,13 +447,9 @@ public class ApplicationInstanceServiceImpl
 		taskContextMap.put("data", data);
 		
 		try {
-			BackgroundTask backgroundTask = BackgroundTaskManagerUtil.addBackgroundTask(userId, groupId, BibboxBackgroundTaskExecutorNames.BIBBOX_INSTANCE_INSTALLER_BACKGROUND_TASK_EXECUTOR, new String[]{"BIBBOXDocker-portlet"}, InstallApplicationBG.class, taskContextMap, new ServiceContext());
-			
-			System.out.println(backgroundTask.getStatus());
-			
-			System.out.println("BackgroundTaskId" + backgroundTask.getBackgroundTaskId());
+			BackgroundTaskManagerUtil.addBackgroundTask(userId, groupId, BibboxBackgroundTaskExecutorNames.BIBBOX_INSTANCE_INSTALLER_BACKGROUND_TASK_EXECUTOR, new String[]{"BIBBOXDocker-portlet"}, InstallApplicationBG.class, taskContextMap, new ServiceContext());
 		} catch (PortalException e) {
-			// TODO Auto-generated catch block
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "installApplication(String applicationname, String version, String instanceid, String instancename, String data)", "Error starting Background Task. For instance: " + instanceid));
 			e.printStackTrace();
 		}
 		
