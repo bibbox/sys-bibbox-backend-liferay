@@ -228,7 +228,7 @@ public class ApplicationInstanceServiceImpl
 		return returnobject;
 	}
 	
-	@JSONWebService(value = "/toggl-instance-maintenance-status")
+	@JSONWebService(value = "/toggle-instance-maintenance-status")
 	public JSONObject toggleInstanceMaintenanceStatusAPI(String instanceId) {
 		if(!checkPermission()) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
@@ -470,7 +470,11 @@ public class ApplicationInstanceServiceImpl
 			instanceobject.put("description", applicationinstance.getShortdescription());
 			instanceobject.put("application", applicationinstance.getApplication());
 			instanceobject.put("version", applicationinstance.getVersion());
-			instanceobject.put("status", applicationinstance.getApplicationStatus());
+			if(applicationinstance.getIsmaintenance()) {
+				instanceobject.put("status", "maintenance");
+			} else {
+				instanceobject.put("status", applicationinstance.getApplicationStatus());
+			}
 			instanceobject.put("url", applicationinstance.getInstanceUrl());
 			instanceobject.put("applicationname", applicationinstance.getApplicationname());
 			instanceobject.put("tags", applicationinstance.getApplicationTags());
@@ -681,7 +685,7 @@ public class ApplicationInstanceServiceImpl
 			finishActivity(activityId, "FINISHED", "ERROR");
 		} else {
 			applicationinstance.setIsmaintenance(!applicationinstance.getIsmaintenance());
-			ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
+			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 			returnobject = getInstanceDashboard(instanceId);
 			if(applicationinstance.getIsmaintenance()) {
 				ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", "Instance " + applicationinstance.getInstanceId() + " set to maintenance mode");
