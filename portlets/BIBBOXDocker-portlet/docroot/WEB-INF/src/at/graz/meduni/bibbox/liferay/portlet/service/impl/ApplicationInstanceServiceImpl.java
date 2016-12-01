@@ -129,6 +129,7 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
 			returnobject.put("user", getUserObject());
+			return returnobject;
 		}
 		JSONObject returnobject = installApplication(applicationname, version, instanceid, instancename, data);
 		returnobject.put("user", getUserObject());
@@ -185,6 +186,7 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
 			returnobject.put("user", getUserObject());
+			return returnobject;
 		}
 		JSONObject returnobject = updateInstanceInfo(instanceId, instancename, instanceshortname, description, shortdescription, adminnode, maintenance);
 		returnobject.put("user", getUserObject());
@@ -198,6 +200,7 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
 			returnobject.put("user", getUserObject());
+			return returnobject;
 		}
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		deleteInstance(instanceId);
@@ -212,6 +215,7 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
 			returnobject.put("user", getUserObject());
+			return returnobject;
 		}
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		if(status.equalsIgnoreCase("start")) {
@@ -235,6 +239,7 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
 			returnobject.put("user", getUserObject());
+			return returnobject;
 		}
 		JSONObject returnobject = toggleInstanceMaintenanceStatus(instanceId);
 		returnobject.put("user", getUserObject());
@@ -684,6 +689,7 @@ public class ApplicationInstanceServiceImpl
 			ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
 			finishActivity(activityId, "FINISHED", "ERROR");
 		} else {
+			System.out.println("Status Toggle was:" + applicationinstance.getIsmaintenance());
 			applicationinstance.setIsmaintenance(!applicationinstance.getIsmaintenance());
 			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 			returnobject = getInstanceDashboard(instanceId);
@@ -694,6 +700,7 @@ public class ApplicationInstanceServiceImpl
 				ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", "Instance " + applicationinstance.getInstanceId() + " set online again");
 				finishActivity(activityId, "FINISHED", "SUCCESS");
 			}
+			System.out.println("Status Toggle is:" + applicationinstance.getIsmaintenance());
 		}
 		return returnobject;
 	}
