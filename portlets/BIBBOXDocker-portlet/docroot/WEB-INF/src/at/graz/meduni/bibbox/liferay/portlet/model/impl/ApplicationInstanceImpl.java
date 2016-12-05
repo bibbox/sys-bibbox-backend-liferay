@@ -210,44 +210,13 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 		return installlog;
 	}
 	
-	public String getComposeLog(String lines) {
-		String composelog = "";
-		try {
-			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose logs --tail " + lines);
-			processbuilder.directory(new File(this.getFolderPath()));
-			Process process = processbuilder.start();
-			process.waitFor();
-			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-			String log;
-			
-			while ((log = reader.readLine()) != null) 
-			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
-				composelog = FormatExceptionMessage.formatLogMessage(loglevel, log, composelog);
-			}
-			
-			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			while ((log = reader.readLine()) != null) 
-			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
-				composelog = FormatExceptionMessage.formatLogMessage(loglevel, log, composelog);
-			}
-			
-		} catch(IOException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
-			e.printStackTrace();
+	public JSONArray getComposeLog(String lines) {
+		JSONArray returnobject = JSONFactoryUtil.createJSONArray();
+		for(ApplicationInstanceContainer container : getContainers()) {
+			returnobject.put(container.getContainerLog(lines));
 		}
-		return composelog;
+		returnobject.put(getInstallLog());
+		return returnobject;
 	}
 	
 	public JSONObject getInstanceJSONObject() {
@@ -281,11 +250,16 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 		if(this.getIsinstalling()) {
 			return "installing";
 		} else {
-			if(this.getStatus()) {
-				return "running";
-			} else {
-				return "stopped";
+			String status = "running";
+			for(ApplicationInstanceContainer container : getContainersNeedToRun()) {
+				if(!container.getRunning()) {
+					status = "stopped";
+				}
 			}
+			if(!this.getStatus().equals("")) {
+				status = this.getStatus();
+			}
+			return status;
 		}
 	}
 	
@@ -318,6 +292,14 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return object;
+	}
+	
+	private JSONObject getInstallLog() {
+		JSONObject object = JSONFactoryUtil.createJSONObject();
+		object.put("containername", "install");
+		object.put("log", this.getInstalllog());
+		object.put("cmd", "");
 		return object;
 	}
 }

@@ -81,7 +81,6 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			startDockerCompose();
 			installapplicationinstance_.setIsinstalling(false);
 			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
-			
 			finishActivity();
 		} catch (Exception ex) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "execute(BackgroundTask backgroundTask)", "Error running backgroundTask. applicationfolder:" + applicationfolder_));
@@ -364,5 +363,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		activity.put("finished_time", format_date.format(curDate) + "T" + format_time.format(curDate) + "Z");
 		ActivitiesProtocol.updateActivity(activityId_, activity.toJSONString());
 		System.out.println(Thread.currentThread().getName()+" Finished. install Application: " + instanceId_ + " SUCCESSFUL");
+		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "installation finished", installapplicationinstance_.getInstalllog()));
+		installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
 	}
 }

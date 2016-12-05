@@ -66,14 +66,12 @@ public class ApplicationInstanceServiceClpInvoker {
 
 		_methodName48 = "getInstanceLogdAPI";
 
-		_methodParameterTypes48 = new String[] {
-				"java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes48 = new String[] { "java.lang.String" };
 
 		_methodName49 = "getInstanceLogdAPI";
 
 		_methodParameterTypes49 = new String[] {
-				"java.lang.String", "java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String"
 			};
 
 		_methodName50 = "getInstanceMaintenanceAPI";
@@ -161,14 +159,13 @@ public class ApplicationInstanceServiceClpInvoker {
 
 		if (_methodName48.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes48, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getInstanceLogdAPI((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1]);
+			return ApplicationInstanceServiceUtil.getInstanceLogdAPI((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName49.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes49, parameterTypes)) {
 			return ApplicationInstanceServiceUtil.getInstanceLogdAPI((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1], (java.lang.String)arguments[2]);
+				(java.lang.String)arguments[1]);
 		}
 
 		if (_methodName50.equals(name) &&

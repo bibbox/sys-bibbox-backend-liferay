@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.messaging.MessageListenerException;
 import at.graz.meduni.bibbox.helper.DockerHelper;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalServiceUtil;
 
 /**
@@ -19,17 +20,19 @@ public class Schedular implements MessageListener {
 	@Override
 	public void receive(Message message) throws MessageListenerException {
 		String dockerps = DockerHelper.getDockerPSListening();
-		List<ApplicationInstance> applicationinstances = ApplicationInstanceLocalServiceUtil.getActiveApplicationInstances();
-		for(ApplicationInstance applicationinstance : applicationinstances) {
-			List<ApplicationInstanceContainer> containers = applicationinstance.getContainersNeedToRun();
-			boolean running = true;
-			for(ApplicationInstanceContainer container : containers) {
-				if(!dockerps.contains(container.getContainerName() + "|")) {
-					running = false;
-				}
+		List<ApplicationInstanceContainer> containers = ApplicationInstanceContainerLocalServiceUtil.getApplicationInstanceContainers(-1, -1);
+		for(ApplicationInstanceContainer container : containers) {
+			if(dockerps.contains(container.getContainerName() + "|")) {
+				container.setRunning(true);
+			} else {
+				container.setRunning(false);
 			}
-			applicationinstance.setStatus(running);
-			ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
+			if(container.ApplicationInstanceExists()) {
+				ApplicationInstanceContainerLocalServiceUtil.updateApplicationInstanceContainer(container);
+			} else {
+				ApplicationInstanceContainerLocalServiceUtil.deleteApplicationInstanceContainer(container);
+			}
+			
 		}
 	}
  

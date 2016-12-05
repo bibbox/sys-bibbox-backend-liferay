@@ -1791,7 +1791,7 @@ public class ApplicationInstancePersistenceImpl extends BasePersistenceImpl<Appl
 		applicationInstanceImpl.setFolderName(applicationInstance.getFolderName());
 		applicationInstanceImpl.setApplication(applicationInstance.getApplication());
 		applicationInstanceImpl.setVersion(applicationInstance.getVersion());
-		applicationInstanceImpl.setStatus(applicationInstance.isStatus());
+		applicationInstanceImpl.setStatus(applicationInstance.getStatus());
 		applicationInstanceImpl.setDeleted(applicationInstance.isDeleted());
 		applicationInstanceImpl.setShortdescription(applicationInstance.getShortdescription());
 		applicationInstanceImpl.setDescription(applicationInstance.getDescription());

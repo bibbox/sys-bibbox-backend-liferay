@@ -79,6 +79,7 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "containerName", Types.VARCHAR },
 			{ "needrunning", Types.BOOLEAN },
+			{ "running", Types.BOOLEAN },
 			{ "applicationInstanceId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -93,10 +94,11 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("containerName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("needrunning", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("running", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("applicationInstanceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstanceContainer (applicationInstanceContainerId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,containerName VARCHAR(75) null,needrunning BOOLEAN,applicationInstanceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstanceContainer (applicationInstanceContainerId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,containerName VARCHAR(75) null,needrunning BOOLEAN,running BOOLEAN,applicationInstanceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table bibboxdocker_ApplicationInstanceContainer";
 	public static final String ORDER_BY_JPQL = " ORDER BY applicationInstanceContainer.applicationInstanceId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY bibboxdocker_ApplicationInstanceContainer.applicationInstanceId ASC";
@@ -138,6 +140,7 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setContainerName(soapModel.getContainerName());
 		model.setNeedrunning(soapModel.getNeedrunning());
+		model.setRunning(soapModel.getRunning());
 		model.setApplicationInstanceId(soapModel.getApplicationInstanceId());
 
 		return model;
@@ -214,6 +217,7 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("containerName", getContainerName());
 		attributes.put("needrunning", getNeedrunning());
+		attributes.put("running", getRunning());
 		attributes.put("applicationInstanceId", getApplicationInstanceId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -277,6 +281,12 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 
 		if (needrunning != null) {
 			setNeedrunning(needrunning);
+		}
+
+		Boolean running = (Boolean)attributes.get("running");
+
+		if (running != null) {
+			setRunning(running);
 		}
 
 		Long applicationInstanceId = (Long)attributes.get(
@@ -438,6 +448,22 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 
 	@JSON
 	@Override
+	public boolean getRunning() {
+		return _running;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return _running;
+	}
+
+	@Override
+	public void setRunning(boolean running) {
+		_running = running;
+	}
+
+	@JSON
+	@Override
 	public long getApplicationInstanceId() {
 		return _applicationInstanceId;
 	}
@@ -499,6 +525,7 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 		applicationInstanceContainerImpl.setModifiedDate(getModifiedDate());
 		applicationInstanceContainerImpl.setContainerName(getContainerName());
 		applicationInstanceContainerImpl.setNeedrunning(getNeedrunning());
+		applicationInstanceContainerImpl.setRunning(getRunning());
 		applicationInstanceContainerImpl.setApplicationInstanceId(getApplicationInstanceId());
 
 		applicationInstanceContainerImpl.resetOriginalValues();
@@ -632,6 +659,8 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 
 		applicationInstanceContainerCacheModel.needrunning = getNeedrunning();
 
+		applicationInstanceContainerCacheModel.running = getRunning();
+
 		applicationInstanceContainerCacheModel.applicationInstanceId = getApplicationInstanceId();
 
 		return applicationInstanceContainerCacheModel;
@@ -639,7 +668,7 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{applicationInstanceContainerId=");
 		sb.append(getApplicationInstanceContainerId());
@@ -659,6 +688,8 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 		sb.append(getContainerName());
 		sb.append(", needrunning=");
 		sb.append(getNeedrunning());
+		sb.append(", running=");
+		sb.append(getRunning());
 		sb.append(", applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
 		sb.append("}");
@@ -668,7 +699,7 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -712,6 +743,10 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 		sb.append(getNeedrunning());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>running</column-name><column-value><![CDATA[");
+		sb.append(getRunning());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>applicationInstanceId</column-name><column-value><![CDATA[");
 		sb.append(getApplicationInstanceId());
 		sb.append("]]></column-value></column>");
@@ -737,6 +772,7 @@ public class ApplicationInstanceContainerModelImpl extends BaseModelImpl<Applica
 	private boolean _needrunning;
 	private boolean _originalNeedrunning;
 	private boolean _setOriginalNeedrunning;
+	private boolean _running;
 	private long _applicationInstanceId;
 	private long _originalApplicationInstanceId;
 	private boolean _setOriginalApplicationInstanceId;

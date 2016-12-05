@@ -198,7 +198,13 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 			applicationInstanceImpl.setVersion(version);
 		}
 
-		applicationInstanceImpl.setStatus(status);
+		if (status == null) {
+			applicationInstanceImpl.setStatus(StringPool.BLANK);
+		}
+		else {
+			applicationInstanceImpl.setStatus(status);
+		}
+
 		applicationInstanceImpl.setDeleted(deleted);
 
 		if (shortdescription == null) {
@@ -264,8 +270,7 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		folderName = objectInput.readUTF();
 		application = objectInput.readUTF();
 		version = objectInput.readUTF();
-
-		status = objectInput.readBoolean();
+		status = objectInput.readUTF();
 
 		deleted = objectInput.readBoolean();
 		shortdescription = objectInput.readUTF();
@@ -349,7 +354,12 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 			objectOutput.writeUTF(version);
 		}
 
-		objectOutput.writeBoolean(status);
+		if (status == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(status);
+		}
 
 		objectOutput.writeBoolean(deleted);
 
@@ -407,7 +417,7 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 	public String folderName;
 	public String application;
 	public String version;
-	public boolean status;
+	public String status;
 	public boolean deleted;
 	public String shortdescription;
 	public String description;

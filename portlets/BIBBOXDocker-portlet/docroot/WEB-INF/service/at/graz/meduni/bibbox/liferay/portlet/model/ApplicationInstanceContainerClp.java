@@ -91,6 +91,7 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("containerName", getContainerName());
 		attributes.put("needrunning", getNeedrunning());
+		attributes.put("running", getRunning());
 		attributes.put("applicationInstanceId", getApplicationInstanceId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -154,6 +155,12 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 
 		if (needrunning != null) {
 			setNeedrunning(needrunning);
+		}
+
+		Boolean running = (Boolean)attributes.get("running");
+
+		if (running != null) {
+			setRunning(running);
 		}
 
 		Long applicationInstanceId = (Long)attributes.get(
@@ -404,6 +411,34 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 	}
 
 	@Override
+	public boolean getRunning() {
+		return _running;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return _running;
+	}
+
+	@Override
+	public void setRunning(boolean running) {
+		_running = running;
+
+		if (_applicationInstanceContainerRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstanceContainerRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setRunning", boolean.class);
+
+				method.invoke(_applicationInstanceContainerRemoteModel, running);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public long getApplicationInstanceId() {
 		return _applicationInstanceId;
 	}
@@ -425,6 +460,45 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
 			}
+		}
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getContainerLog(
+		java.lang.String lines) {
+		try {
+			String methodName = "getContainerLog";
+
+			Class<?>[] parameterTypes = new Class<?>[] { java.lang.String.class };
+
+			Object[] parameterValues = new Object[] { lines };
+
+			com.liferay.portal.kernel.json.JSONObject returnObj = (com.liferay.portal.kernel.json.JSONObject)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public boolean ApplicationInstanceExists() {
+		try {
+			String methodName = "ApplicationInstanceExists";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			Boolean returnObj = (Boolean)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
 		}
 	}
 
@@ -508,6 +582,7 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 		clone.setModifiedDate(getModifiedDate());
 		clone.setContainerName(getContainerName());
 		clone.setNeedrunning(getNeedrunning());
+		clone.setRunning(getRunning());
 		clone.setApplicationInstanceId(getApplicationInstanceId());
 
 		return clone;
@@ -578,7 +653,7 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{applicationInstanceContainerId=");
 		sb.append(getApplicationInstanceContainerId());
@@ -598,6 +673,8 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 		sb.append(getContainerName());
 		sb.append(", needrunning=");
 		sb.append(getNeedrunning());
+		sb.append(", running=");
+		sb.append(getRunning());
 		sb.append(", applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
 		sb.append("}");
@@ -607,7 +684,7 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -651,6 +728,10 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 		sb.append(getNeedrunning());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>running</column-name><column-value><![CDATA[");
+		sb.append(getRunning());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>applicationInstanceId</column-name><column-value><![CDATA[");
 		sb.append(getApplicationInstanceId());
 		sb.append("]]></column-value></column>");
@@ -669,6 +750,7 @@ public class ApplicationInstanceContainerClp extends BaseModelImpl<ApplicationIn
 	private Date _modifiedDate;
 	private String _containerName;
 	private boolean _needrunning;
+	private boolean _running;
 	private long _applicationInstanceId;
 	private BaseModel<?> _applicationInstanceContainerRemoteModel;
 	private Class<?> _clpSerializerClass = ClpSerializer.class;

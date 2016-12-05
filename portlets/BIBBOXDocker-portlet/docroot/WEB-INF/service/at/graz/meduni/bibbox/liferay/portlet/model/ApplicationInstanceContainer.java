@@ -56,4 +56,9 @@ public interface ApplicationInstanceContainer
 				return ApplicationInstanceContainer.class;
 			}
 		};
+
+	public com.liferay.portal.kernel.json.JSONObject getContainerLog(
+		java.lang.String lines);
+
+	public boolean ApplicationInstanceExists();
 }

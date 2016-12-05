@@ -77,17 +77,14 @@ public class ApplicationInstanceServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
-		java.lang.String instanceId, java.lang.String logtype) {
-		return _applicationInstanceService.getInstanceLogdAPI(instanceId,
-			logtype);
+		java.lang.String instanceId) {
+		return _applicationInstanceService.getInstanceLogdAPI(instanceId);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
-		java.lang.String instanceId, java.lang.String logtype,
-		java.lang.String lines) {
-		return _applicationInstanceService.getInstanceLogdAPI(instanceId,
-			logtype, lines);
+		java.lang.String instanceId, java.lang.String lines) {
+		return _applicationInstanceService.getInstanceLogdAPI(instanceId, lines);
 	}
 
 	@Override

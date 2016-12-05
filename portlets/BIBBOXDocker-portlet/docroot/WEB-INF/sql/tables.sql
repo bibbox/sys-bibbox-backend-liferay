@@ -13,7 +13,7 @@ create table bibboxdocker_ApplicationInstance (
 	folderName TEXT null,
 	application TEXT null,
 	version TEXT null,
-	status BOOLEAN,
+	status VARCHAR(75) null,
 	deleted BOOLEAN,
 	shortdescription TEXT null,
 	description TEXT null,
@@ -34,6 +34,7 @@ create table bibboxdocker_ApplicationInstanceContainer (
 	modifiedDate DATE null,
 	containerName VARCHAR(75) null,
 	needrunning BOOLEAN,
+	running BOOLEAN,
 	applicationInstanceId LONG
 );
 

@@ -250,14 +250,13 @@ public class ApplicationInstanceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
-		HttpPrincipal httpPrincipal, java.lang.String instanceId,
-		java.lang.String logtype) {
+		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"getInstanceLogdAPI", _getInstanceLogdAPIParameterTypes7);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
-					instanceId, logtype);
+					instanceId);
 
 			Object returnObj = null;
 
@@ -279,13 +278,13 @@ public class ApplicationInstanceServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
 		HttpPrincipal httpPrincipal, java.lang.String instanceId,
-		java.lang.String logtype, java.lang.String lines) {
+		java.lang.String lines) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"getInstanceLogdAPI", _getInstanceLogdAPIParameterTypes8);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
-					instanceId, logtype, lines);
+					instanceId, lines);
 
 			Object returnObj = null;
 
@@ -526,11 +525,10 @@ public class ApplicationInstanceServiceHttp {
 			java.lang.String.class
 		};
 	private static final Class<?>[] _getInstanceLogdAPIParameterTypes7 = new Class[] {
-			java.lang.String.class, java.lang.String.class
+			java.lang.String.class
 		};
 	private static final Class<?>[] _getInstanceLogdAPIParameterTypes8 = new Class[] {
-			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class
+			java.lang.String.class, java.lang.String.class
 		};
 	private static final Class<?>[] _getInstanceMaintenanceAPIParameterTypes9 = new Class[] {
 			java.lang.String.class

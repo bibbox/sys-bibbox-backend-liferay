@@ -230,6 +230,27 @@ public interface ApplicationInstanceContainerModel extends BaseModel<Application
 	public void setNeedrunning(boolean needrunning);
 
 	/**
+	 * Returns the running of this application instance container.
+	 *
+	 * @return the running of this application instance container
+	 */
+	public boolean getRunning();
+
+	/**
+	 * Returns <code>true</code> if this application instance container is running.
+	 *
+	 * @return <code>true</code> if this application instance container is running; <code>false</code> otherwise
+	 */
+	public boolean isRunning();
+
+	/**
+	 * Sets whether this application instance container is running.
+	 *
+	 * @param running the running of this application instance container
+	 */
+	public void setRunning(boolean running);
+
+	/**
 	 * Returns the application instance ID of this application instance container.
 	 *
 	 * @return the application instance ID of this application instance container

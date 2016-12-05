@@ -59,14 +59,12 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 
 		_methodName7 = "getInstanceLogdAPI";
 
-		_methodParameterTypes7 = new String[] {
-				"java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes7 = new String[] { "java.lang.String" };
 
 		_methodName8 = "getInstanceLogdAPI";
 
 		_methodParameterTypes8 = new String[] {
-				"java.lang.String", "java.lang.String", "java.lang.String"
+				"java.lang.String", "java.lang.String"
 			};
 
 		_methodName9 = "getInstanceMaintenanceAPI";
@@ -291,17 +289,13 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
-		java.lang.String instanceId, java.lang.String logtype) {
+		java.lang.String instanceId) {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableService.invokeMethod(_methodName7,
 					_methodParameterTypes7,
-					new Object[] {
-						ClpSerializer.translateInput(instanceId),
-						
-					ClpSerializer.translateInput(logtype)
-					});
+					new Object[] { ClpSerializer.translateInput(instanceId) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -320,8 +314,7 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getInstanceLogdAPI(
-		java.lang.String instanceId, java.lang.String logtype,
-		java.lang.String lines) {
+		java.lang.String instanceId, java.lang.String lines) {
 		Object returnObj = null;
 
 		try {
@@ -329,8 +322,6 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 					_methodParameterTypes8,
 					new Object[] {
 						ClpSerializer.translateInput(instanceId),
-						
-					ClpSerializer.translateInput(logtype),
 						
 					ClpSerializer.translateInput(lines)
 					});

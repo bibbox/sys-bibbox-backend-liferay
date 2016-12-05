@@ -67,7 +67,7 @@ public class ApplicationInstanceContainerCacheModel implements CacheModel<Applic
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{applicationInstanceContainerId=");
 		sb.append(applicationInstanceContainerId);
@@ -87,6 +87,8 @@ public class ApplicationInstanceContainerCacheModel implements CacheModel<Applic
 		sb.append(containerName);
 		sb.append(", needrunning=");
 		sb.append(needrunning);
+		sb.append(", running=");
+		sb.append(running);
 		sb.append(", applicationInstanceId=");
 		sb.append(applicationInstanceId);
 		sb.append("}");
@@ -133,6 +135,7 @@ public class ApplicationInstanceContainerCacheModel implements CacheModel<Applic
 		}
 
 		applicationInstanceContainerImpl.setNeedrunning(needrunning);
+		applicationInstanceContainerImpl.setRunning(running);
 		applicationInstanceContainerImpl.setApplicationInstanceId(applicationInstanceId);
 
 		applicationInstanceContainerImpl.resetOriginalValues();
@@ -155,6 +158,8 @@ public class ApplicationInstanceContainerCacheModel implements CacheModel<Applic
 		containerName = objectInput.readUTF();
 
 		needrunning = objectInput.readBoolean();
+
+		running = objectInput.readBoolean();
 
 		applicationInstanceId = objectInput.readLong();
 	}
@@ -189,6 +194,8 @@ public class ApplicationInstanceContainerCacheModel implements CacheModel<Applic
 
 		objectOutput.writeBoolean(needrunning);
 
+		objectOutput.writeBoolean(running);
+
 		objectOutput.writeLong(applicationInstanceId);
 	}
 
@@ -201,5 +208,6 @@ public class ApplicationInstanceContainerCacheModel implements CacheModel<Applic
 	public long modifiedDate;
 	public String containerName;
 	public boolean needrunning;
+	public boolean running;
 	public long applicationInstanceId;
 }

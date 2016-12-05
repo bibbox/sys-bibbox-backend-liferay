@@ -169,11 +169,9 @@ public class ApplicationInstanceServiceSoap {
 	}
 
 	public static java.lang.String getInstanceLogdAPI(
-		java.lang.String instanceId, java.lang.String logtype)
-		throws RemoteException {
+		java.lang.String instanceId) throws RemoteException {
 		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getInstanceLogdAPI(instanceId,
-					logtype);
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getInstanceLogdAPI(instanceId);
 
 			return returnValue.toString();
 		}
@@ -185,11 +183,11 @@ public class ApplicationInstanceServiceSoap {
 	}
 
 	public static java.lang.String getInstanceLogdAPI(
-		java.lang.String instanceId, java.lang.String logtype,
-		java.lang.String lines) throws RemoteException {
+		java.lang.String instanceId, java.lang.String lines)
+		throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getInstanceLogdAPI(instanceId,
-					logtype, lines);
+					lines);
 
 			return returnValue.toString();
 		}

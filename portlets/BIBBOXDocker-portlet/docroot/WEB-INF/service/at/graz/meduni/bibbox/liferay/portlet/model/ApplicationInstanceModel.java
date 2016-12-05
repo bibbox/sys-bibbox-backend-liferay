@@ -302,21 +302,15 @@ public interface ApplicationInstanceModel extends BaseModel<ApplicationInstance>
 	 *
 	 * @return the status of this application instance
 	 */
-	public boolean getStatus();
+	@AutoEscape
+	public String getStatus();
 
 	/**
-	 * Returns <code>true</code> if this application instance is status.
-	 *
-	 * @return <code>true</code> if this application instance is status; <code>false</code> otherwise
-	 */
-	public boolean isStatus();
-
-	/**
-	 * Sets whether this application instance is status.
+	 * Sets the status of this application instance.
 	 *
 	 * @param status the status of this application instance
 	 */
-	public void setStatus(boolean status);
+	public void setStatus(String status);
 
 	/**
 	 * Returns the deleted of this application instance.

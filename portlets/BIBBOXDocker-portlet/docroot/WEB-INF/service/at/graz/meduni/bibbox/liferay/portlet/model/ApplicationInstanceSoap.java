@@ -224,15 +224,11 @@ public class ApplicationInstanceSoap implements Serializable {
 		_version = version;
 	}
 
-	public boolean getStatus() {
+	public String getStatus() {
 		return _status;
 	}
 
-	public boolean isStatus() {
-		return _status;
-	}
-
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		_status = status;
 	}
 
@@ -326,7 +322,7 @@ public class ApplicationInstanceSoap implements Serializable {
 	private String _folderName;
 	private String _application;
 	private String _version;
-	private boolean _status;
+	private String _status;
 	private boolean _deleted;
 	private String _shortdescription;
 	private String _description;

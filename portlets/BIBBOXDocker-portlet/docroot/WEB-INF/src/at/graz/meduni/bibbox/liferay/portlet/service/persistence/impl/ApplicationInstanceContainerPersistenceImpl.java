@@ -1525,6 +1525,7 @@ public class ApplicationInstanceContainerPersistenceImpl
 		applicationInstanceContainerImpl.setModifiedDate(applicationInstanceContainer.getModifiedDate());
 		applicationInstanceContainerImpl.setContainerName(applicationInstanceContainer.getContainerName());
 		applicationInstanceContainerImpl.setNeedrunning(applicationInstanceContainer.isNeedrunning());
+		applicationInstanceContainerImpl.setRunning(applicationInstanceContainer.isRunning());
 		applicationInstanceContainerImpl.setApplicationInstanceId(applicationInstanceContainer.getApplicationInstanceId());
 
 		return applicationInstanceContainerImpl;

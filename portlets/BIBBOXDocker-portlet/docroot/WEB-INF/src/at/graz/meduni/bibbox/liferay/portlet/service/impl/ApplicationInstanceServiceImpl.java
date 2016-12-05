@@ -159,15 +159,15 @@ public class ApplicationInstanceServiceImpl
 	}
 	
 	@JSONWebService(value = "/get-instance-log")
-	public JSONObject getInstanceLogdAPI(String instanceId, String logtype) {
-		JSONObject returnobject = getInstanceLogd(instanceId, logtype, "200");
+	public JSONObject getInstanceLogdAPI(String instanceId) {
+		JSONObject returnobject = getInstanceLogd(instanceId, "200");
 		returnobject.put("user", getUserObject());
 		return returnobject;
 	}
 	
 	@JSONWebService(value = "/get-instance-log")
-	public JSONObject getInstanceLogdAPI(String instanceId, String logtype, String lines) {
-		JSONObject returnobject = getInstanceLogd(instanceId, logtype, lines);
+	public JSONObject getInstanceLogdAPI(String instanceId, String lines) {
+		JSONObject returnobject = getInstanceLogd(instanceId, lines);
 		returnobject.put("user", getUserObject());
 		return returnobject;
 	}
@@ -555,7 +555,7 @@ public class ApplicationInstanceServiceImpl
 		return returnobject;
 	}
 	
-	private JSONObject getInstanceLogd(String instanceId, String logtype, String lines) {
+	private JSONObject getInstanceLogd(String instanceId, String lines) {
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
 		if(applicationinstance == null) {
@@ -566,21 +566,14 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("applicationname", applicationinstance.getApplicationname());
 			returnobject.put("version", applicationinstance.getVersion());
 			returnobject.put("longname", applicationinstance.getName());
-			if(logtype.equalsIgnoreCase("install")) {
-				returnobject.put("log", getInstallLog(applicationinstance));
-			} else {
-				returnobject.put("log", getComposeLog(applicationinstance, lines));
-			}
+			returnobject.put("logs", getComposeLog(applicationinstance, lines));
+			returnobject.put("log", "");
 			return returnobject;
 		}
 		return returnobject;
 	}
 	
-	private String getInstallLog(ApplicationInstance applicationinstance) {
-		return applicationinstance.getInstalllog();
-	}
-	
-	private String getComposeLog(ApplicationInstance applicationinstance, String lines) {
+	private JSONArray getComposeLog(ApplicationInstance applicationinstance, String lines) {
 		return applicationinstance.getComposeLog(lines);
 	}
 	
@@ -592,6 +585,7 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("error", "InstanceId dose not exist!");
 		} else {
 			applicationinstance.setDeleted(true);
+			applicationinstance.setStatus("deleting");
 			ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 			
 			long userId = 0;
@@ -611,7 +605,7 @@ public class ApplicationInstanceServiceImpl
 			taskContextMap.put("instanceId", instanceId);
 			
 			try {
-				BackgroundTask backgroundTask = BackgroundTaskManagerUtil.addBackgroundTask(userId, groupId, BibboxBackgroundTaskExecutorNames.BIBBOX_INSTANCE_DELETE_BACKGROUND_TASK_EXECUTOR, new String[]{"BIBBOXDocker-portlet"}, DeleteApplication.class, taskContextMap, new ServiceContext());
+				BackgroundTaskManagerUtil.addBackgroundTask(userId, groupId, BibboxBackgroundTaskExecutorNames.BIBBOX_INSTANCE_DELETE_BACKGROUND_TASK_EXECUTOR, new String[]{"BIBBOXDocker-portlet"}, DeleteApplication.class, taskContextMap, new ServiceContext());
 			} catch (PortalException e) {
 				System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getUserObject()", "Error starting delete Task."));
 				e.printStackTrace();
@@ -633,12 +627,17 @@ public class ApplicationInstanceServiceImpl
 			ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
 			finishActivity(activityId, "FINISHED", "ERROR");
 		} else {
+			applicationinstance.setStatus("starting");
+			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
+			
 			String logs = applicationinstance.startApplicationInstance();
 			returnobject.put("log", logs);
 			for(String log : logs.split(newline)) {
 				ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", log);
 			}
 			finishActivity(activityId, "FINISHED", "SUCCESS");
+			applicationinstance.setStatus("");
+			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 		}
 		return returnobject;
 	}
@@ -653,10 +652,14 @@ public class ApplicationInstanceServiceImpl
 			ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
 			finishActivity(activityId, "FINISHED", "ERROR");
 		} else {
+			applicationinstance.setStatus("stopping");
+			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 			String log = applicationinstance.stopApplicationInstance();
 			returnobject.put("log", log);
 			ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", log);
 			finishActivity(activityId, "FINISHED", "SUCCESS");
+			applicationinstance.setStatus("");
+			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 		}
 		return returnobject;
 	}
@@ -671,10 +674,14 @@ public class ApplicationInstanceServiceImpl
 			ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
 			finishActivity(activityId, "FINISHED", "ERROR");
 		} else {
+			applicationinstance.setStatus("restarting");
+			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 			String log = applicationinstance.restartApplicationInstance();
 			returnobject.put("log", log);
 			ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", log);
 			finishActivity(activityId, "FINISHED", "SUCCESS");
+			applicationinstance.setStatus("");
+			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
 		}
 		return returnobject;
 	}

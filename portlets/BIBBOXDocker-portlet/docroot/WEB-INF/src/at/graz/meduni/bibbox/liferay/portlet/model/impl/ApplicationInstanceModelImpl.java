@@ -84,7 +84,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			{ "folderName", Types.VARCHAR },
 			{ "application", Types.VARCHAR },
 			{ "version", Types.VARCHAR },
-			{ "status", Types.BOOLEAN },
+			{ "status", Types.VARCHAR },
 			{ "deleted", Types.BOOLEAN },
 			{ "shortdescription", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
@@ -111,7 +111,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		TABLE_COLUMNS_MAP.put("folderName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("application", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("version", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("status", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("status", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("deleted", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("shortdescription", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
@@ -122,7 +122,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		TABLE_COLUMNS_MAP.put("isinstalling", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,shortName TEXT null,baseurl VARCHAR(75) null,folderName TEXT null,application TEXT null,version TEXT null,status BOOLEAN,deleted BOOLEAN,shortdescription TEXT null,description TEXT null,adminnode VARCHAR(75) null,maintenance TEXT null,ismaintenance BOOLEAN,installlog TEXT null,isinstalling BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,shortName TEXT null,baseurl VARCHAR(75) null,folderName TEXT null,application TEXT null,version TEXT null,status VARCHAR(75) null,deleted BOOLEAN,shortdescription TEXT null,description TEXT null,adminnode VARCHAR(75) null,maintenance TEXT null,ismaintenance BOOLEAN,installlog TEXT null,isinstalling BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table bibboxdocker_ApplicationInstance";
 	public static final String ORDER_BY_JPQL = " ORDER BY applicationInstance.folderName ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY bibboxdocker_ApplicationInstance.folderName ASC";
@@ -360,7 +360,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			setVersion(version);
 		}
 
-		Boolean status = (Boolean)attributes.get("status");
+		String status = (String)attributes.get("status");
 
 		if (status != null) {
 			setStatus(status);
@@ -653,17 +653,17 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@JSON
 	@Override
-	public boolean getStatus() {
-		return _status;
+	public String getStatus() {
+		if (_status == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _status;
+		}
 	}
 
 	@Override
-	public boolean isStatus() {
-		return _status;
-	}
-
-	@Override
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		_status = status;
 	}
 
@@ -1030,6 +1030,12 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 		applicationInstanceCacheModel.status = getStatus();
 
+		String status = applicationInstanceCacheModel.status;
+
+		if ((status != null) && (status.length() == 0)) {
+			applicationInstanceCacheModel.status = null;
+		}
+
 		applicationInstanceCacheModel.deleted = getDeleted();
 
 		applicationInstanceCacheModel.shortdescription = getShortdescription();
@@ -1262,7 +1268,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 	private String _originalFolderName;
 	private String _application;
 	private String _version;
-	private boolean _status;
+	private String _status;
 	private boolean _deleted;
 	private boolean _originalDeleted;
 	private boolean _setOriginalDeleted;

@@ -28,7 +28,7 @@
 		<field name="version" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
-		<field name="status" type="boolean" />
+		<field name="status" type="String" />
 		<field name="deleted" type="boolean" />
 		<field name="shortdescription" type="String">
 			<hint name="max-length">5000</hint>
@@ -56,6 +56,7 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="containerName" type="String" />
 		<field name="needrunning" type="boolean" />
+		<field name="running" type="boolean" />
 		<field name="applicationInstanceId" type="long" />
 	</model>
 	<model name="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort">

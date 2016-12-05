@@ -27,7 +27,7 @@
 		<column name="folderName" type="String" />
 		<column name="application" type="String" />
 		<column name="version" type="String" />
-		<column name="status" type="boolean" />
+		<column name="status" type="String" />
 		<column name="deleted" type="boolean" />
 		
 		<column name="shortdescription" type="String" />
@@ -55,6 +55,7 @@
 			<finder-column name="deleted" />
 		</finder>
 	</entity>
+	
 	<entity name="ApplicationInstancePort" local-service="true" remote-service="true">
 		<!-- PK fields -->
 		<column name="applicationInstancePortId" type="long" primary="true" />
@@ -88,6 +89,7 @@
 			<finder-column name="primary" />
 		</finder>
 	</entity>
+	
 	<entity name="ApplicationInstanceContainer" local-service="true" remote-service="true">
 		<!-- PK fields -->
 		<column name="applicationInstanceContainerId" type="long" primary="true" />
@@ -105,6 +107,7 @@
 		<!-- Other fields -->
 		<column name="containerName" type="String" />
 		<column name="needrunning" type="boolean" />
+		<column name="running" type="boolean" />
 		<column name="applicationInstanceId" type="long" />
 		
 		<!-- Order -->

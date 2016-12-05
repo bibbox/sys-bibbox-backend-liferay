@@ -44,6 +44,7 @@ public class ApplicationInstanceContainerSoap implements Serializable {
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setContainerName(model.getContainerName());
 		soapModel.setNeedrunning(model.getNeedrunning());
+		soapModel.setRunning(model.getRunning());
 		soapModel.setApplicationInstanceId(model.getApplicationInstanceId());
 
 		return soapModel;
@@ -177,6 +178,18 @@ public class ApplicationInstanceContainerSoap implements Serializable {
 		_needrunning = needrunning;
 	}
 
+	public boolean getRunning() {
+		return _running;
+	}
+
+	public boolean isRunning() {
+		return _running;
+	}
+
+	public void setRunning(boolean running) {
+		_running = running;
+	}
+
 	public long getApplicationInstanceId() {
 		return _applicationInstanceId;
 	}
@@ -194,5 +207,6 @@ public class ApplicationInstanceContainerSoap implements Serializable {
 	private Date _modifiedDate;
 	private String _containerName;
 	private boolean _needrunning;
+	private boolean _running;
 	private long _applicationInstanceId;
 }

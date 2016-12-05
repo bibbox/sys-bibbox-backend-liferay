@@ -22,7 +22,7 @@
 		<property name="folderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="application" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="version" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="status" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="deleted" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="shortdescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -44,6 +44,7 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="containerName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="needrunning" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="running" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="applicationInstanceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="at.graz.meduni.bibbox.liferay.portlet.model.impl.ApplicationInstancePortImpl" table="bibboxdocker_ApplicationInstancePort">

@@ -70,6 +70,7 @@ public class ApplicationInstanceContainerWrapper
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("containerName", getContainerName());
 		attributes.put("needrunning", getNeedrunning());
+		attributes.put("running", getRunning());
 		attributes.put("applicationInstanceId", getApplicationInstanceId());
 
 		return attributes;
@@ -132,6 +133,12 @@ public class ApplicationInstanceContainerWrapper
 			setNeedrunning(needrunning);
 		}
 
+		Boolean running = (Boolean)attributes.get("running");
+
+		if (running != null) {
+			setRunning(running);
+		}
+
 		Long applicationInstanceId = (Long)attributes.get(
 				"applicationInstanceId");
 
@@ -150,6 +157,11 @@ public class ApplicationInstanceContainerWrapper
 		return new ApplicationInstanceContainerWrapper(_applicationInstanceContainer.toUnescapedModel());
 	}
 
+	@Override
+	public boolean ApplicationInstanceExists() {
+		return _applicationInstanceContainer.ApplicationInstanceExists();
+	}
+
 	/**
 	* Returns the needrunning of this application instance container.
 	*
@@ -158,6 +170,16 @@ public class ApplicationInstanceContainerWrapper
 	@Override
 	public boolean getNeedrunning() {
 		return _applicationInstanceContainer.getNeedrunning();
+	}
+
+	/**
+	* Returns the running of this application instance container.
+	*
+	* @return the running of this application instance container
+	*/
+	@Override
+	public boolean getRunning() {
+		return _applicationInstanceContainer.getRunning();
 	}
 
 	@Override
@@ -185,9 +207,25 @@ public class ApplicationInstanceContainerWrapper
 		return _applicationInstanceContainer.isNew();
 	}
 
+	/**
+	* Returns <code>true</code> if this application instance container is running.
+	*
+	* @return <code>true</code> if this application instance container is running; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isRunning() {
+		return _applicationInstanceContainer.isRunning();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _applicationInstanceContainer.getExpandoBridge();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getContainerLog(
+		java.lang.String lines) {
+		return _applicationInstanceContainer.getContainerLog(lines);
 	}
 
 	@Override
@@ -461,6 +499,16 @@ public class ApplicationInstanceContainerWrapper
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_applicationInstanceContainer.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets whether this application instance container is running.
+	*
+	* @param running the running of this application instance container
+	*/
+	@Override
+	public void setRunning(boolean running) {
+		_applicationInstanceContainer.setRunning(running);
 	}
 
 	/**

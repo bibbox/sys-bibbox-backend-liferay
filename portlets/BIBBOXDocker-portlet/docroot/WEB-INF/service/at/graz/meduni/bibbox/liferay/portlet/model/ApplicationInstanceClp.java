@@ -198,7 +198,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 			setVersion(version);
 		}
 
-		Boolean status = (Boolean)attributes.get("status");
+		String status = (String)attributes.get("status");
 
 		if (status != null) {
 			setStatus(status);
@@ -597,24 +597,19 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
-	public boolean getStatus() {
+	public String getStatus() {
 		return _status;
 	}
 
 	@Override
-	public boolean isStatus() {
-		return _status;
-	}
-
-	@Override
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		_status = status;
 
 		if (_applicationInstanceRemoteModel != null) {
 			try {
 				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setStatus", boolean.class);
+				Method method = clazz.getMethod("setStatus", String.class);
 
 				method.invoke(_applicationInstanceRemoteModel, status);
 			}
@@ -979,7 +974,8 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
-	public java.lang.String getComposeLog(java.lang.String lines) {
+	public com.liferay.portal.kernel.json.JSONArray getComposeLog(
+		java.lang.String lines) {
 		try {
 			String methodName = "getComposeLog";
 
@@ -987,7 +983,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 			Object[] parameterValues = new Object[] { lines };
 
-			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+			com.liferay.portal.kernel.json.JSONArray returnObj = (com.liferay.portal.kernel.json.JSONArray)invokeOnRemoteModel(methodName,
 					parameterTypes, parameterValues);
 
 			return returnObj;
@@ -1460,7 +1456,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	private String _folderName;
 	private String _application;
 	private String _version;
-	private boolean _status;
+	private String _status;
 	private boolean _deleted;
 	private String _shortdescription;
 	private String _description;

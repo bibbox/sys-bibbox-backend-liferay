@@ -172,7 +172,7 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 			setVersion(version);
 		}
 
-		Boolean status = (Boolean)attributes.get("status");
+		String status = (String)attributes.get("status");
 
 		if (status != null) {
 			setStatus(status);
@@ -267,16 +267,6 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		return _applicationInstance.getIsmaintenance();
 	}
 
-	/**
-	* Returns the status of this application instance.
-	*
-	* @return the status of this application instance
-	*/
-	@Override
-	public boolean getStatus() {
-		return _applicationInstance.getStatus();
-	}
-
 	@Override
 	public boolean isCachedModel() {
 		return _applicationInstance.isCachedModel();
@@ -322,16 +312,6 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		return _applicationInstance.isNew();
 	}
 
-	/**
-	* Returns <code>true</code> if this application instance is status.
-	*
-	* @return <code>true</code> if this application instance is status; <code>false</code> otherwise
-	*/
-	@Override
-	public boolean isStatus() {
-		return _applicationInstance.isStatus();
-	}
-
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _applicationInstance.getExpandoBridge();
@@ -340,6 +320,12 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getApplicationTags() {
 		return _applicationInstance.getApplicationTags();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getComposeLog(
+		java.lang.String lines) {
+		return _applicationInstance.getComposeLog(lines);
 	}
 
 	@Override
@@ -421,11 +407,6 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public java.lang.String getBasicProxyConfigString() {
 		return _applicationInstance.getBasicProxyConfigString();
-	}
-
-	@Override
-	public java.lang.String getComposeLog(java.lang.String lines) {
-		return _applicationInstance.getComposeLog(lines);
 	}
 
 	/**
@@ -516,6 +497,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public java.lang.String getShortdescription() {
 		return _applicationInstance.getShortdescription();
+	}
+
+	/**
+	* Returns the status of this application instance.
+	*
+	* @return the status of this application instance
+	*/
+	@Override
+	public java.lang.String getStatus() {
+		return _applicationInstance.getStatus();
 	}
 
 	/**
@@ -900,12 +891,12 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	}
 
 	/**
-	* Sets whether this application instance is status.
+	* Sets the status of this application instance.
 	*
 	* @param status the status of this application instance
 	*/
 	@Override
-	public void setStatus(boolean status) {
+	public void setStatus(java.lang.String status) {
 		_applicationInstance.setStatus(status);
 	}
 
