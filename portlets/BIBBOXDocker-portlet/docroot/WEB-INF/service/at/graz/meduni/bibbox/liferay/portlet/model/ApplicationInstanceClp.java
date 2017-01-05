@@ -974,6 +974,44 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	}
 
 	@Override
+	public java.lang.String composeUpApplicationInstance() {
+		try {
+			String methodName = "composeUpApplicationInstance";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
+	public java.lang.String composePullApplicationInstance() {
+		try {
+			String methodName = "composePullApplicationInstance";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			java.lang.String returnObj = (java.lang.String)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONArray getComposeLog(
 		java.lang.String lines) {
 		try {

@@ -359,6 +359,16 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		return new ApplicationInstanceWrapper((ApplicationInstance)_applicationInstance.clone());
 	}
 
+	@Override
+	public java.lang.String composePullApplicationInstance() {
+		return _applicationInstance.composePullApplicationInstance();
+	}
+
+	@Override
+	public java.lang.String composeUpApplicationInstance() {
+		return _applicationInstance.composeUpApplicationInstance();
+	}
+
 	/**
 	* Returns the adminnode of this application instance.
 	*

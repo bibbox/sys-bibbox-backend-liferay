@@ -135,40 +135,40 @@ public class UpdateGitRepository {
 			status = result.getMergeResult().getMergeStatus().toString();
 			git.close();
 		} catch (IOException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "IOException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "IOException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (WrongRepositoryStateException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "WrongRepositoryStateException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "WrongRepositoryStateException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (InvalidConfigurationException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "InvalidConfigurationException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "InvalidConfigurationException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (DetachedHeadException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "DetachedHeadException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "DetachedHeadException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (InvalidRemoteException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "InvalidRemoteException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "InvalidRemoteException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (CanceledException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "CanceledException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "CanceledException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (RefNotFoundException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "RefNotFoundException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "RefNotFoundException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (RefNotAdvertisedException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "RefNotAdvertisedException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "RefNotAdvertisedException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (NoHeadException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "NoHeadException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "NoHeadException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (TransportException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "TransportException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "TransportException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (GitAPIException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "GitAPIException wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "GitAPIException wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		} catch (Exception e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateGitHubRepository()", "Exception wile updating git repository"));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "updateLocalGitRepository(File repositoryfolder)", "Exception wile updating git repository " + repositoryfolder));
 			e.printStackTrace();
 		}
 		return formatStatus(status);

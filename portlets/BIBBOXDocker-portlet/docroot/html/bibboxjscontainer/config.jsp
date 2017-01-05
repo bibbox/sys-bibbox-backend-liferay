@@ -11,9 +11,7 @@ String baseportalurl_cfg = GetterUtil.getString(portletPreferences.getValue("bas
 	<aui:fieldset>
    		<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>" />
 		<!-- Record Name -->
-		<aui:input name="preferences--baseurl--" label="Base URL for the js files" type="text" value ="<%= baseurl_cfg %>" />
 		<aui:input name="preferences--firstparameter--" label="First Parameter (% will only use url parameters)" type="text" value ="<%= firstparameter_cfg %>" />
-		<aui:input name="preferences--baseportalurl--" label="Base Portal URL" type="text" value ="<%= baseportalurl_cfg %>" />
 	</aui:fieldset>
 	<aui:button-row>
 		<aui:button type="submit" />

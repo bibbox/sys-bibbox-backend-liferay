@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="at.graz.meduni.liferay.portlet.saat.model.Dictionary">
+		<field name="dictionaryId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="isroot" type="boolean" />
+		<field name="iscode" type="boolean" />
+		<field name="synonym" type="String" />
+		<field name="pattern" type="String" />
+		<field name="beforSynonym" type="long" />
+		<field name="afterSynonym" type="long" />
+		<field name="foreword" type="boolean" />
+		<field name="ending" type="boolean" />
+		<field name="sentence" type="boolean" />
+		<field name="occure" type="boolean" />
+		<field name="nagation" type="boolean" />
+		<field name="priority_mode" type="boolean" />
+		<field name="codeType" type="String" />
+		<field name="codeValue" type="String" />
+		<field name="priority" type="long" />
+		<field name="disease_ids" type="String" />
+		<field name="dirty" type="boolean" />
+		<field name="disease_ids_count" type="long" />
+	</model>
+	<model name="at.graz.meduni.liferay.portlet.saat.model.DictionaryDictionaryLink">
+		<field name="dictionaryDictionaryLinkId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="dictionaryId" type="long" />
+		<field name="dictionaryAddictionId" type="long" />
+	</model>
+</model-hints>

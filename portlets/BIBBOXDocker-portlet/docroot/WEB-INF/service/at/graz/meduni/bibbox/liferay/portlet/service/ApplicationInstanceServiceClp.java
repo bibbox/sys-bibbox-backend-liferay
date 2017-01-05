@@ -106,10 +106,11 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 
 		_methodName17 = "getTestAPI";
 
-		_methodParameterTypes17 = new String[] {
-				"java.lang.String", "java.lang.String", "java.lang.String",
-				"java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes17 = new String[] { "java.lang.String" };
+
+		_methodName18 = "setPortletConfiguration";
+
+		_methodParameterTypes18 = new String[] {  };
 	}
 
 	@Override
@@ -553,23 +554,30 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 	}
 
 	@Override
-	public void getTestAPI(java.lang.String applicationname,
-		java.lang.String version, java.lang.String instanceid,
-		java.lang.String instancename, java.lang.String data) {
+	public void getTestAPI(java.lang.String string) {
 		try {
 			_invokableService.invokeMethod(_methodName17,
 				_methodParameterTypes17,
-				new Object[] {
-					ClpSerializer.translateInput(applicationname),
-					
-				ClpSerializer.translateInput(version),
-					
-				ClpSerializer.translateInput(instanceid),
-					
-				ClpSerializer.translateInput(instancename),
-					
-				ClpSerializer.translateInput(data)
-				});
+				new Object[] { ClpSerializer.translateInput(string) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+	}
+
+	@Override
+	public void setPortletConfiguration() {
+		try {
+			_invokableService.invokeMethod(_methodName18,
+				_methodParameterTypes18, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -619,4 +627,6 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 	private String[] _methodParameterTypes16;
 	private String _methodName17;
 	private String[] _methodParameterTypes17;
+	private String _methodName18;
+	private String[] _methodParameterTypes18;
 }

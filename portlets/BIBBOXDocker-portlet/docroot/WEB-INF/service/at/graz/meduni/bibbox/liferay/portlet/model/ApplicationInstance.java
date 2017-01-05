@@ -72,6 +72,10 @@ public interface ApplicationInstance extends ApplicationInstanceModel,
 
 	public java.lang.String restartApplicationInstance();
 
+	public java.lang.String composeUpApplicationInstance();
+
+	public java.lang.String composePullApplicationInstance();
+
 	public com.liferay.portal.kernel.json.JSONArray getComposeLog(
 		java.lang.String lines);
 

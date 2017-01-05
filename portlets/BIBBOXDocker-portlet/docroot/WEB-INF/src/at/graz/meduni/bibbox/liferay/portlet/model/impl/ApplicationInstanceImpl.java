@@ -103,10 +103,7 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
+				String loglevel = "ERROR";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -133,7 +130,7 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 	public String startApplicationInstance() {
 		String installlog = "";
 		try {
-			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose up -d");
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose start");
 			processbuilder.directory(new File(this.getFolderPath()));
 			Process process = processbuilder.start();
 			process.waitFor();
@@ -143,10 +140,7 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
+				String loglevel = "ERROR";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -183,10 +177,81 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			
 			while ((log = reader.readLine()) != null) 
 			{
+				String loglevel = "ERROR";
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+			}
+			
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((log = reader.readLine()) != null) 
+			{
 				String loglevel = "INFO";
 				if(log.startsWith("ERROR")) {
 					loglevel = "ERROR";
 				}
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+			}
+			
+		} catch(IOException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		}
+		return installlog;
+	}
+	
+	public String composeUpApplicationInstance() {
+		String installlog = "";
+		try {
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose up -d");
+			processbuilder.directory(new File(this.getFolderPath()));
+			Process process = processbuilder.start();
+			process.waitFor();
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String log;
+			
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "ERROR";
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+			}
+			
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+				}
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+			}
+			
+		} catch(IOException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error startign docker-compose.yml file for instance:" + this.getInstanceId()));
+			e.printStackTrace();
+		}
+		return installlog;
+	}
+	
+	public String composePullApplicationInstance() {
+		String installlog = "";
+		try {
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose pull");
+			processbuilder.directory(new File(this.getFolderPath()));
+			Process process = processbuilder.start();
+			process.waitFor();
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String log;
+			
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "ERROR";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			

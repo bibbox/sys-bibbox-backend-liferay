@@ -85,6 +85,12 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		} catch (Exception ex) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "execute(BackgroundTask backgroundTask)", "Error running backgroundTask. applicationfolder:" + applicationfolder_));
 			ex.printStackTrace();
+			result_status_ = "ERROR";
+			finishActivity();
+			if(installapplicationinstance_ != null) {
+				installapplicationinstance_.setIsinstalling(false);
+				installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
+			}
 		}
 		return new BackgroundTaskResult(BackgroundTaskConstants.STATUS_SUCCESSFUL);
 	}
@@ -122,15 +128,18 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		applicationinstanceport.setApplicationInstanceId(installapplicationinstance_.getApplicationInstanceId());
 		applicationinstanceport.setPort(port);
 		applicationinstanceport.setPrimary(true);
-		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "Setting primary port for application to " + port, installapplicationinstance_.getInstalllog()));
+		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "(1/6) Setting primary port for application to " + port, installapplicationinstance_.getInstalllog()));
 		installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
-		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "Setting primary port for application to " + port);
+		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(1/6) Register Ports.");
 		applicationinstanceport = ApplicationInstancePortLocalServiceUtil.updateApplicationInstancePort(applicationinstanceport);
 	}
 	
 	private void registerContainers() {
 		String applicationfolder = BibboxConfigReader.getApplicationFolder(installapplicationinstance_.getApplication(), installapplicationinstance_.getVersion());
 		try {
+			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(2/6) Register Containers.");
+			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "(2/6) Setting containers for instance", installapplicationinstance_.getInstalllog()));
+			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
 			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder + "/sys-info.json");
 			JSONObject sysinfo = JSONFactoryUtil.createJSONObject(jsonstring);
 			JSONArray runningcontainers = sysinfo.getJSONArray("runningcontainers");
@@ -143,9 +152,14 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			while (iterator.hasNext()) {
 				registerContainer(iterator,  false);
 			}
-			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "Setting containers for instance", installapplicationinstance_.getInstalllog()));
-			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
 		} catch (JSONException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "registerContainers()", "Error reading sys-info file. applicationfolder:" + applicationfolder));
+			e.printStackTrace();
+			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "registerContainers()", "Error reading sys-info file. applicationfolder:" + applicationfolder, e.getStackTrace(), installapplicationinstance_.getInstalllog()));
+			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
+			ActivitiesProtocol.addActivityLogEntry(activityId_, "ERROR", FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "registerContainers()", "Error reading sys-info file. applicationfolder:" + applicationfolder, e.getStackTrace()));
+			result_status_ = "ERROR";
+		} catch (Exception e) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "registerContainers()", "Error reading sys-info file. applicationfolder:" + applicationfolder));
 			e.printStackTrace();
 			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "registerContainers()", "Error reading sys-info file. applicationfolder:" + applicationfolder, e.getStackTrace(), installapplicationinstance_.getInstalllog()));
@@ -185,6 +199,8 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	
 	private void callInstallScript() {
 		try {
+			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(3/6) Install Application.");
+			addExecutePrivilageToFile("install.sh");
 			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "./install.sh " + installapplicationinstance_.getBaseInstallationConfigString() + getInstallationConfigString());
 			processbuilder.directory(new File(applicationfolder_));
 			Process process = processbuilder.start();
@@ -192,13 +208,10 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			String log;
-			String installlog = installapplicationinstance_.getInstalllog();
+			String installlog = FormatExceptionMessage.formatLogMessage("INFO", "(3/6) Install Application.", installapplicationinstance_.getInstalllog());
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
+				String loglevel = "ERROR";
 				result_status_ = "ERROR";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
@@ -219,19 +232,34 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			installapplicationinstance_.setInstalllog(installlog);
 			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
 		} catch(IOException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "File Error running install.sh. applicationfolder:" + applicationfolder_));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript()", "File Error running install.sh. applicationfolder:" + applicationfolder_));
 			e.printStackTrace();
-			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "File Error running install.sh. applicationfolder:" + applicationfolder_, e.getStackTrace(), installapplicationinstance_.getInstalllog()));
+			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript()", "File Error running install.sh. applicationfolder:" + applicationfolder_, e.getStackTrace(), installapplicationinstance_.getInstalllog()));
 			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
-			ActivitiesProtocol.addActivityLogEntry(activityId_, "ERROR", FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "File Error running install.sh. applicationfolder:" + applicationfolder_, e.getStackTrace()));
+			ActivitiesProtocol.addActivityLogEntry(activityId_, "ERROR", FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript()", "File Error running install.sh. applicationfolder:" + applicationfolder_, e.getStackTrace()));
 			result_status_ = "ERROR";
 		} catch (InterruptedException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "Error running install.sh. applicationfolder:" + applicationfolder_));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "callInstallScript()", "Error running install.sh. applicationfolder:" + applicationfolder_));
 			e.printStackTrace();
-			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "Error running install.sh. applicationfolder:" + applicationfolder_, e.getStackTrace(), installapplicationinstance_.getInstalllog()));
+			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "callInstallScript()", "Error running install.sh. applicationfolder:" + applicationfolder_, e.getStackTrace(), installapplicationinstance_.getInstalllog()));
 			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
-			ActivitiesProtocol.addActivityLogEntry(activityId_, "ERROR", FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "Error running install.sh. applicationfolder:" + applicationfolder_, e.getStackTrace()));
+			ActivitiesProtocol.addActivityLogEntry(activityId_, "ERROR", FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "callInstallScript()", "Error running install.sh. applicationfolder:" + applicationfolder_, e.getStackTrace()));
 			result_status_ = "ERROR";
+		}
+	}
+	
+	private void addExecutePrivilageToFile(String filename) {
+		try {
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "chmod +x " + filename);
+			processbuilder.directory(new File(applicationfolder_));
+			Process process = processbuilder.start();
+			process.waitFor();
+		} catch(IOException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "addExecutePrivilageToFile(String filename)", "File Error adding execute permission to file:" + applicationfolder_ + "/" + filename));
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "addExecutePrivilageToFile(String filename)", "Error adding execute permission to file:" + applicationfolder_ + "/" + filename));
+			e.printStackTrace();
 		}
 	}
 	
@@ -247,7 +275,8 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	
 	private void addProxyEntry() {
 		try {
-			System.out.println("./addproxy.sh " + installapplicationinstance_.getBasicProxyConfigString() + getInstallationConfigString());
+			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(4/6) Add Proxy.");
+			addExecutePrivilageToFile("addproxy.sh");
 			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "./addproxy.sh " + installapplicationinstance_.getBasicProxyConfigString());
 			processbuilder.directory(new File(applicationfolder_));
 			Process process = processbuilder.start();
@@ -255,13 +284,10 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			String log;
-			String installlog = installapplicationinstance_.getInstalllog();
+			String installlog = FormatExceptionMessage.formatLogMessage("INFO", "(4/6) Add Proxy.", installapplicationinstance_.getInstalllog());
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
+				String loglevel = "ERROR";
 				result_status_ = "ERROR";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
@@ -299,58 +325,17 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	}
 
 	private void pullDockerCompose() {
-		try {
-			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose pull");
-			processbuilder.directory(new File(applicationfolder_));
-			Process process = processbuilder.start();
-			process.waitFor();
-			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-			String log;
-			String composelog = installapplicationinstance_.getInstalllog();
-			while ((log = reader.readLine()) != null) 
-			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
-				result_status_ = "ERROR";
-				composelog = FormatExceptionMessage.formatLogMessage(loglevel, log, composelog);
-				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
-			}
-			
-			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			while ((log = reader.readLine()) != null) 
-			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-					result_status_ = "ERROR";
-				}
-				composelog = FormatExceptionMessage.formatLogMessage(loglevel, log, composelog);
-				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
-			}
-			installapplicationinstance_.setInstalllog(composelog);
-			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
-		} catch(IOException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error pulling docker-compose.yml file for folder:" + applicationfolder_));
-			e.printStackTrace();
-			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "Error pulling docker-compose.yml file for folder:" + applicationfolder_, e.getStackTrace(), installapplicationinstance_.getInstalllog()));
-			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
-			ActivitiesProtocol.addActivityLogEntry(activityId_, "ERROR", FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "Error pulling docker-compose.yml file for folder:" + applicationfolder_, e.getStackTrace()));
-			result_status_ = "ERROR";
-		} catch (InterruptedException e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "startUpApplicationInstance()", "Error pulling docker-compose.yml file for folder:" + applicationfolder_));
-			e.printStackTrace();
-			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "Error pulling docker-compose.yml file for folder:" + applicationfolder_, e.getStackTrace(), installapplicationinstance_.getInstalllog()));
-			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
-			ActivitiesProtocol.addActivityLogEntry(activityId_, "ERROR", FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "callInstallScript(String applicationfolder)", "Error pulling docker-compose.yml file for folder:" + applicationfolder_, e.getStackTrace()));
-			result_status_ = "ERROR";
-		}
+		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(5/6) Pulling Container.");
+		String log = installapplicationinstance_.composePullApplicationInstance();
+		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "(5/6) Pulling Container.", installapplicationinstance_.getInstalllog()));
+		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", log, installapplicationinstance_.getInstalllog()));
+		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", log);
 	}
 	
 	private void startDockerCompose() {
-		String log = installapplicationinstance_.startApplicationInstance();
+		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(6/6) Starting Container.");
+		String log = installapplicationinstance_.composeUpApplicationInstance();
+		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "(6/6) Starting Container.", installapplicationinstance_.getInstalllog()));
 		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", log, installapplicationinstance_.getInstalllog()));
 		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", log);
 	}

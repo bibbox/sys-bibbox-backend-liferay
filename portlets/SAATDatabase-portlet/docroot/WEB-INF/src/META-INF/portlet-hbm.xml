@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="at.graz.meduni.liferay.portlet.saat.model.Dictionary" />
+	<import class="at.graz.meduni.liferay.portlet.saat.model.DictionaryDictionaryLink" />
+	<class name="at.graz.meduni.liferay.portlet.saat.model.impl.DictionaryImpl" table="saat_Dictionary">
+		<id name="dictionaryId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="isroot" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="iscode" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="synonym" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="pattern" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="beforSynonym" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="afterSynonym" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="foreword" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="ending" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="sentence" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="occure" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="nagation" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="priority_mode" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="codeType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="codeValue" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="priority" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="disease_ids" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="dirty" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="disease_ids_count" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="at.graz.meduni.liferay.portlet.saat.model.impl.DictionaryDictionaryLinkImpl" table="saat_DictionaryDictionaryLink">
+		<id name="dictionaryDictionaryLinkId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="userName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="dictionaryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="dictionaryAddictionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+</hibernate-mapping>

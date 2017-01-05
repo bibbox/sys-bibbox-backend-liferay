@@ -138,11 +138,12 @@ public class ApplicationInstanceServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static void getTestAPI(java.lang.String applicationname,
-		java.lang.String version, java.lang.String instanceid,
-		java.lang.String instancename, java.lang.String data) {
-		getService()
-			.getTestAPI(applicationname, version, instanceid, instancename, data);
+	public static void getTestAPI(java.lang.String string) {
+		getService().getTestAPI(string);
+	}
+
+	public static void setPortletConfiguration() {
+		getService().setPortletConfiguration();
 	}
 
 	public static void clearService() {

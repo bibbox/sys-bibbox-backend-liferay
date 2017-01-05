@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="at.graz.meduni.liferay.portlet.saat.service.impl.DictionaryLocalServiceImpl" id="at.graz.meduni.liferay.portlet.saat.service.DictionaryLocalService" />
+	<bean class="at.graz.meduni.liferay.portlet.saat.service.impl.DictionaryServiceImpl" id="at.graz.meduni.liferay.portlet.saat.service.DictionaryService" />
+	<bean class="at.graz.meduni.liferay.portlet.saat.service.persistence.impl.DictionaryPersistenceImpl" id="at.graz.meduni.liferay.portlet.saat.service.persistence.DictionaryPersistence" parent="basePersistence" />
+	<bean class="at.graz.meduni.liferay.portlet.saat.service.impl.DictionaryDictionaryLinkLocalServiceImpl" id="at.graz.meduni.liferay.portlet.saat.service.DictionaryDictionaryLinkLocalService" />
+	<bean class="at.graz.meduni.liferay.portlet.saat.service.impl.DictionaryDictionaryLinkServiceImpl" id="at.graz.meduni.liferay.portlet.saat.service.DictionaryDictionaryLinkService" />
+	<bean class="at.graz.meduni.liferay.portlet.saat.service.persistence.impl.DictionaryDictionaryLinkPersistenceImpl" id="at.graz.meduni.liferay.portlet.saat.service.persistence.DictionaryDictionaryLinkPersistence" parent="basePersistence" />
+</beans>

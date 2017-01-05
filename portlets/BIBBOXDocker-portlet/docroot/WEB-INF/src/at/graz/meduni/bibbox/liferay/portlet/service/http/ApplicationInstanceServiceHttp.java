@@ -477,15 +477,34 @@ public class ApplicationInstanceServiceHttp {
 	}
 
 	public static void getTestAPI(HttpPrincipal httpPrincipal,
-		java.lang.String applicationname, java.lang.String version,
-		java.lang.String instanceid, java.lang.String instancename,
-		java.lang.String data) {
+		java.lang.String string) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"getTestAPI", _getTestAPIParameterTypes15);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					applicationname, version, instanceid, instancename, data);
+			MethodHandler methodHandler = new MethodHandler(methodKey, string);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static void setPortletConfiguration(HttpPrincipal httpPrincipal) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"setPortletConfiguration",
+					_setPortletConfigurationParameterTypes16);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
 
 			try {
 				TunnelUtil.invoke(httpPrincipal, methodHandler);
@@ -551,8 +570,9 @@ public class ApplicationInstanceServiceHttp {
 			java.lang.String.class
 		};
 	private static final Class<?>[] _getTestAPIParameterTypes15 = new Class[] {
-			java.lang.String.class, java.lang.String.class,
-			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class
+		};
+	private static final Class<?>[] _setPortletConfigurationParameterTypes16 = new Class[] {
+			
 		};
 }

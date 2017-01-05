@@ -150,11 +150,13 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
-	public void getTestAPI(java.lang.String applicationname,
-		java.lang.String version, java.lang.String instanceid,
-		java.lang.String instancename, java.lang.String data) {
-		_applicationInstanceService.getTestAPI(applicationname, version,
-			instanceid, instancename, data);
+	public void getTestAPI(java.lang.String string) {
+		_applicationInstanceService.getTestAPI(string);
+	}
+
+	@Override
+	public void setPortletConfiguration() {
+		_applicationInstanceService.setPortletConfiguration();
 	}
 
 	@Override

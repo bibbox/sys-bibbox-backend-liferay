@@ -289,13 +289,21 @@ public class ApplicationInstanceServiceSoap {
 		}
 	}
 
-	public static void getTestAPI(java.lang.String applicationname,
-		java.lang.String version, java.lang.String instanceid,
-		java.lang.String instancename, java.lang.String data)
+	public static void getTestAPI(java.lang.String string)
 		throws RemoteException {
 		try {
-			ApplicationInstanceServiceUtil.getTestAPI(applicationname, version,
-				instanceid, instancename, data);
+			ApplicationInstanceServiceUtil.getTestAPI(string);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void setPortletConfiguration() throws RemoteException {
+		try {
+			ApplicationInstanceServiceUtil.setPortletConfiguration();
 		}
 		catch (Exception e) {
 			_log.error(e, e);

@@ -57,8 +57,9 @@ public class ApplicationInstanceContainerImpl
 	public JSONObject getContainerLog(String lines) {
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		String composelog = "";
+		String newline = System.getProperty("line.separator");
 		try {
-			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker " + this.getContainerName() + " logs --tail " + lines);
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker logs " + this.getContainerName() + " --tail " + lines);
 			Process process = processbuilder.start();
 			process.waitFor();
 			
@@ -67,21 +68,13 @@ public class ApplicationInstanceContainerImpl
 			
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
-				composelog = FormatExceptionMessage.formatLogMessage(loglevel, log, composelog);
+				composelog += newline + log;
 			}
 			
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
-				composelog = FormatExceptionMessage.formatLogMessage(loglevel, log, composelog);
+				composelog += newline + log;
 			}
 			
 		} catch(IOException e) {
@@ -93,7 +86,7 @@ public class ApplicationInstanceContainerImpl
 		}
 		returnobject.put("containername", this.getContainerName());
 		returnobject.put("log", composelog);
-		returnobject.put("cmd", "docker " + this.getContainerName() + " logs --tail " + lines);
+		returnobject.put("cmd", "docker logs " + this.getContainerName() + " --tail " + lines);
 		return returnobject;
 	}
 	

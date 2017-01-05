@@ -31,7 +31,7 @@ public class DockerHelper {
 			while ((line = reader.readLine()) != null) {
 				lines += "| " + line;
 			}
-			return lines;
+			return lines += "| ";
 		} catch(IOException e) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getDockerPSListening()", "Error reading docker ps command."));
 			e.printStackTrace();

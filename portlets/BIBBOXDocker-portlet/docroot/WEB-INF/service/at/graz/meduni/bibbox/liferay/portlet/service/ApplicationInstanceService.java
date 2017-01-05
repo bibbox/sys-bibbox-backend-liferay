@@ -127,7 +127,8 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 
 	@JSONWebService(value = "/test")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public void getTestAPI(java.lang.String applicationname,
-		java.lang.String version, java.lang.String instanceid,
-		java.lang.String instancename, java.lang.String data);
+	public void getTestAPI(java.lang.String string);
+
+	@JSONWebService(value = "/set-portlet-configuration")
+	public void setPortletConfiguration();
 }

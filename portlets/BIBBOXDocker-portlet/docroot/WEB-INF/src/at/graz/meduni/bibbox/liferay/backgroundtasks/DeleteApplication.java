@@ -114,10 +114,7 @@ public class DeleteApplication extends BaseBackgroundTaskExecutor {
 			String log;
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
+				String loglevel = "ERROR";
 				result_status_ = "ERROR";
 				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
 			}

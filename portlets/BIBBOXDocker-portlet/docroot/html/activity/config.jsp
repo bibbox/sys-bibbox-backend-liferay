@@ -10,8 +10,7 @@ String baseactivityurl_cfg = GetterUtil.getString(portletPreferences.getValue("b
 	<aui:fieldset>
    		<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>" />
 		<!-- Record Name -->
-		<aui:input name="preferences--baseurl--" label="Base URL for the js files" type="text" value ="<%= baseurl_cfg %>" />
-		<aui:input name="preferences--baseactivityurl--" label="URL of the activity portal" type="text" value ="<%= baseactivityurl_cfg %>" />
+
 	</aui:fieldset>
 	<aui:button-row>
 		<aui:button type="submit" />

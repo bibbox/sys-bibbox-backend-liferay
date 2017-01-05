@@ -106,10 +106,11 @@ public class ApplicationInstanceServiceClpInvoker {
 
 		_methodName56 = "getTestAPI";
 
-		_methodParameterTypes56 = new String[] {
-				"java.lang.String", "java.lang.String", "java.lang.String",
-				"java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes56 = new String[] { "java.lang.String" };
+
+		_methodName57 = "setPortletConfiguration";
+
+		_methodParameterTypes57 = new String[] {  };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -204,9 +205,14 @@ public class ApplicationInstanceServiceClpInvoker {
 
 		if (_methodName56.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
-			ApplicationInstanceServiceUtil.getTestAPI((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
-				(java.lang.String)arguments[3], (java.lang.String)arguments[4]);
+			ApplicationInstanceServiceUtil.getTestAPI((java.lang.String)arguments[0]);
+
+			return null;
+		}
+
+		if (_methodName57.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
+			ApplicationInstanceServiceUtil.setPortletConfiguration();
 
 			return null;
 		}
@@ -248,4 +254,6 @@ public class ApplicationInstanceServiceClpInvoker {
 	private String[] _methodParameterTypes55;
 	private String _methodName56;
 	private String[] _methodParameterTypes56;
+	private String _methodName57;
+	private String[] _methodParameterTypes57;
 }

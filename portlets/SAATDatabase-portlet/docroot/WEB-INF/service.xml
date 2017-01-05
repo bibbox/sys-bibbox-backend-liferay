@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+<service-builder package-path="at.graz.meduni.liferay.portlet.saat">
+	<author>reihsr</author>
+	<namespace>saat</namespace>
+
+	<entity name="Dictionary" local-service="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="dictionaryId" type="long" primary="true" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Classification fields -->
+		<column name="isroot" type="boolean" />
+		<column name="iscode" type="boolean" />
+		
+		<!-- Node fields -->
+		<column name="synonym" type="String" />
+		<column name="pattern" type="String" />
+		<column name="beforSynonym" type="long" />
+		<column name="afterSynonym" type="long" />
+		<column name="foreword" type="boolean" />
+		<column name="ending" type="boolean" />
+		<column name="sentence" type="boolean" />
+		<column name="occure" type="boolean" />
+		<column name="nagation" type="boolean" />
+		<column name="priority_mode" type="boolean" />
+		
+		<!-- Code fields -->
+		<column name="codeType" type="String" />
+		<column name="codeValue" type="String" />
+		<column name="priority" type="long" />
+		
+		<!-- Statistic fields -->
+		<column name="disease_ids" type="String" />
+		<column name="dirty" type="boolean" />
+		<column name="disease_ids_count" type="long" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="dictionaryId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="CodeType" return-type="Collection">
+			<finder-column name="codeType" />
+		</finder>
+	</entity>
+	
+	<entity name="DictionaryDictionaryLink" local-service="true" remote-service="true">
+		<!-- PK fields -->
+		<column name="dictionaryDictionaryLinkId" type="long" primary="true" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Link fields -->
+		<column name="dictionaryId" type="long" />
+		<column name="dictionaryAddictionId" type="long" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="dictionaryDictionaryLinkId" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="ParentId" return-type="Collection">
+			<finder-column name="dictionaryId" />
+		</finder>
+		<finder name="ChildrenId" return-type="Collection">
+			<finder-column name="dictionaryAddictionId" />
+		</finder>
+	</entity>
+</service-builder>
