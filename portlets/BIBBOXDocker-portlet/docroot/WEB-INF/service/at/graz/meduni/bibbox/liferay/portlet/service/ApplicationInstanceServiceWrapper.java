@@ -155,8 +155,10 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
-	public void setPortletConfiguration() {
-		_applicationInstanceService.setPortletConfiguration();
+	public void setPortletConfiguration(long companyId, long plid,
+		java.lang.String portletId, java.lang.String preferences) {
+		_applicationInstanceService.setPortletConfiguration(companyId, plid,
+			portletId, preferences);
 	}
 
 	@Override

@@ -301,9 +301,12 @@ public class ApplicationInstanceServiceSoap {
 		}
 	}
 
-	public static void setPortletConfiguration() throws RemoteException {
+	public static void setPortletConfiguration(long companyId, long plid,
+		java.lang.String portletId, java.lang.String preferences)
+		throws RemoteException {
 		try {
-			ApplicationInstanceServiceUtil.setPortletConfiguration();
+			ApplicationInstanceServiceUtil.setPortletConfiguration(companyId,
+				plid, portletId, preferences);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

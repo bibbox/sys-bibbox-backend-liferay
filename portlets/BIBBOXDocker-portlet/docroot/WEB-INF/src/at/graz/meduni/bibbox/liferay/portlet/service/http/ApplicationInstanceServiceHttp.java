@@ -498,13 +498,16 @@ public class ApplicationInstanceServiceHttp {
 		}
 	}
 
-	public static void setPortletConfiguration(HttpPrincipal httpPrincipal) {
+	public static void setPortletConfiguration(HttpPrincipal httpPrincipal,
+		long companyId, long plid, java.lang.String portletId,
+		java.lang.String preferences) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"setPortletConfiguration",
 					_setPortletConfigurationParameterTypes16);
 
-			MethodHandler methodHandler = new MethodHandler(methodKey);
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					companyId, plid, portletId, preferences);
 
 			try {
 				TunnelUtil.invoke(httpPrincipal, methodHandler);
@@ -573,6 +576,7 @@ public class ApplicationInstanceServiceHttp {
 			java.lang.String.class
 		};
 	private static final Class<?>[] _setPortletConfigurationParameterTypes16 = new Class[] {
-			
+			long.class, long.class, java.lang.String.class,
+			java.lang.String.class
 		};
 }

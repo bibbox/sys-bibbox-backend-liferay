@@ -110,7 +110,9 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 
 		_methodName18 = "setPortletConfiguration";
 
-		_methodParameterTypes18 = new String[] {  };
+		_methodParameterTypes18 = new String[] {
+				"long", "long", "java.lang.String", "java.lang.String"
+			};
 	}
 
 	@Override
@@ -574,10 +576,20 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 	}
 
 	@Override
-	public void setPortletConfiguration() {
+	public void setPortletConfiguration(long companyId, long plid,
+		java.lang.String portletId, java.lang.String preferences) {
 		try {
 			_invokableService.invokeMethod(_methodName18,
-				_methodParameterTypes18, new Object[] {  });
+				_methodParameterTypes18,
+				new Object[] {
+					companyId,
+					
+				plid,
+					
+				ClpSerializer.translateInput(portletId),
+					
+				ClpSerializer.translateInput(preferences)
+				});
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

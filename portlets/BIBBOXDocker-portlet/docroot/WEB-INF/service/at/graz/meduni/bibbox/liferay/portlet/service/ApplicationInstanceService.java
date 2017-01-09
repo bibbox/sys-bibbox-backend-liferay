@@ -130,5 +130,6 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	public void getTestAPI(java.lang.String string);
 
 	@JSONWebService(value = "/set-portlet-configuration")
-	public void setPortletConfiguration();
+	public void setPortletConfiguration(long companyId, long plid,
+		java.lang.String portletId, java.lang.String preferences);
 }

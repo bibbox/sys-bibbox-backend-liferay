@@ -31,11 +31,13 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -289,24 +291,32 @@ public class ApplicationInstanceServiceImpl
 	}
 	
 	@JSONWebService(value = "/set-portlet-configuration")
-	public void setPortletConfiguration() {
-		//PortletPreferences pp = PortletPreferencesLocalServiceUtil.createPortletPreferences(1);
-		//pp.setCompanyId(companyId);
-		//pp.setPortletId(arg0);
-		//PortletPreferencesLocalServiceUtil.addPortletPreferences(companyId, ownerId, ownerType, plid, portletId, portlet, defaultPreferences);
-		Portlet portlet = PortletLocalServiceUtil.getPortletById("bibboxjscontainer_WAR_BIBBOXDockerportlet");
-		List<PortletPreferences> portletpreferences = PortletPreferencesLocalServiceUtil.getPortletPreferences(91902, "bibboxjscontainer_WAR_BIBBOXDockerportlet");
-		/*PortletPreferencesLocalServiceUtil.addPortletPreferences(20116, 0, PortletKeys.PREFS_OWNER_TYPE_LAYOUT, 91902, "bibboxjscontainer_WAR_BIBBOXDockerportlet", 
-				portlet, "<portlet-preferences><preference><name>firstparameter</name><value>instances</value></preference></portlet-preferences>");
-		List<PortletPreferences> portletpreferences = PortletPreferencesLocalServiceUtil.getPortletPreferences();*/
-		for(PortletPreferences portletpreference : portletpreferences) {
-			System.out.println("CompanyId: " + portletpreference.getCompanyId() + " OwnerId: " + portletpreference.getOwnerId() + 
-					" OwnerType: " + portletpreference.getOwnerType() + " Plid: " + portletpreference.getPlid() + 
-					" PortletId: " + portletpreference.getPortletId() + " PortletPreferencesId: " + portletpreference.getPortletPreferencesId() + 
-					" Preferences: " + portletpreference.getPreferences());
-			portletpreference.setPreferences("<portlet-preferences><preference><name>firstparameter</name><value>instances</value></preference></portlet-preferences>");
-			PortletPreferencesLocalServiceUtil.updatePortletPreferences(portletpreference);
+	public void setPortletConfiguration(long companyId, long plid, String portletId, String preferences) {
+		System.out.println("PortletConfiguration");
+		System.out.println("companyId:" + companyId + " plid:" + plid + " portletId:" + portletId + " preferences:" + preferences);
+		Layout layout;
+		try {
+			layout = LayoutLocalServiceUtil.getLayout(plid);
+			System.out.println("ModelClassName" + layout.getModelClassName());
+		} catch (PortalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		List<PortletPreferences> portletpreferences = PortletPreferencesLocalServiceUtil.getPortletPreferences(plid, portletId);
+		System.out.println(portletpreferences.size());
+		if(portletpreferences.size() == 0) {
+			long ownerId = 0;
+			Portlet portlet = PortletLocalServiceUtil.getPortletById(portletId);
+			PortletPreferencesLocalServiceUtil.addPortletPreferences(companyId, ownerId, PortletKeys.PREFS_OWNER_TYPE_LAYOUT, plid, portletId, portlet, preferences);
+		} else {
+			for(PortletPreferences portletpreference : portletpreferences) {
+				portletpreference.setPreferences(preferences);
+				PortletPreferencesLocalServiceUtil.updatePortletPreferences(portletpreference);
+				
+			}
+		}
+		System.out.println("PortletConfiguration ... end");
 	}
 	
 	private JSONArray getApplicationStoreList() {

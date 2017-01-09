@@ -142,8 +142,10 @@ public class ApplicationInstanceServiceUtil {
 		getService().getTestAPI(string);
 	}
 
-	public static void setPortletConfiguration() {
-		getService().setPortletConfiguration();
+	public static void setPortletConfiguration(long companyId, long plid,
+		java.lang.String portletId, java.lang.String preferences) {
+		getService()
+			.setPortletConfiguration(companyId, plid, portletId, preferences);
 	}
 
 	public static void clearService() {

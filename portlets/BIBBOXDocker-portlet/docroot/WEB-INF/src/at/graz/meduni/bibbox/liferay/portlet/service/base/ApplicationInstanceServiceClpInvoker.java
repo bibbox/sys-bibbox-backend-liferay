@@ -110,7 +110,9 @@ public class ApplicationInstanceServiceClpInvoker {
 
 		_methodName57 = "setPortletConfiguration";
 
-		_methodParameterTypes57 = new String[] {  };
+		_methodParameterTypes57 = new String[] {
+				"long", "long", "java.lang.String", "java.lang.String"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -212,7 +214,9 @@ public class ApplicationInstanceServiceClpInvoker {
 
 		if (_methodName57.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
-			ApplicationInstanceServiceUtil.setPortletConfiguration();
+			ApplicationInstanceServiceUtil.setPortletConfiguration(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue(),
+				(java.lang.String)arguments[2], (java.lang.String)arguments[3]);
 
 			return null;
 		}
