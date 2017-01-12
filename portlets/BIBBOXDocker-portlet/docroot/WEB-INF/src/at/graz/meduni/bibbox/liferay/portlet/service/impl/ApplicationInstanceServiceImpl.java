@@ -99,6 +99,13 @@ public class ApplicationInstanceServiceImpl
 	private static SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss.SSS");
 	public static String newline = System.getProperty("line.separator");
 	
+	@JSONWebService("/version")
+	public JSONObject getVersionAPI() {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		returnobject.put("BIBBOX Version", "v1.0");
+		return returnobject;
+	}
+	
 	@JSONWebService("/get-application-store-list")
 	public JSONObject getApplicationStoreListAPI() {
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();

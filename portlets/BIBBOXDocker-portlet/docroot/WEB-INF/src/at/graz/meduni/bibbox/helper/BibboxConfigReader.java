@@ -21,6 +21,7 @@ public class BibboxConfigReader {
 	private static String bibboxconfigfile_ = null;
 	private static String applicationstorefolder_ = null;
 	private static String instancefolder_ = null;
+	private static String scriptfolder_ = null;
 	private static String baseurl_ = null;
 	private static String adminroles_ = null;
 	
@@ -36,6 +37,13 @@ public class BibboxConfigReader {
 			getBibboxInstancePWDfromConfig();
 		}
 		return instancefolder_;
+	}
+	
+	public static String getScriptPWD() {
+		if(scriptfolder_ == null) {
+			getScriptFolderFromConfig();
+		}
+		return scriptfolder_;
 	}
 
 	public static JSONArray getBibboxApplicationStoreApplicationList() {
@@ -133,6 +141,21 @@ public class BibboxConfigReader {
 			String basepwd = bibboxproperties.getProperty("bibboxdir").replaceAll("\"", "");
 			String folder = bibboxproperties.getProperty("bibboxinstancefolder").replaceAll("\"", "");
 			instancefolder_ = basepwd + "/" + folder;
+			is.close();
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBibboxInstancePWDfromConfig()", "Error reading bibbox config file."));
+			e.printStackTrace();
+		}
+	}
+	
+	private static void getScriptFolderFromConfig() {
+		try {
+			Properties bibboxproperties = new Properties();
+			InputStream is = new FileInputStream(getLiferayConfigForBibboxConfigFile());
+			bibboxproperties.load(is);
+			String basepwd = bibboxproperties.getProperty("bibboxdir").replaceAll("\"", "");
+			String folder = bibboxproperties.getProperty("bibboxscriptfolder").replaceAll("\"", "");
+			scriptfolder_ = basepwd + "/" + folder;
 			is.close();
 		} catch (Exception e) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBibboxInstancePWDfromConfig()", "Error reading bibbox config file."));

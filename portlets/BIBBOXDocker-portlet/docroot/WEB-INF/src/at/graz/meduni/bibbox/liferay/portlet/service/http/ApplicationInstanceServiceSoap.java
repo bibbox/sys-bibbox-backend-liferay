@@ -65,6 +65,19 @@ import java.rmi.RemoteException;
  */
 @ProviderType
 public class ApplicationInstanceServiceSoap {
+	public static java.lang.String getVersionAPI() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getVersionAPI();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static java.lang.String getApplicationStoreListAPI()
 		throws RemoteException {
 		try {

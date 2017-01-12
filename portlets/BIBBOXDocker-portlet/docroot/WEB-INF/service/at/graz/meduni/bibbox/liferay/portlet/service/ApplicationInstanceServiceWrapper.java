@@ -99,6 +99,11 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getVersionAPI() {
+		return _applicationInstanceService.getVersionAPI();
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject installApplicationAPI(
 		java.lang.String applicationname, java.lang.String version,
 		java.lang.String instanceid, java.lang.String instancename,

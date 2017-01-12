@@ -93,6 +93,10 @@ public class ApplicationInstanceServiceUtil {
 		return getService().getUpdatedApplicationStoreListAPI();
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getVersionAPI() {
+		return getService().getVersionAPI();
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject installApplicationAPI(
 		java.lang.String applicationname, java.lang.String version,
 		java.lang.String instanceid, java.lang.String instancename,

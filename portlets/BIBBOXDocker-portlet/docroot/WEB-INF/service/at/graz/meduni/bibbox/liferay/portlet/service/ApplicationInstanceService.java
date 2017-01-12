@@ -94,6 +94,10 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getUpdatedApplicationStoreListAPI();
 
+	@JSONWebService(value = "/version")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getVersionAPI();
+
 	@JSONWebService(value = "/install-application", method = "POST")
 	public JSONObject installApplicationAPI(java.lang.String applicationname,
 		java.lang.String version, java.lang.String instanceid,

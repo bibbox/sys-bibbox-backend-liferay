@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 
 import at.graz.meduni.bibbox.helper.ActivitiesProtocol;
 import at.graz.meduni.bibbox.helper.BibboxConfigReader;
@@ -51,6 +52,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	private SimpleDateFormat format_date = new SimpleDateFormat("yyyy-MM-dd");
 	private SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss.SSS");
 	private String result_status_ = "SUCCESS";
+	private boolean new_install_ = false;
 
 	public InstallApplicationBG() {
 		setBackgroundTaskStatusMessageTranslator(new InstallBackgroundTaskStatusMessageTranslator());
@@ -66,17 +68,41 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId_);
 			applicationfolder_ = BibboxConfigReader.getApplicationFolder(installapplicationinstance_.getApplication(), installapplicationinstance_.getVersion());
 			addActivity();
-			registerPort();
-			registerContainers();
-			try {
-				readData();
-			} catch (Exception ex) {
-				System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "execute(BackgroundTask backgroundTask)", "ERROR READ DATA. applicationfolder:" + applicationfolder_));
-				ex.printStackTrace();
-				result_status_ = "ERROR";
+			
+			// Switch for new install
+			File f = new File(applicationfolder_ + "/install.sh");
+			if(!f.exists()) { 
+				new_install_ = true;
+				// Create folder (1)
+				createFolder();
+				// Copy files (2)
+				copyFiles();
+				// Register Port (3)
+				registerPorts();
+				
+				// Register Containers (4)
+				// Create compose file (5)
+				// add Proxy (6)
+				// pullDocker (7)
+				// start Docker (8)
+				
+			// Switch for old install
+			} else {
+				registerPort();
+				registerContainers();
+				try {
+					readData();
+				} catch (Exception ex) {
+					System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "execute(BackgroundTask backgroundTask)", "ERROR READ DATA. applicationfolder:" + applicationfolder_));
+					ex.printStackTrace();
+					result_status_ = "ERROR";
+				}
+				callInstallScript();
+				addProxyEntry();
+				
 			}
-			callInstallScript();
-			addProxyEntry();
+			
+			// Common Part
 			pullDockerCompose();
 			startDockerCompose();
 			installapplicationinstance_.setIsinstalling(false);
@@ -120,6 +146,72 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		activity.put("start_time", format_date.format(curDate) + "T" + format_time.format(curDate) + "Z");
 		JSONObject activityresult = ActivitiesProtocol.createActivity(activity.toJSONString());
 		activityId_ = activityresult.getString("activitId");
+	}
+	
+	private void createFolder() {
+		String installlog = FormatExceptionMessage.formatLogMessage("INFO", "New Setup script.", installapplicationinstance_.getInstalllog());
+		boolean success = (new File(installapplicationinstance_.getFolderPath())).mkdirs();
+		if (success) {
+			installlog = FormatExceptionMessage.formatLogMessage("INFO", "Instance folder created: " + installapplicationinstance_.getFolderPath(), installlog);
+		} else {
+			installlog = FormatExceptionMessage.formatLogMessage("ERROR", "Cound not create Instance folder: " + installapplicationinstance_.getFolderPath(), installlog);
+		}
+	}
+	
+	private void copyFiles() {
+		try{ 
+			ProcessBuilder processbuilder = new ProcessBuilder("python3","copyapplication.py", "-a "+applicationfolder_,"-i "+installapplicationinstance_.getFolderPath());
+			processbuilder.directory(new File(BibboxConfigReader.getScriptPWD()));
+			Process process = processbuilder.start();
+			process.waitFor();
+				
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String log;
+			String installlog = FormatExceptionMessage.formatLogMessage("INFO", "(2/8) Install Application.", installapplicationinstance_.getInstalllog());
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "ERROR";
+				result_status_ = "ERROR";
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
+			}
+				
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+					result_status_ = "ERROR";
+				}
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
+			}
+				
+			installapplicationinstance_.setInstalllog(installlog);
+			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
+		} catch(Exception e){
+			System.err.println(e);
+		}
+	}
+	
+	private void registerPorts() {
+		try {
+			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder_ + "/sys-info.json");
+		
+			JSONObject sysinfo = JSONFactoryUtil.createJSONObject(jsonstring);
+		
+			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "(3/8) Setting primary port for application.", installapplicationinstance_.getInstalllog()));
+			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
+			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(3/8) Register Ports.");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void registerPort(String portId) {
+		
 	}
 	
 	private void registerPort() {
@@ -200,12 +292,13 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	private void callInstallScript() {
 		try {
 			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(3/6) Install Application.");
+			
 			addExecutePrivilageToFile("install.sh");
 			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "./install.sh " + installapplicationinstance_.getBaseInstallationConfigString() + getInstallationConfigString());
 			processbuilder.directory(new File(applicationfolder_));
 			Process process = processbuilder.start();
 			process.waitFor();
-			
+				
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			String log;
 			String installlog = FormatExceptionMessage.formatLogMessage("INFO", "(3/6) Install Application.", installapplicationinstance_.getInstalllog());
@@ -216,7 +309,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
 			}
-			
+				
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			while ((log = reader.readLine()) != null) 
 			{
@@ -228,7 +321,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
 			}
-			
+				
 			installapplicationinstance_.setInstalllog(installlog);
 			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
 		} catch(IOException e) {

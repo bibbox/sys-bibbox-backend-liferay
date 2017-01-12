@@ -55,12 +55,38 @@ import com.liferay.portal.kernel.util.MethodKey;
  */
 @ProviderType
 public class ApplicationInstanceServiceHttp {
+	public static com.liferay.portal.kernel.json.JSONObject getVersionAPI(
+		HttpPrincipal httpPrincipal) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getVersionAPI", _getVersionAPIParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getApplicationStoreListAPI(
 		HttpPrincipal httpPrincipal) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"getApplicationStoreListAPI",
-					_getApplicationStoreListAPIParameterTypes0);
+					_getApplicationStoreListAPIParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -87,7 +113,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"getUpdatedApplicationStoreListAPI",
-					_getUpdatedApplicationStoreListAPIParameterTypes1);
+					_getUpdatedApplicationStoreListAPIParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -115,7 +141,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"getApplicationStoreItemAPI",
-					_getApplicationStoreItemAPIParameterTypes2);
+					_getApplicationStoreItemAPIParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					applicationname, version);
@@ -145,7 +171,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"installApplicationAPI",
-					_installApplicationAPIParameterTypes3);
+					_installApplicationAPIParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					applicationname, version, instanceid, instancename, data);
@@ -172,7 +198,7 @@ public class ApplicationInstanceServiceHttp {
 		HttpPrincipal httpPrincipal) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
-					"getInstanceListAPI", _getInstanceListAPIParameterTypes4);
+					"getInstanceListAPI", _getInstanceListAPIParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -198,7 +224,7 @@ public class ApplicationInstanceServiceHttp {
 		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
-					"getInstanceInfoAPI", _getInstanceInfoAPIParameterTypes5);
+					"getInstanceInfoAPI", _getInstanceInfoAPIParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId);
@@ -226,7 +252,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"getInstanceDashboardAPI",
-					_getInstanceDashboardAPIParameterTypes6);
+					_getInstanceDashboardAPIParameterTypes7);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId);
@@ -253,7 +279,7 @@ public class ApplicationInstanceServiceHttp {
 		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
-					"getInstanceLogdAPI", _getInstanceLogdAPIParameterTypes7);
+					"getInstanceLogdAPI", _getInstanceLogdAPIParameterTypes8);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId);
@@ -281,7 +307,7 @@ public class ApplicationInstanceServiceHttp {
 		java.lang.String lines) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
-					"getInstanceLogdAPI", _getInstanceLogdAPIParameterTypes8);
+					"getInstanceLogdAPI", _getInstanceLogdAPIParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId, lines);
@@ -309,7 +335,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"getInstanceMaintenanceAPI",
-					_getInstanceMaintenanceAPIParameterTypes9);
+					_getInstanceMaintenanceAPIParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId);
@@ -340,7 +366,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"updateInstanceInfoAPI",
-					_updateInstanceInfoAPIParameterTypes10);
+					_updateInstanceInfoAPIParameterTypes11);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId, instancename, instanceshortname, description,
@@ -369,7 +395,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"deleteInstanceStatusAPI",
-					_deleteInstanceStatusAPIParameterTypes11);
+					_deleteInstanceStatusAPIParameterTypes12);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId);
@@ -398,7 +424,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"setInstanceStatusAPI",
-					_setInstanceStatusAPIParameterTypes12);
+					_setInstanceStatusAPIParameterTypes13);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId, status);
@@ -426,7 +452,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"toggleInstanceMaintenanceStatusAPI",
-					_toggleInstanceMaintenanceStatusAPIParameterTypes13);
+					_toggleInstanceMaintenanceStatusAPIParameterTypes14);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId);
@@ -453,7 +479,7 @@ public class ApplicationInstanceServiceHttp {
 		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
-					"getIdMappingInfoAPI", _getIdMappingInfoAPIParameterTypes14);
+					"getIdMappingInfoAPI", _getIdMappingInfoAPIParameterTypes15);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					instanceId);
@@ -480,7 +506,7 @@ public class ApplicationInstanceServiceHttp {
 		java.lang.String string) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
-					"getTestAPI", _getTestAPIParameterTypes15);
+					"getTestAPI", _getTestAPIParameterTypes16);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, string);
 
@@ -504,7 +530,7 @@ public class ApplicationInstanceServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"setPortletConfiguration",
-					_setPortletConfigurationParameterTypes16);
+					_setPortletConfigurationParameterTypes17);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					companyId, plid, portletId, preferences);
@@ -524,58 +550,59 @@ public class ApplicationInstanceServiceHttp {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(ApplicationInstanceServiceHttp.class);
-	private static final Class<?>[] _getApplicationStoreListAPIParameterTypes0 = new Class[] {
+	private static final Class<?>[] _getVersionAPIParameterTypes0 = new Class[] {  };
+	private static final Class<?>[] _getApplicationStoreListAPIParameterTypes1 = new Class[] {
 			
 		};
-	private static final Class<?>[] _getUpdatedApplicationStoreListAPIParameterTypes1 =
+	private static final Class<?>[] _getUpdatedApplicationStoreListAPIParameterTypes2 =
 		new Class[] {  };
-	private static final Class<?>[] _getApplicationStoreItemAPIParameterTypes2 = new Class[] {
+	private static final Class<?>[] _getApplicationStoreItemAPIParameterTypes3 = new Class[] {
 			java.lang.String.class, java.lang.String.class
 		};
-	private static final Class<?>[] _installApplicationAPIParameterTypes3 = new Class[] {
+	private static final Class<?>[] _installApplicationAPIParameterTypes4 = new Class[] {
 			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getInstanceListAPIParameterTypes4 = new Class[] {
+	private static final Class<?>[] _getInstanceListAPIParameterTypes5 = new Class[] {
 			
 		};
-	private static final Class<?>[] _getInstanceInfoAPIParameterTypes5 = new Class[] {
+	private static final Class<?>[] _getInstanceInfoAPIParameterTypes6 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getInstanceDashboardAPIParameterTypes6 = new Class[] {
-			java.lang.String.class
-		};
-	private static final Class<?>[] _getInstanceLogdAPIParameterTypes7 = new Class[] {
+	private static final Class<?>[] _getInstanceDashboardAPIParameterTypes7 = new Class[] {
 			java.lang.String.class
 		};
 	private static final Class<?>[] _getInstanceLogdAPIParameterTypes8 = new Class[] {
+			java.lang.String.class
+		};
+	private static final Class<?>[] _getInstanceLogdAPIParameterTypes9 = new Class[] {
 			java.lang.String.class, java.lang.String.class
 		};
-	private static final Class<?>[] _getInstanceMaintenanceAPIParameterTypes9 = new Class[] {
+	private static final Class<?>[] _getInstanceMaintenanceAPIParameterTypes10 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _updateInstanceInfoAPIParameterTypes10 = new Class[] {
+	private static final Class<?>[] _updateInstanceInfoAPIParameterTypes11 = new Class[] {
 			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class, java.lang.String.class,
 			java.lang.String.class
 		};
-	private static final Class<?>[] _deleteInstanceStatusAPIParameterTypes11 = new Class[] {
+	private static final Class<?>[] _deleteInstanceStatusAPIParameterTypes12 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _setInstanceStatusAPIParameterTypes12 = new Class[] {
+	private static final Class<?>[] _setInstanceStatusAPIParameterTypes13 = new Class[] {
 			java.lang.String.class, java.lang.String.class
 		};
-	private static final Class<?>[] _toggleInstanceMaintenanceStatusAPIParameterTypes13 =
+	private static final Class<?>[] _toggleInstanceMaintenanceStatusAPIParameterTypes14 =
 		new Class[] { java.lang.String.class };
-	private static final Class<?>[] _getIdMappingInfoAPIParameterTypes14 = new Class[] {
+	private static final Class<?>[] _getIdMappingInfoAPIParameterTypes15 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _getTestAPIParameterTypes15 = new Class[] {
+	private static final Class<?>[] _getTestAPIParameterTypes16 = new Class[] {
 			java.lang.String.class
 		};
-	private static final Class<?>[] _setPortletConfigurationParameterTypes16 = new Class[] {
+	private static final Class<?>[] _setPortletConfigurationParameterTypes17 = new Class[] {
 			long.class, long.class, java.lang.String.class,
 			java.lang.String.class
 		};
