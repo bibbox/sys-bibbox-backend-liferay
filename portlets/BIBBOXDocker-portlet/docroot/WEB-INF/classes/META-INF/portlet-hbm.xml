@@ -59,6 +59,7 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 		<property name="port" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property column="primary_" name="primary" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="subdomain" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="applicationInstanceId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

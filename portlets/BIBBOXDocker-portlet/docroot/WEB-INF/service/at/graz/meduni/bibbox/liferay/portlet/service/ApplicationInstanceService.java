@@ -107,6 +107,10 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	public JSONObject setInstanceStatusAPI(java.lang.String instanceId,
 		java.lang.String status);
 
+	@JSONWebService(value = "/set-portlet-configuration")
+	public JSONObject setPortletConfiguration(long companyId, long plid,
+		java.lang.String portletId, java.lang.String preferences);
+
 	@JSONWebService(value = "/toggle-instance-maintenance-status")
 	public JSONObject toggleInstanceMaintenanceStatusAPI(
 		java.lang.String instanceId);
@@ -132,8 +136,4 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	@JSONWebService(value = "/test")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public void getTestAPI(java.lang.String string);
-
-	@JSONWebService(value = "/set-portlet-configuration")
-	public void setPortletConfiguration(long companyId, long plid,
-		java.lang.String portletId, java.lang.String preferences);
 }

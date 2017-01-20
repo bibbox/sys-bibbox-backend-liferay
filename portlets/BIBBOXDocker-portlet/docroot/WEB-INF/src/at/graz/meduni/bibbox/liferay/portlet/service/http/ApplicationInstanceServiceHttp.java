@@ -524,9 +524,9 @@ public class ApplicationInstanceServiceHttp {
 		}
 	}
 
-	public static void setPortletConfiguration(HttpPrincipal httpPrincipal,
-		long companyId, long plid, java.lang.String portletId,
-		java.lang.String preferences) {
+	public static com.liferay.portal.kernel.json.JSONObject setPortletConfiguration(
+		HttpPrincipal httpPrincipal, long companyId, long plid,
+		java.lang.String portletId, java.lang.String preferences) {
 		try {
 			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
 					"setPortletConfiguration",
@@ -535,12 +535,16 @@ public class ApplicationInstanceServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(methodKey,
 					companyId, plid, portletId, preferences);
 
+			Object returnObj = null;
+
 			try {
-				TunnelUtil.invoke(httpPrincipal, methodHandler);
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
 				throw new com.liferay.portal.kernel.exception.SystemException(e);
 			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException se) {
 			_log.error(se, se);

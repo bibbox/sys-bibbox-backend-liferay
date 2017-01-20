@@ -69,6 +69,7 @@
 		<field name="modifiedDate" type="Date" />
 		<field name="port" type="long" />
 		<field name="primary" type="boolean" />
+		<field name="subdomain" type="String" />
 		<field name="applicationInstanceId" type="long" />
 	</model>
 </model-hints>

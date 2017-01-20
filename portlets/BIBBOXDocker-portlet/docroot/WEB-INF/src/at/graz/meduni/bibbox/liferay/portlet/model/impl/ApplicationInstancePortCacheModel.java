@@ -66,7 +66,7 @@ public class ApplicationInstancePortCacheModel implements CacheModel<Application
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{applicationInstancePortId=");
 		sb.append(applicationInstancePortId);
@@ -86,6 +86,8 @@ public class ApplicationInstancePortCacheModel implements CacheModel<Application
 		sb.append(port);
 		sb.append(", primary=");
 		sb.append(primary);
+		sb.append(", subdomain=");
+		sb.append(subdomain);
 		sb.append(", applicationInstanceId=");
 		sb.append(applicationInstanceId);
 		sb.append("}");
@@ -125,6 +127,14 @@ public class ApplicationInstancePortCacheModel implements CacheModel<Application
 
 		applicationInstancePortImpl.setPort(port);
 		applicationInstancePortImpl.setPrimary(primary);
+
+		if (subdomain == null) {
+			applicationInstancePortImpl.setSubdomain(StringPool.BLANK);
+		}
+		else {
+			applicationInstancePortImpl.setSubdomain(subdomain);
+		}
+
 		applicationInstancePortImpl.setApplicationInstanceId(applicationInstanceId);
 
 		applicationInstancePortImpl.resetOriginalValues();
@@ -148,6 +158,7 @@ public class ApplicationInstancePortCacheModel implements CacheModel<Application
 		port = objectInput.readLong();
 
 		primary = objectInput.readBoolean();
+		subdomain = objectInput.readUTF();
 
 		applicationInstanceId = objectInput.readLong();
 	}
@@ -177,6 +188,13 @@ public class ApplicationInstancePortCacheModel implements CacheModel<Application
 
 		objectOutput.writeBoolean(primary);
 
+		if (subdomain == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(subdomain);
+		}
+
 		objectOutput.writeLong(applicationInstanceId);
 	}
 
@@ -189,5 +207,6 @@ public class ApplicationInstancePortCacheModel implements CacheModel<Application
 	public long modifiedDate;
 	public long port;
 	public boolean primary;
+	public String subdomain;
 	public long applicationInstanceId;
 }

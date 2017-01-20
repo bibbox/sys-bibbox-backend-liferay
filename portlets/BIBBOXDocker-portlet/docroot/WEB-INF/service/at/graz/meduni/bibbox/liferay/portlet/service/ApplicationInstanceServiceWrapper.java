@@ -120,6 +120,14 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject setPortletConfiguration(
+		long companyId, long plid, java.lang.String portletId,
+		java.lang.String preferences) {
+		return _applicationInstanceService.setPortletConfiguration(companyId,
+			plid, portletId, preferences);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject toggleInstanceMaintenanceStatusAPI(
 		java.lang.String instanceId) {
 		return _applicationInstanceService.toggleInstanceMaintenanceStatusAPI(instanceId);
@@ -157,13 +165,6 @@ public class ApplicationInstanceServiceWrapper
 	@Override
 	public void getTestAPI(java.lang.String string) {
 		_applicationInstanceService.getTestAPI(string);
-	}
-
-	@Override
-	public void setPortletConfiguration(long companyId, long plid,
-		java.lang.String portletId, java.lang.String preferences) {
-		_applicationInstanceService.setPortletConfiguration(companyId, plid,
-			portletId, preferences);
 	}
 
 	@Override

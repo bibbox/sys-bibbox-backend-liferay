@@ -69,6 +69,7 @@ public class ApplicationInstancePortWrapper implements ApplicationInstancePort,
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("port", getPort());
 		attributes.put("primary", getPrimary());
+		attributes.put("subdomain", getSubdomain());
 		attributes.put("applicationInstanceId", getApplicationInstanceId());
 
 		return attributes;
@@ -129,6 +130,12 @@ public class ApplicationInstancePortWrapper implements ApplicationInstancePort,
 
 		if (primary != null) {
 			setPrimary(primary);
+		}
+
+		String subdomain = (String)attributes.get("subdomain");
+
+		if (subdomain != null) {
+			setSubdomain(subdomain);
 		}
 
 		Long applicationInstanceId = (Long)attributes.get(
@@ -213,6 +220,16 @@ public class ApplicationInstancePortWrapper implements ApplicationInstancePort,
 	@Override
 	public java.lang.Object clone() {
 		return new ApplicationInstancePortWrapper((ApplicationInstancePort)_applicationInstancePort.clone());
+	}
+
+	/**
+	* Returns the subdomain of this application instance port.
+	*
+	* @return the subdomain of this application instance port
+	*/
+	@Override
+	public java.lang.String getSubdomain() {
+		return _applicationInstancePort.getSubdomain();
 	}
 
 	/**
@@ -459,6 +476,16 @@ public class ApplicationInstancePortWrapper implements ApplicationInstancePort,
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_applicationInstancePort.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	* Sets the subdomain of this application instance port.
+	*
+	* @param subdomain the subdomain of this application instance port
+	*/
+	@Override
+	public void setSubdomain(java.lang.String subdomain) {
+		_applicationInstancePort.setSubdomain(subdomain);
 	}
 
 	/**

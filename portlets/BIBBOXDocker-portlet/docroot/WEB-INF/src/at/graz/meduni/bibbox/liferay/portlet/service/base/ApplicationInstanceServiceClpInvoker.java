@@ -223,11 +223,9 @@ public class ApplicationInstanceServiceClpInvoker {
 
 		if (_methodName58.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
-			ApplicationInstanceServiceUtil.setPortletConfiguration(((Long)arguments[0]).longValue(),
+			return ApplicationInstanceServiceUtil.setPortletConfiguration(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				(java.lang.String)arguments[2], (java.lang.String)arguments[3]);
-
-			return null;
 		}
 
 		throw new UnsupportedOperationException();

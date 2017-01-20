@@ -298,9 +298,15 @@ public class ApplicationInstanceServiceImpl
 	}
 	
 	@JSONWebService(value = "/set-portlet-configuration")
-	public void setPortletConfiguration(long companyId, long plid, String portletId, String preferences) {
+	public JSONObject setPortletConfiguration(long companyId, long plid, String portletId, String preferences) {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		System.out.println("-------------------------");
 		System.out.println("PortletConfiguration");
 		System.out.println("companyId:" + companyId + " plid:" + plid + " portletId:" + portletId + " preferences:" + preferences);
+		returnobject.put("companyId", companyId);
+		returnobject.put("plid", plid);
+		returnobject.put("portletId", portletId);
+		returnobject.put("preferences", preferences);
 		Layout layout;
 		try {
 			layout = LayoutLocalServiceUtil.getLayout(plid);
@@ -324,6 +330,7 @@ public class ApplicationInstanceServiceImpl
 			}
 		}
 		System.out.println("PortletConfiguration ... end");
+		return returnobject;
 	}
 	
 	private JSONArray getApplicationStoreList() {

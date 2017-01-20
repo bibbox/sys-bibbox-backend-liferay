@@ -111,6 +111,14 @@ public class ApplicationInstanceServiceUtil {
 		return getService().setInstanceStatusAPI(instanceId, status);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject setPortletConfiguration(
+		long companyId, long plid, java.lang.String portletId,
+		java.lang.String preferences) {
+		return getService()
+				   .setPortletConfiguration(companyId, plid, portletId,
+			preferences);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject toggleInstanceMaintenanceStatusAPI(
 		java.lang.String instanceId) {
 		return getService().toggleInstanceMaintenanceStatusAPI(instanceId);
@@ -144,12 +152,6 @@ public class ApplicationInstanceServiceUtil {
 
 	public static void getTestAPI(java.lang.String string) {
 		getService().getTestAPI(string);
-	}
-
-	public static void setPortletConfiguration(long companyId, long plid,
-		java.lang.String portletId, java.lang.String preferences) {
-		getService()
-			.setPortletConfiguration(companyId, plid, portletId, preferences);
 	}
 
 	public static void clearService() {

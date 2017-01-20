@@ -44,6 +44,7 @@ public class ApplicationInstancePortSoap implements Serializable {
 		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setPort(model.getPort());
 		soapModel.setPrimary(model.getPrimary());
+		soapModel.setSubdomain(model.getSubdomain());
 		soapModel.setApplicationInstanceId(model.getApplicationInstanceId());
 
 		return soapModel;
@@ -176,6 +177,14 @@ public class ApplicationInstancePortSoap implements Serializable {
 		_primary = primary;
 	}
 
+	public String getSubdomain() {
+		return _subdomain;
+	}
+
+	public void setSubdomain(String subdomain) {
+		_subdomain = subdomain;
+	}
+
 	public long getApplicationInstanceId() {
 		return _applicationInstanceId;
 	}
@@ -193,5 +202,6 @@ public class ApplicationInstancePortSoap implements Serializable {
 	private Date _modifiedDate;
 	private long _port;
 	private boolean _primary;
+	private String _subdomain;
 	private long _applicationInstanceId;
 }

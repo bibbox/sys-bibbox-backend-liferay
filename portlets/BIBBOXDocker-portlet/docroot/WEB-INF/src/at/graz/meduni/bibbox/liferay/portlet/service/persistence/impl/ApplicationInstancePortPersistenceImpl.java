@@ -1517,6 +1517,7 @@ public class ApplicationInstancePortPersistenceImpl extends BasePersistenceImpl<
 		applicationInstancePortImpl.setModifiedDate(applicationInstancePort.getModifiedDate());
 		applicationInstancePortImpl.setPort(applicationInstancePort.getPort());
 		applicationInstancePortImpl.setPrimary(applicationInstancePort.isPrimary());
+		applicationInstancePortImpl.setSubdomain(applicationInstancePort.getSubdomain());
 		applicationInstancePortImpl.setApplicationInstanceId(applicationInstancePort.getApplicationInstanceId());
 
 		return applicationInstancePortImpl;

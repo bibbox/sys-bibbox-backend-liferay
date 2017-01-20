@@ -73,6 +73,7 @@
 		<!-- Other fields -->
 		<column name="port" type="long" />
 		<column name="primary" type="boolean" />
+		<column name="subdomain" type="String" />
 		<column name="applicationInstanceId" type="long" />
 		
 		<!-- Order -->

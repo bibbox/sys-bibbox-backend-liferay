@@ -91,6 +91,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("port", getPort());
 		attributes.put("primary", getPrimary());
+		attributes.put("subdomain", getSubdomain());
 		attributes.put("applicationInstanceId", getApplicationInstanceId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -154,6 +155,12 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 
 		if (primary != null) {
 			setPrimary(primary);
+		}
+
+		String subdomain = (String)attributes.get("subdomain");
+
+		if (subdomain != null) {
+			setSubdomain(subdomain);
 		}
 
 		Long applicationInstanceId = (Long)attributes.get(
@@ -398,6 +405,29 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 	}
 
 	@Override
+	public String getSubdomain() {
+		return _subdomain;
+	}
+
+	@Override
+	public void setSubdomain(String subdomain) {
+		_subdomain = subdomain;
+
+		if (_applicationInstancePortRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstancePortRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setSubdomain", String.class);
+
+				method.invoke(_applicationInstancePortRemoteModel, subdomain);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public long getApplicationInstanceId() {
 		return _applicationInstanceId;
 	}
@@ -502,6 +532,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 		clone.setModifiedDate(getModifiedDate());
 		clone.setPort(getPort());
 		clone.setPrimary(getPrimary());
+		clone.setSubdomain(getSubdomain());
 		clone.setApplicationInstanceId(getApplicationInstanceId());
 
 		return clone;
@@ -571,7 +602,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{applicationInstancePortId=");
 		sb.append(getApplicationInstancePortId());
@@ -591,6 +622,8 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 		sb.append(getPort());
 		sb.append(", primary=");
 		sb.append(getPrimary());
+		sb.append(", subdomain=");
+		sb.append(getSubdomain());
 		sb.append(", applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
 		sb.append("}");
@@ -600,7 +633,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -644,6 +677,10 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 		sb.append(getPrimary());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>subdomain</column-name><column-value><![CDATA[");
+		sb.append(getSubdomain());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>applicationInstanceId</column-name><column-value><![CDATA[");
 		sb.append(getApplicationInstanceId());
 		sb.append("]]></column-value></column>");
@@ -662,6 +699,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 	private Date _modifiedDate;
 	private long _port;
 	private boolean _primary;
+	private String _subdomain;
 	private long _applicationInstanceId;
 	private BaseModel<?> _applicationInstancePortRemoteModel;
 	private Class<?> _clpSerializerClass = ClpSerializer.class;

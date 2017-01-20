@@ -228,6 +228,21 @@ public interface ApplicationInstancePortModel extends BaseModel<ApplicationInsta
 	public void setPrimary(boolean primary);
 
 	/**
+	 * Returns the subdomain of this application instance port.
+	 *
+	 * @return the subdomain of this application instance port
+	 */
+	@AutoEscape
+	public String getSubdomain();
+
+	/**
+	 * Sets the subdomain of this application instance port.
+	 *
+	 * @param subdomain the subdomain of this application instance port
+	 */
+	public void setSubdomain(String subdomain);
+
+	/**
 	 * Returns the application instance ID of this application instance port.
 	 *
 	 * @return the application instance ID of this application instance port

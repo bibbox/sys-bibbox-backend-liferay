@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -53,6 +54,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	private SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss.SSS");
 	private String result_status_ = "SUCCESS";
 	private boolean new_install_ = false;
+	private HashSet<ApplicationInstancePort> application_instance_ports_ = new HashSet<ApplicationInstancePort>();
 
 	public InstallApplicationBG() {
 		setBackgroundTaskStatusMessageTranslator(new InstallBackgroundTaskStatusMessageTranslator());
@@ -79,17 +81,23 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 				copyFiles();
 				// Register Port (3)
 				registerPorts();
-				
 				// Register Containers (4)
+				registerContainers("(4/8)");
+				// write json files
+				writeConfigurationFiles();
 				// Create compose file (5)
+				runInstallScript();
 				// add Proxy (6)
+				writeProxyFiles();
 				// pullDocker (7)
+				pullDockerCompose("(7/8)");
 				// start Docker (8)
+				startDockerCompose("(8/8)");
 				
 			// Switch for old install
 			} else {
 				registerPort();
-				registerContainers();
+				registerContainers("(2/6)");
 				try {
 					readData();
 				} catch (Exception ex) {
@@ -99,12 +107,12 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 				}
 				callInstallScript();
 				addProxyEntry();
-				
+				pullDockerCompose("(5/6)");
+				startDockerCompose("6/6");
 			}
 			
 			// Common Part
-			pullDockerCompose();
-			startDockerCompose();
+			
 			installapplicationinstance_.setIsinstalling(false);
 			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
 			finishActivity();
@@ -200,18 +208,40 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder_ + "/sys-info.json");
 		
 			JSONObject sysinfo = JSONFactoryUtil.createJSONObject(jsonstring);
-		
+			JSONArray mappings = sysinfo.getJSONArray("mappings");
+			Iterator<?> iterator = mappings.iterator();
+			while (iterator.hasNext()) {
+				JSONObject portmap = (JSONObject)iterator;
+				String portId = portmap.getString("id");
+				String proxy = portmap.getString("proxy");
+				String subdomain = portmap.getString("url");
+				registerPort(portId, proxy, subdomain);
+			}
+					
 			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "(3/8) Setting primary port for application.", installapplicationinstance_.getInstalllog()));
 			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
 			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(3/8) Register Ports.");
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (JSONException ex) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "registerPorts()", "ERROR register port for application: applicationfolder:" + applicationfolder_));
+			ex.printStackTrace();
+			result_status_ = "ERROR";
 		}
 	}
 	
-	private void registerPort(String portId) {
-		
+	private void registerPort(String portId, String proxy, String subdomain) {
+		long port = PortRegister.getNextAvailablePort();
+		ApplicationInstancePort applicationinstanceport = ApplicationInstancePortLocalServiceUtil.createApplicationInstancePort(CounterLocalServiceUtil.increment());
+		applicationinstanceport.setApplicationInstanceId(installapplicationinstance_.getApplicationInstanceId());
+		applicationinstanceport.setPort(port);
+		subdomain = subdomain.replaceAll("§§INSTANCE", installapplicationinstance_.getBaseurl());
+		applicationinstanceport.setSubdomain(subdomain);
+		boolean primary = false;
+		if(proxy.equalsIgnoreCase("PRIMARY")) {
+			primary = true;
+		}
+		applicationinstanceport.setPrimary(primary);
+		applicationinstanceport = ApplicationInstancePortLocalServiceUtil.updateApplicationInstancePort(applicationinstanceport);
+		application_instance_ports_.add(applicationinstanceport);
 	}
 	
 	private void registerPort() {
@@ -226,11 +256,11 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		applicationinstanceport = ApplicationInstancePortLocalServiceUtil.updateApplicationInstancePort(applicationinstanceport);
 	}
 	
-	private void registerContainers() {
+	private void registerContainers(String counter) {
 		String applicationfolder = BibboxConfigReader.getApplicationFolder(installapplicationinstance_.getApplication(), installapplicationinstance_.getVersion());
 		try {
-			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(2/6) Register Containers.");
-			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "(2/6) Setting containers for instance", installapplicationinstance_.getInstalllog()));
+			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", counter + " Register Containers.");
+			installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", counter + " Setting containers for instance", installapplicationinstance_.getInstalllog()));
 			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
 			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder + "/sys-info.json");
 			JSONObject sysinfo = JSONFactoryUtil.createJSONObject(jsonstring);
@@ -268,6 +298,18 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		applicationinstancecontainer.setNeedrunning(needrunning);
 		applicationinstancecontainer.setApplicationInstanceId(installapplicationinstance_.getApplicationInstanceId());
 		ApplicationInstanceContainerLocalServiceUtil.updateApplicationInstanceContainer(applicationinstancecontainer);
+	}
+	
+	private void writeConfigurationFiles() {
+		
+	}
+	
+	private void runInstallScript() {
+		
+	}
+	
+	private void writeProxyFiles() {
+		
 	}
 	
 	private void readData() {
@@ -417,18 +459,18 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		}
 	}
 
-	private void pullDockerCompose() {
-		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(5/6) Pulling Container.");
+	private void pullDockerCompose(String step) {
+		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", step + " Pulling Container.");
 		String log = installapplicationinstance_.composePullApplicationInstance();
-		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "(5/6) Pulling Container.", installapplicationinstance_.getInstalllog()));
+		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", step + " Pulling Container.", installapplicationinstance_.getInstalllog()));
 		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", log, installapplicationinstance_.getInstalllog()));
 		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", log);
 	}
 	
-	private void startDockerCompose() {
-		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "(6/6) Starting Container.");
+	private void startDockerCompose(String step) {
+		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", step + " Starting Container.");
 		String log = installapplicationinstance_.composeUpApplicationInstance();
-		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "(6/6) Starting Container.", installapplicationinstance_.getInstalllog()));
+		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", step + " Starting Container.", installapplicationinstance_.getInstalllog()));
 		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", log, installapplicationinstance_.getInstalllog()));
 		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", log);
 	}

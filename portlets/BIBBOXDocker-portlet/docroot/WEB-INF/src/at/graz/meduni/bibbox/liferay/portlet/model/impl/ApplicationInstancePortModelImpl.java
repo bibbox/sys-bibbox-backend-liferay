@@ -79,6 +79,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "port", Types.BIGINT },
 			{ "primary_", Types.BOOLEAN },
+			{ "subdomain", Types.VARCHAR },
 			{ "applicationInstanceId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
@@ -93,10 +94,11 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("port", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("primary_", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("subdomain", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("applicationInstanceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstancePort (applicationInstancePortId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,port LONG,primary_ BOOLEAN,applicationInstanceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstancePort (applicationInstancePortId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,port LONG,primary_ BOOLEAN,subdomain VARCHAR(75) null,applicationInstanceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table bibboxdocker_ApplicationInstancePort";
 	public static final String ORDER_BY_JPQL = " ORDER BY applicationInstancePort.port ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY bibboxdocker_ApplicationInstancePort.port ASC";
@@ -139,6 +141,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setPort(soapModel.getPort());
 		model.setPrimary(soapModel.getPrimary());
+		model.setSubdomain(soapModel.getSubdomain());
 		model.setApplicationInstanceId(soapModel.getApplicationInstanceId());
 
 		return model;
@@ -215,6 +218,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("port", getPort());
 		attributes.put("primary", getPrimary());
+		attributes.put("subdomain", getSubdomain());
 		attributes.put("applicationInstanceId", getApplicationInstanceId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
@@ -278,6 +282,12 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 		if (primary != null) {
 			setPrimary(primary);
+		}
+
+		String subdomain = (String)attributes.get("subdomain");
+
+		if (subdomain != null) {
+			setSubdomain(subdomain);
 		}
 
 		Long applicationInstanceId = (Long)attributes.get(
@@ -435,6 +445,22 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 	@JSON
 	@Override
+	public String getSubdomain() {
+		if (_subdomain == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _subdomain;
+		}
+	}
+
+	@Override
+	public void setSubdomain(String subdomain) {
+		_subdomain = subdomain;
+	}
+
+	@JSON
+	@Override
 	public long getApplicationInstanceId() {
 		return _applicationInstanceId;
 	}
@@ -496,6 +522,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		applicationInstancePortImpl.setModifiedDate(getModifiedDate());
 		applicationInstancePortImpl.setPort(getPort());
 		applicationInstancePortImpl.setPrimary(getPrimary());
+		applicationInstancePortImpl.setSubdomain(getSubdomain());
 		applicationInstancePortImpl.setApplicationInstanceId(getApplicationInstanceId());
 
 		applicationInstancePortImpl.resetOriginalValues();
@@ -620,6 +647,14 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 		applicationInstancePortCacheModel.primary = getPrimary();
 
+		applicationInstancePortCacheModel.subdomain = getSubdomain();
+
+		String subdomain = applicationInstancePortCacheModel.subdomain;
+
+		if ((subdomain != null) && (subdomain.length() == 0)) {
+			applicationInstancePortCacheModel.subdomain = null;
+		}
+
 		applicationInstancePortCacheModel.applicationInstanceId = getApplicationInstanceId();
 
 		return applicationInstancePortCacheModel;
@@ -627,7 +662,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{applicationInstancePortId=");
 		sb.append(getApplicationInstancePortId());
@@ -647,6 +682,8 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		sb.append(getPort());
 		sb.append(", primary=");
 		sb.append(getPrimary());
+		sb.append(", subdomain=");
+		sb.append(getSubdomain());
 		sb.append(", applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
 		sb.append("}");
@@ -656,7 +693,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(34);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -700,6 +737,10 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		sb.append(getPrimary());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>subdomain</column-name><column-value><![CDATA[");
+		sb.append(getSubdomain());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>applicationInstanceId</column-name><column-value><![CDATA[");
 		sb.append(getApplicationInstanceId());
 		sb.append("]]></column-value></column>");
@@ -725,6 +766,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 	private boolean _primary;
 	private boolean _originalPrimary;
 	private boolean _setOriginalPrimary;
+	private String _subdomain;
 	private long _applicationInstanceId;
 	private long _originalApplicationInstanceId;
 	private boolean _setOriginalApplicationInstanceId;

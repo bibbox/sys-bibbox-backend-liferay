@@ -48,5 +48,6 @@ create table bibboxdocker_ApplicationInstancePort (
 	modifiedDate DATE null,
 	port LONG,
 	primary_ BOOLEAN,
+	subdomain VARCHAR(75) null,
 	applicationInstanceId LONG
 );

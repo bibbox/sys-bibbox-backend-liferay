@@ -92,31 +92,31 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName14 = "toggleInstanceMaintenanceStatusAPI";
+		_methodName14 = "setPortletConfiguration";
 
-		_methodParameterTypes14 = new String[] { "java.lang.String" };
+		_methodParameterTypes14 = new String[] {
+				"long", "long", "java.lang.String", "java.lang.String"
+			};
 
-		_methodName15 = "updateInstanceInfoAPI";
+		_methodName15 = "toggleInstanceMaintenanceStatusAPI";
 
-		_methodParameterTypes15 = new String[] {
+		_methodParameterTypes15 = new String[] { "java.lang.String" };
+
+		_methodName16 = "updateInstanceInfoAPI";
+
+		_methodParameterTypes16 = new String[] {
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String"
 			};
 
-		_methodName17 = "getOSGiServiceIdentifier";
+		_methodName18 = "getOSGiServiceIdentifier";
 
-		_methodParameterTypes17 = new String[] {  };
+		_methodParameterTypes18 = new String[] {  };
 
-		_methodName18 = "getTestAPI";
+		_methodName19 = "getTestAPI";
 
-		_methodParameterTypes18 = new String[] { "java.lang.String" };
-
-		_methodName19 = "setPortletConfiguration";
-
-		_methodParameterTypes19 = new String[] {
-				"long", "long", "java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes19 = new String[] { "java.lang.String" };
 	}
 
 	@Override
@@ -486,13 +486,47 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject toggleInstanceMaintenanceStatusAPI(
-		java.lang.String instanceId) {
+	public com.liferay.portal.kernel.json.JSONObject setPortletConfiguration(
+		long companyId, long plid, java.lang.String portletId,
+		java.lang.String preferences) {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableService.invokeMethod(_methodName14,
 					_methodParameterTypes14,
+					new Object[] {
+						companyId,
+						
+					plid,
+						
+					ClpSerializer.translateInput(portletId),
+						
+					ClpSerializer.translateInput(preferences)
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.liferay.portal.kernel.json.JSONObject)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toggleInstanceMaintenanceStatusAPI(
+		java.lang.String instanceId) {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableService.invokeMethod(_methodName15,
+					_methodParameterTypes15,
 					new Object[] { ClpSerializer.translateInput(instanceId) });
 		}
 		catch (Throwable t) {
@@ -519,8 +553,8 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName15,
-					_methodParameterTypes15,
+			returnObj = _invokableService.invokeMethod(_methodName16,
+					_methodParameterTypes16,
 					new Object[] {
 						ClpSerializer.translateInput(instanceId),
 						
@@ -564,8 +598,8 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableService.invokeMethod(_methodName17,
-					_methodParameterTypes17, new Object[] {  });
+			returnObj = _invokableService.invokeMethod(_methodName18,
+					_methodParameterTypes18, new Object[] {  });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -585,38 +619,9 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 	@Override
 	public void getTestAPI(java.lang.String string) {
 		try {
-			_invokableService.invokeMethod(_methodName18,
-				_methodParameterTypes18,
-				new Object[] { ClpSerializer.translateInput(string) });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-	}
-
-	@Override
-	public void setPortletConfiguration(long companyId, long plid,
-		java.lang.String portletId, java.lang.String preferences) {
-		try {
 			_invokableService.invokeMethod(_methodName19,
 				_methodParameterTypes19,
-				new Object[] {
-					companyId,
-					
-				plid,
-					
-				ClpSerializer.translateInput(portletId),
-					
-				ClpSerializer.translateInput(preferences)
-				});
+				new Object[] { ClpSerializer.translateInput(string) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -664,8 +669,8 @@ public class ApplicationInstanceServiceClp implements ApplicationInstanceService
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName17;
-	private String[] _methodParameterTypes17;
+	private String _methodName16;
+	private String[] _methodParameterTypes16;
 	private String _methodName18;
 	private String[] _methodParameterTypes18;
 	private String _methodName19;

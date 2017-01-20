@@ -314,12 +314,14 @@ public class ApplicationInstanceServiceSoap {
 		}
 	}
 
-	public static void setPortletConfiguration(long companyId, long plid,
-		java.lang.String portletId, java.lang.String preferences)
+	public static java.lang.String setPortletConfiguration(long companyId,
+		long plid, java.lang.String portletId, java.lang.String preferences)
 		throws RemoteException {
 		try {
-			ApplicationInstanceServiceUtil.setPortletConfiguration(companyId,
-				plid, portletId, preferences);
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.setPortletConfiguration(companyId,
+					plid, portletId, preferences);
+
+			return returnValue.toString();
 		}
 		catch (Exception e) {
 			_log.error(e, e);
