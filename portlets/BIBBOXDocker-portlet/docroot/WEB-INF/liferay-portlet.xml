@@ -33,7 +33,7 @@
 			<scheduler-event-listener-class>at.graz.meduni.bibbox.liferay.schedular.Schedular</scheduler-event-listener-class>
 			<trigger>
 				<simple>
-					<simple-trigger-value>5000</simple-trigger-value>
+					<simple-trigger-value>5</simple-trigger-value>
 					<time-unit>second</time-unit>
 				</simple>
 			</trigger>

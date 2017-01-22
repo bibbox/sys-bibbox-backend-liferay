@@ -207,6 +207,21 @@ public interface ApplicationInstancePortModel extends BaseModel<ApplicationInsta
 	public void setPort(long port);
 
 	/**
+	 * Returns the port ID of this application instance port.
+	 *
+	 * @return the port ID of this application instance port
+	 */
+	@AutoEscape
+	public String getPortId();
+
+	/**
+	 * Sets the port ID of this application instance port.
+	 *
+	 * @param portId the port ID of this application instance port
+	 */
+	public void setPortId(String portId);
+
+	/**
 	 * Returns the primary of this application instance port.
 	 *
 	 * @return the primary of this application instance port

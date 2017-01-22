@@ -68,6 +68,7 @@ public class ApplicationInstancePortWrapper implements ApplicationInstancePort,
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("port", getPort());
+		attributes.put("portId", getPortId());
 		attributes.put("primary", getPrimary());
 		attributes.put("subdomain", getSubdomain());
 		attributes.put("applicationInstanceId", getApplicationInstanceId());
@@ -124,6 +125,12 @@ public class ApplicationInstancePortWrapper implements ApplicationInstancePort,
 
 		if (port != null) {
 			setPort(port);
+		}
+
+		String portId = (String)attributes.get("portId");
+
+		if (portId != null) {
+			setPortId(portId);
 		}
 
 		Boolean primary = (Boolean)attributes.get("primary");
@@ -220,6 +227,16 @@ public class ApplicationInstancePortWrapper implements ApplicationInstancePort,
 	@Override
 	public java.lang.Object clone() {
 		return new ApplicationInstancePortWrapper((ApplicationInstancePort)_applicationInstancePort.clone());
+	}
+
+	/**
+	* Returns the port ID of this application instance port.
+	*
+	* @return the port ID of this application instance port
+	*/
+	@Override
+	public java.lang.String getPortId() {
+		return _applicationInstancePort.getPortId();
 	}
 
 	/**
@@ -451,6 +468,16 @@ public class ApplicationInstancePortWrapper implements ApplicationInstancePort,
 	@Override
 	public void setPort(long port) {
 		_applicationInstancePort.setPort(port);
+	}
+
+	/**
+	* Sets the port ID of this application instance port.
+	*
+	* @param portId the port ID of this application instance port
+	*/
+	@Override
+	public void setPortId(java.lang.String portId) {
+		_applicationInstancePort.setPortId(portId);
 	}
 
 	/**

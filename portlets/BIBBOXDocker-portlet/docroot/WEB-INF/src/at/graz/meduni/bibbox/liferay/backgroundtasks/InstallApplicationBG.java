@@ -1,9 +1,13 @@
 package at.graz.meduni.bibbox.liferay.backgroundtasks;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -233,6 +237,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		ApplicationInstancePort applicationinstanceport = ApplicationInstancePortLocalServiceUtil.createApplicationInstancePort(CounterLocalServiceUtil.increment());
 		applicationinstanceport.setApplicationInstanceId(installapplicationinstance_.getApplicationInstanceId());
 		applicationinstanceport.setPort(port);
+		applicationinstanceport.setPortId(portId);
 		subdomain = subdomain.replaceAll("§§INSTANCE", installapplicationinstance_.getBaseurl());
 		applicationinstanceport.setSubdomain(subdomain);
 		boolean primary = false;
@@ -301,15 +306,167 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	}
 	
 	private void writeConfigurationFiles() {
+		writePortConfigFile();
+		writeEnvironmentConfigFile();
+		writeConfigConfigFile();
+	}
+	
+	private void writePortConfigFile() {
+		try {
+			File fout = new File("portmap.json");
+			FileOutputStream fos;
 		
+			fos = new FileOutputStream(fout);
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+			
+			bw.write("{");
+			bw.newLine();
+			bw.write("  \"instance\":\"" + installapplicationinstance_.getInstanceId() + "\",");
+			bw.newLine();
+			
+			for (ApplicationInstancePort application_instance_port : application_instance_ports_) {
+				bw.write("  \"" + application_instance_port.getPortId() + "\":\"" + application_instance_port.getPort() + "\",");
+				bw.newLine();
+			}
+			
+			bw.write("  \"baseurl\":\"" + installapplicationinstance_.getBaseurl() + "\"");
+			bw.newLine();
+			bw.write("}");
+		 
+			bw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	
+	private void writeEnvironmentConfigFile() {
+		try {
+			File fout = new File("environment-parameters-settings.json");
+			FileOutputStream fos;
+		
+			fos = new FileOutputStream(fout);
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+			
+			String datasting = "";
+			Serializable dataserializable = taskContextMap_.get("data");
+			System.out.println(dataserializable);
+			if(dataserializable != null) {
+				datasting = dataserializable.toString();
+			}
+			
+			bw.write(datasting);
+			bw.newLine();
+		 
+			bw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}
+	
+	private void writeConfigConfigFile() {
+		try {
+			File fout = new File("config-parameters-settings.json");
+			FileOutputStream fos;
+		
+			fos = new FileOutputStream(fout);
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+			
+			bw.write("");
+			bw.newLine();
+		 
+			bw.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 	
 	private void runInstallScript() {
-		
+		try{ 
+			ProcessBuilder processbuilder = new ProcessBuilder("python3","install.py", "-a "+applicationfolder_,"-i "+installapplicationinstance_.getFolderPath());
+			processbuilder.directory(new File(BibboxConfigReader.getScriptPWD()));
+			Process process = processbuilder.start();
+			process.waitFor();
+				
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String log;
+			String installlog = FormatExceptionMessage.formatLogMessage("INFO", "(5/8) Install Application.", installapplicationinstance_.getInstalllog());
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "ERROR";
+				result_status_ = "ERROR";
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
+			}
+				
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+					result_status_ = "ERROR";
+				}
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
+			}
+				
+			installapplicationinstance_.setInstalllog(installlog);
+			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
+		} catch(Exception e){
+			System.err.println(e);
+		}
 	}
 	
 	private void writeProxyFiles() {
-		
+		try{ 
+			ProcessBuilder processbuilder = new ProcessBuilder("python3","proxy.py", "-a "+applicationfolder_,"-i "+installapplicationinstance_.getFolderPath());
+			processbuilder.directory(new File(BibboxConfigReader.getScriptPWD()));
+			Process process = processbuilder.start();
+			process.waitFor();
+				
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String log;
+			String installlog = FormatExceptionMessage.formatLogMessage("INFO", "(6/8) Install Application.", installapplicationinstance_.getInstalllog());
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "ERROR";
+				result_status_ = "ERROR";
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
+			}
+				
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR")) {
+					loglevel = "ERROR";
+					result_status_ = "ERROR";
+				}
+				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
+				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
+			}
+				
+			installapplicationinstance_.setInstalllog(installlog);
+			installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
+		} catch(Exception e){
+			System.err.println(e);
+		}
 	}
 	
 	private void readData() {

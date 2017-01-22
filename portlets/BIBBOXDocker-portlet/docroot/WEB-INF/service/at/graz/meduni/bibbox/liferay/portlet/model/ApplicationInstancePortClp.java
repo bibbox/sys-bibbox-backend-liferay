@@ -90,6 +90,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("port", getPort());
+		attributes.put("portId", getPortId());
 		attributes.put("primary", getPrimary());
 		attributes.put("subdomain", getSubdomain());
 		attributes.put("applicationInstanceId", getApplicationInstanceId());
@@ -149,6 +150,12 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 
 		if (port != null) {
 			setPort(port);
+		}
+
+		String portId = (String)attributes.get("portId");
+
+		if (portId != null) {
+			setPortId(portId);
 		}
 
 		Boolean primary = (Boolean)attributes.get("primary");
@@ -377,6 +384,29 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 	}
 
 	@Override
+	public String getPortId() {
+		return _portId;
+	}
+
+	@Override
+	public void setPortId(String portId) {
+		_portId = portId;
+
+		if (_applicationInstancePortRemoteModel != null) {
+			try {
+				Class<?> clazz = _applicationInstancePortRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setPortId", String.class);
+
+				method.invoke(_applicationInstancePortRemoteModel, portId);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public boolean getPrimary() {
 		return _primary;
 	}
@@ -531,6 +561,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 		clone.setCreateDate(getCreateDate());
 		clone.setModifiedDate(getModifiedDate());
 		clone.setPort(getPort());
+		clone.setPortId(getPortId());
 		clone.setPrimary(getPrimary());
 		clone.setSubdomain(getSubdomain());
 		clone.setApplicationInstanceId(getApplicationInstanceId());
@@ -602,7 +633,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{applicationInstancePortId=");
 		sb.append(getApplicationInstancePortId());
@@ -620,6 +651,8 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 		sb.append(getModifiedDate());
 		sb.append(", port=");
 		sb.append(getPort());
+		sb.append(", portId=");
+		sb.append(getPortId());
 		sb.append(", primary=");
 		sb.append(getPrimary());
 		sb.append(", subdomain=");
@@ -633,7 +666,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -673,6 +706,10 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 		sb.append(getPort());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>portId</column-name><column-value><![CDATA[");
+		sb.append(getPortId());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>primary</column-name><column-value><![CDATA[");
 		sb.append(getPrimary());
 		sb.append("]]></column-value></column>");
@@ -698,6 +735,7 @@ public class ApplicationInstancePortClp extends BaseModelImpl<ApplicationInstanc
 	private Date _createDate;
 	private Date _modifiedDate;
 	private long _port;
+	private String _portId;
 	private boolean _primary;
 	private String _subdomain;
 	private long _applicationInstanceId;

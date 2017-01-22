@@ -78,6 +78,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 			{ "createDate", Types.TIMESTAMP },
 			{ "modifiedDate", Types.TIMESTAMP },
 			{ "port", Types.BIGINT },
+			{ "portId", Types.VARCHAR },
 			{ "primary_", Types.BOOLEAN },
 			{ "subdomain", Types.VARCHAR },
 			{ "applicationInstanceId", Types.BIGINT }
@@ -93,12 +94,13 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("port", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("portId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("primary_", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("subdomain", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("applicationInstanceId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstancePort (applicationInstancePortId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,port LONG,primary_ BOOLEAN,subdomain VARCHAR(75) null,applicationInstanceId LONG)";
+	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstancePort (applicationInstancePortId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,port LONG,portId VARCHAR(75) null,primary_ BOOLEAN,subdomain VARCHAR(75) null,applicationInstanceId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table bibboxdocker_ApplicationInstancePort";
 	public static final String ORDER_BY_JPQL = " ORDER BY applicationInstancePort.port ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY bibboxdocker_ApplicationInstancePort.port ASC";
@@ -140,6 +142,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		model.setCreateDate(soapModel.getCreateDate());
 		model.setModifiedDate(soapModel.getModifiedDate());
 		model.setPort(soapModel.getPort());
+		model.setPortId(soapModel.getPortId());
 		model.setPrimary(soapModel.getPrimary());
 		model.setSubdomain(soapModel.getSubdomain());
 		model.setApplicationInstanceId(soapModel.getApplicationInstanceId());
@@ -217,6 +220,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		attributes.put("createDate", getCreateDate());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("port", getPort());
+		attributes.put("portId", getPortId());
 		attributes.put("primary", getPrimary());
 		attributes.put("subdomain", getSubdomain());
 		attributes.put("applicationInstanceId", getApplicationInstanceId());
@@ -276,6 +280,12 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 		if (port != null) {
 			setPort(port);
+		}
+
+		String portId = (String)attributes.get("portId");
+
+		if (portId != null) {
+			setPortId(portId);
 		}
 
 		Boolean primary = (Boolean)attributes.get("primary");
@@ -417,6 +427,22 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 	@JSON
 	@Override
+	public String getPortId() {
+		if (_portId == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _portId;
+		}
+	}
+
+	@Override
+	public void setPortId(String portId) {
+		_portId = portId;
+	}
+
+	@JSON
+	@Override
 	public boolean getPrimary() {
 		return _primary;
 	}
@@ -521,6 +547,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		applicationInstancePortImpl.setCreateDate(getCreateDate());
 		applicationInstancePortImpl.setModifiedDate(getModifiedDate());
 		applicationInstancePortImpl.setPort(getPort());
+		applicationInstancePortImpl.setPortId(getPortId());
 		applicationInstancePortImpl.setPrimary(getPrimary());
 		applicationInstancePortImpl.setSubdomain(getSubdomain());
 		applicationInstancePortImpl.setApplicationInstanceId(getApplicationInstanceId());
@@ -645,6 +672,14 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 		applicationInstancePortCacheModel.port = getPort();
 
+		applicationInstancePortCacheModel.portId = getPortId();
+
+		String portId = applicationInstancePortCacheModel.portId;
+
+		if ((portId != null) && (portId.length() == 0)) {
+			applicationInstancePortCacheModel.portId = null;
+		}
+
 		applicationInstancePortCacheModel.primary = getPrimary();
 
 		applicationInstancePortCacheModel.subdomain = getSubdomain();
@@ -662,7 +697,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{applicationInstancePortId=");
 		sb.append(getApplicationInstancePortId());
@@ -680,6 +715,8 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		sb.append(getModifiedDate());
 		sb.append(", port=");
 		sb.append(getPort());
+		sb.append(", portId=");
+		sb.append(getPortId());
 		sb.append(", primary=");
 		sb.append(getPrimary());
 		sb.append(", subdomain=");
@@ -693,7 +730,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -733,6 +770,10 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 		sb.append(getPort());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>portId</column-name><column-value><![CDATA[");
+		sb.append(getPortId());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>primary</column-name><column-value><![CDATA[");
 		sb.append(getPrimary());
 		sb.append("]]></column-value></column>");
@@ -763,6 +804,7 @@ public class ApplicationInstancePortModelImpl extends BaseModelImpl<ApplicationI
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _port;
+	private String _portId;
 	private boolean _primary;
 	private boolean _originalPrimary;
 	private boolean _setOriginalPrimary;
