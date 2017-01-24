@@ -172,8 +172,8 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	
 	private void copyFiles() {
 		try{ 
-			ProcessBuilder processbuilder = new ProcessBuilder("python3","copyapplication.py", "-a "+applicationfolder_,"-i "+installapplicationinstance_.getFolderPath());
-			processbuilder.directory(new File(BibboxConfigReader.getScriptPWD()));
+			ProcessBuilder processbuilder = new ProcessBuilder("python3", "copyapplication.py", "-a "+applicationfolder_,"-i "+installapplicationinstance_.getFolderPath());
+			processbuilder.directory(new File(BibboxConfigReader.getScriptPWD() + "/app-install"));
 			Process process = processbuilder.start();
 			process.waitFor();
 				
@@ -209,13 +209,14 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	
 	private void registerPorts() {
 		try {
-			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder_ + "/sys-info.json");
-		
+			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder_ + "/portinfo.json");
+			
 			JSONObject sysinfo = JSONFactoryUtil.createJSONObject(jsonstring);
 			JSONArray mappings = sysinfo.getJSONArray("mappings");
 			Iterator<?> iterator = mappings.iterator();
 			while (iterator.hasNext()) {
-				JSONObject portmap = (JSONObject)iterator;
+				String portmap_string = iterator.next().toString();
+				JSONObject portmap = JSONFactoryUtil.createJSONObject(portmap_string);
 				String portId = portmap.getString("id");
 				String proxy = portmap.getString("proxy");
 				String subdomain = portmap.getString("url");
@@ -313,7 +314,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	
 	private void writePortConfigFile() {
 		try {
-			File fout = new File("portmap.json");
+			File fout = new File(installapplicationinstance_.getFolderPath() + "/portmap.json");
 			FileOutputStream fos;
 		
 			fos = new FileOutputStream(fout);
@@ -345,7 +346,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	
 	private void writeEnvironmentConfigFile() {
 		try {
-			File fout = new File("environment-parameters-settings.json");
+			File fout = new File(installapplicationinstance_.getFolderPath() + "/environment-parameters-settings.json");
 			FileOutputStream fos;
 		
 			fos = new FileOutputStream(fout);
@@ -376,13 +377,13 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	
 	private void writeConfigConfigFile() {
 		try {
-			File fout = new File("config-parameters-settings.json");
+			File fout = new File(installapplicationinstance_.getFolderPath() + "/config-parameters-settings.json");
 			FileOutputStream fos;
 		
 			fos = new FileOutputStream(fout);
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
 			
-			bw.write("");
+			bw.write("{}");
 			bw.newLine();
 		 
 			bw.close();
@@ -397,8 +398,8 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	
 	private void runInstallScript() {
 		try{ 
-			ProcessBuilder processbuilder = new ProcessBuilder("python3","install.py", "-a "+applicationfolder_,"-i "+installapplicationinstance_.getFolderPath());
-			processbuilder.directory(new File(BibboxConfigReader.getScriptPWD()));
+			ProcessBuilder processbuilder = new ProcessBuilder("python3", "install.py", "-a "+applicationfolder_,"-i "+installapplicationinstance_.getFolderPath());
+			processbuilder.directory(new File(BibboxConfigReader.getScriptPWD() + "/app-install"));
 			Process process = processbuilder.start();
 			process.waitFor();
 				
@@ -434,8 +435,8 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 	
 	private void writeProxyFiles() {
 		try{ 
-			ProcessBuilder processbuilder = new ProcessBuilder("python3","proxy.py", "-a "+applicationfolder_,"-i "+installapplicationinstance_.getFolderPath());
-			processbuilder.directory(new File(BibboxConfigReader.getScriptPWD()));
+			ProcessBuilder processbuilder = new ProcessBuilder("python3", "port.py", "-a "+applicationfolder_,"-i "+installapplicationinstance_.getFolderPath());
+			processbuilder.directory(new File(BibboxConfigReader.getScriptPWD() + "/app-install"));
 			Process process = processbuilder.start();
 			process.waitFor();
 				

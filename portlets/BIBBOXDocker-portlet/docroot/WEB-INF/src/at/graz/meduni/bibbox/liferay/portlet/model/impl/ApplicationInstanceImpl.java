@@ -103,7 +103,8 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "ERROR";
+				// TODO: Filter for errors
+				String loglevel = "INFO";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -111,9 +112,6 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			while ((log = reader.readLine()) != null) 
 			{
 				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -140,7 +138,8 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "ERROR";
+				// TODO: Filter for errors
+				String loglevel = "INFO";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -148,9 +147,6 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			while ((log = reader.readLine()) != null) 
 			{
 				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -177,7 +173,8 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "ERROR";
+				// TODO: Filter for errors
+				String loglevel = "INFO";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -185,9 +182,6 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			while ((log = reader.readLine()) != null) 
 			{
 				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -214,7 +208,8 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "ERROR";
+				// TODO: Filter for errors
+				String loglevel = "INFO";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -222,9 +217,6 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			while ((log = reader.readLine()) != null) 
 			{
 				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -251,7 +243,8 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "ERROR";
+				// TODO: Filter for errors
+				String loglevel = "INFO";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
@@ -259,9 +252,6 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			while ((log = reader.readLine()) != null) 
 			{
 				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-				}
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
 			
