@@ -76,8 +76,8 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			addActivity();
 			
 			// Switch for new install
-			File f = new File(applicationfolder_ + "/install.sh");
-			if(!f.exists()) { 
+			File f = new File(applicationfolder_ + "/file_structure.json");
+			if(f.exists()) { 
 				new_install_ = true;
 				// Create folder (1)
 				createFolder();
