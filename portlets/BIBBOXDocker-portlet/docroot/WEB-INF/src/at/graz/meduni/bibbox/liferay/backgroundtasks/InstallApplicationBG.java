@@ -77,7 +77,9 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			
 			// Switch for new install
 			File f = new File(applicationfolder_ + "/file_structure.json");
+			System.out.println(applicationfolder_ + "/file_structure.json");
 			if(f.exists()) { 
+				System.out.println("New Installer");
 				new_install_ = true;
 				// Create folder (1)
 				createFolder();
@@ -100,6 +102,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 				
 			// Switch for old install
 			} else {
+				System.out.println("Old Installer");
 				registerPort();
 				registerContainers("(2/6)");
 				try {
@@ -358,6 +361,9 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 			if(dataserializable != null) {
 				datasting = dataserializable.toString();
 			}
+			
+			JSONObject tmp = JSONFactoryUtil.createJSONObject(datasting);
+			datasting = tmp.toJSONString();
 			
 			bw.write(datasting);
 			bw.newLine();
