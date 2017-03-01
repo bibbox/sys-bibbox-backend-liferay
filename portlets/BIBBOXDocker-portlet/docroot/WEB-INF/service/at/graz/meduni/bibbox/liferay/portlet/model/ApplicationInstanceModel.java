@@ -238,21 +238,6 @@ public interface ApplicationInstanceModel extends BaseModel<ApplicationInstance>
 	public void setShortName(String shortName);
 
 	/**
-	 * Returns the baseurl of this application instance.
-	 *
-	 * @return the baseurl of this application instance
-	 */
-	@AutoEscape
-	public String getBaseurl();
-
-	/**
-	 * Sets the baseurl of this application instance.
-	 *
-	 * @param baseurl the baseurl of this application instance
-	 */
-	public void setBaseurl(String baseurl);
-
-	/**
 	 * Returns the folder name of this application instance.
 	 *
 	 * @return the folder name of this application instance

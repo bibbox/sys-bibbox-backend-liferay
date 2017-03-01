@@ -18,7 +18,6 @@
 		<field name="shortName" type="String">
 			<hint name="max-length">5000</hint>
 		</field>
-		<field name="baseurl" type="String" />
 		<field name="folderName" type="String">
 			<hint name="max-length">5000</hint>
 		</field>

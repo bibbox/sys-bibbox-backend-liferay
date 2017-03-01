@@ -242,7 +242,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		applicationinstanceport.setApplicationInstanceId(installapplicationinstance_.getApplicationInstanceId());
 		applicationinstanceport.setPort(port);
 		applicationinstanceport.setPortId(portId);
-		subdomain = subdomain.replaceAll("§§INSTANCE", installapplicationinstance_.getBaseurl());
+		subdomain = subdomain.replaceAll("§§INSTANCE", BibboxConfigReader.getBaseURL());
 		applicationinstanceport.setSubdomain(subdomain);
 		boolean primary = false;
 		if(proxy.equalsIgnoreCase("PRIMARY")) {
@@ -333,7 +333,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 				bw.newLine();
 			}
 			
-			bw.write("  \"baseurl\":\"" + installapplicationinstance_.getBaseurl() + "\"");
+			bw.write("  \"baseurl\":\"" + BibboxConfigReader.getBaseURL() + "\"");
 			bw.newLine();
 			bw.write("}");
 		 

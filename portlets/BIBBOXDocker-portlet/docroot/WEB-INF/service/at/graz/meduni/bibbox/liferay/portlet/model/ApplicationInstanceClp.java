@@ -91,7 +91,6 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		attributes.put("instanceId", getInstanceId());
 		attributes.put("name", getName());
 		attributes.put("shortName", getShortName());
-		attributes.put("baseurl", getBaseurl());
 		attributes.put("folderName", getFolderName());
 		attributes.put("application", getApplication());
 		attributes.put("version", getVersion());
@@ -172,12 +171,6 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 		if (shortName != null) {
 			setShortName(shortName);
-		}
-
-		String baseurl = (String)attributes.get("baseurl");
-
-		if (baseurl != null) {
-			setBaseurl(baseurl);
 		}
 
 		String folderName = (String)attributes.get("folderName");
@@ -497,29 +490,6 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 				Method method = clazz.getMethod("setShortName", String.class);
 
 				method.invoke(_applicationInstanceRemoteModel, shortName);
-			}
-			catch (Exception e) {
-				throw new UnsupportedOperationException(e);
-			}
-		}
-	}
-
-	@Override
-	public String getBaseurl() {
-		return _baseurl;
-	}
-
-	@Override
-	public void setBaseurl(String baseurl) {
-		_baseurl = baseurl;
-
-		if (_applicationInstanceRemoteModel != null) {
-			try {
-				Class<?> clazz = _applicationInstanceRemoteModel.getClass();
-
-				Method method = clazz.getMethod("setBaseurl", String.class);
-
-				method.invoke(_applicationInstanceRemoteModel, baseurl);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -1247,7 +1217,6 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		clone.setInstanceId(getInstanceId());
 		clone.setName(getName());
 		clone.setShortName(getShortName());
-		clone.setBaseurl(getBaseurl());
 		clone.setFolderName(getFolderName());
 		clone.setApplication(getApplication());
 		clone.setVersion(getVersion());
@@ -1320,7 +1289,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
@@ -1342,8 +1311,6 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		sb.append(getName());
 		sb.append(", shortName=");
 		sb.append(getShortName());
-		sb.append(", baseurl=");
-		sb.append(getBaseurl());
 		sb.append(", folderName=");
 		sb.append(getFolderName());
 		sb.append(", application=");
@@ -1375,7 +1342,7 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(70);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -1421,10 +1388,6 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		sb.append(
 			"<column><column-name>shortName</column-name><column-value><![CDATA[");
 		sb.append(getShortName());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>baseurl</column-name><column-value><![CDATA[");
-		sb.append(getBaseurl());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>folderName</column-name><column-value><![CDATA[");
@@ -1490,7 +1453,6 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 	private String _instanceId;
 	private String _name;
 	private String _shortName;
-	private String _baseurl;
 	private String _folderName;
 	private String _application;
 	private String _version;

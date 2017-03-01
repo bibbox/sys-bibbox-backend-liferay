@@ -80,7 +80,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			{ "instanceId", Types.VARCHAR },
 			{ "name", Types.VARCHAR },
 			{ "shortName", Types.VARCHAR },
-			{ "baseurl", Types.VARCHAR },
 			{ "folderName", Types.VARCHAR },
 			{ "application", Types.VARCHAR },
 			{ "version", Types.VARCHAR },
@@ -107,7 +106,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		TABLE_COLUMNS_MAP.put("instanceId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("shortName", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("baseurl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("folderName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("application", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("version", Types.VARCHAR);
@@ -122,7 +120,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		TABLE_COLUMNS_MAP.put("isinstalling", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,shortName TEXT null,baseurl VARCHAR(75) null,folderName TEXT null,application TEXT null,version TEXT null,status VARCHAR(75) null,deleted BOOLEAN,shortdescription TEXT null,description TEXT null,adminnode VARCHAR(75) null,maintenance TEXT null,ismaintenance BOOLEAN,installlog TEXT null,isinstalling BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table bibboxdocker_ApplicationInstance (applicationInstanceId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,instanceId TEXT null,name TEXT null,shortName TEXT null,folderName TEXT null,application TEXT null,version TEXT null,status VARCHAR(75) null,deleted BOOLEAN,shortdescription TEXT null,description TEXT null,adminnode VARCHAR(75) null,maintenance TEXT null,ismaintenance BOOLEAN,installlog TEXT null,isinstalling BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table bibboxdocker_ApplicationInstance";
 	public static final String ORDER_BY_JPQL = " ORDER BY applicationInstance.folderName ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY bibboxdocker_ApplicationInstance.folderName ASC";
@@ -165,7 +163,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		model.setInstanceId(soapModel.getInstanceId());
 		model.setName(soapModel.getName());
 		model.setShortName(soapModel.getShortName());
-		model.setBaseurl(soapModel.getBaseurl());
 		model.setFolderName(soapModel.getFolderName());
 		model.setApplication(soapModel.getApplication());
 		model.setVersion(soapModel.getVersion());
@@ -253,7 +250,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		attributes.put("instanceId", getInstanceId());
 		attributes.put("name", getName());
 		attributes.put("shortName", getShortName());
-		attributes.put("baseurl", getBaseurl());
 		attributes.put("folderName", getFolderName());
 		attributes.put("application", getApplication());
 		attributes.put("version", getVersion());
@@ -334,12 +330,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 		if (shortName != null) {
 			setShortName(shortName);
-		}
-
-		String baseurl = (String)attributes.get("baseurl");
-
-		if (baseurl != null) {
-			setBaseurl(baseurl);
 		}
 
 		String folderName = (String)attributes.get("folderName");
@@ -575,22 +565,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 	@Override
 	public void setShortName(String shortName) {
 		_shortName = shortName;
-	}
-
-	@JSON
-	@Override
-	public String getBaseurl() {
-		if (_baseurl == null) {
-			return StringPool.BLANK;
-		}
-		else {
-			return _baseurl;
-		}
-	}
-
-	@Override
-	public void setBaseurl(String baseurl) {
-		_baseurl = baseurl;
 	}
 
 	@JSON
@@ -848,7 +822,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		applicationInstanceImpl.setInstanceId(getInstanceId());
 		applicationInstanceImpl.setName(getName());
 		applicationInstanceImpl.setShortName(getShortName());
-		applicationInstanceImpl.setBaseurl(getBaseurl());
 		applicationInstanceImpl.setFolderName(getFolderName());
 		applicationInstanceImpl.setApplication(getApplication());
 		applicationInstanceImpl.setVersion(getVersion());
@@ -996,14 +969,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 			applicationInstanceCacheModel.shortName = null;
 		}
 
-		applicationInstanceCacheModel.baseurl = getBaseurl();
-
-		String baseurl = applicationInstanceCacheModel.baseurl;
-
-		if ((baseurl != null) && (baseurl.length() == 0)) {
-			applicationInstanceCacheModel.baseurl = null;
-		}
-
 		applicationInstanceCacheModel.folderName = getFolderName();
 
 		String folderName = applicationInstanceCacheModel.folderName;
@@ -1087,7 +1052,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(getApplicationInstanceId());
@@ -1109,8 +1074,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		sb.append(getName());
 		sb.append(", shortName=");
 		sb.append(getShortName());
-		sb.append(", baseurl=");
-		sb.append(getBaseurl());
 		sb.append(", folderName=");
 		sb.append(getFolderName());
 		sb.append(", application=");
@@ -1142,7 +1105,7 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(70);
 
 		sb.append("<model><model-name>");
 		sb.append(
@@ -1188,10 +1151,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 		sb.append(
 			"<column><column-name>shortName</column-name><column-value><![CDATA[");
 		sb.append(getShortName());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>baseurl</column-name><column-value><![CDATA[");
-		sb.append(getBaseurl());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>folderName</column-name><column-value><![CDATA[");
@@ -1263,7 +1222,6 @@ public class ApplicationInstanceModelImpl extends BaseModelImpl<ApplicationInsta
 	private String _originalInstanceId;
 	private String _name;
 	private String _shortName;
-	private String _baseurl;
 	private String _folderName;
 	private String _originalFolderName;
 	private String _application;

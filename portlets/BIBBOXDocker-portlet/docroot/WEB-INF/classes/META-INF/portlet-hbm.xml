@@ -18,7 +18,6 @@
 		<property name="instanceId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="shortName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="baseurl" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="folderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="application" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="version" type="com.liferay.portal.dao.orm.hibernate.StringType" />

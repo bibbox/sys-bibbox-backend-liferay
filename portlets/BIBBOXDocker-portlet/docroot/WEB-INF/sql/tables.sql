@@ -9,7 +9,6 @@ create table bibboxdocker_ApplicationInstance (
 	instanceId TEXT null,
 	name TEXT null,
 	shortName TEXT null,
-	baseurl VARCHAR(75) null,
 	folderName TEXT null,
 	application TEXT null,
 	version TEXT null,

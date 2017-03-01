@@ -66,7 +66,7 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{applicationInstanceId=");
 		sb.append(applicationInstanceId);
@@ -88,8 +88,6 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		sb.append(name);
 		sb.append(", shortName=");
 		sb.append(shortName);
-		sb.append(", baseurl=");
-		sb.append(baseurl);
 		sb.append(", folderName=");
 		sb.append(folderName);
 		sb.append(", application=");
@@ -168,13 +166,6 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		}
 		else {
 			applicationInstanceImpl.setShortName(shortName);
-		}
-
-		if (baseurl == null) {
-			applicationInstanceImpl.setBaseurl(StringPool.BLANK);
-		}
-		else {
-			applicationInstanceImpl.setBaseurl(baseurl);
 		}
 
 		if (folderName == null) {
@@ -266,7 +257,6 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		instanceId = objectInput.readUTF();
 		name = objectInput.readUTF();
 		shortName = objectInput.readUTF();
-		baseurl = objectInput.readUTF();
 		folderName = objectInput.readUTF();
 		application = objectInput.readUTF();
 		version = objectInput.readUTF();
@@ -324,13 +314,6 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 		}
 		else {
 			objectOutput.writeUTF(shortName);
-		}
-
-		if (baseurl == null) {
-			objectOutput.writeUTF(StringPool.BLANK);
-		}
-		else {
-			objectOutput.writeUTF(baseurl);
 		}
 
 		if (folderName == null) {
@@ -413,7 +396,6 @@ public class ApplicationInstanceCacheModel implements CacheModel<ApplicationInst
 	public String instanceId;
 	public String name;
 	public String shortName;
-	public String baseurl;
 	public String folderName;
 	public String application;
 	public String version;

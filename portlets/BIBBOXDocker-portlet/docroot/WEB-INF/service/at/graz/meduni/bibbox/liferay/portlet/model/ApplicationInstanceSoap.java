@@ -44,7 +44,6 @@ public class ApplicationInstanceSoap implements Serializable {
 		soapModel.setInstanceId(model.getInstanceId());
 		soapModel.setName(model.getName());
 		soapModel.setShortName(model.getShortName());
-		soapModel.setBaseurl(model.getBaseurl());
 		soapModel.setFolderName(model.getFolderName());
 		soapModel.setApplication(model.getApplication());
 		soapModel.setVersion(model.getVersion());
@@ -192,14 +191,6 @@ public class ApplicationInstanceSoap implements Serializable {
 		_shortName = shortName;
 	}
 
-	public String getBaseurl() {
-		return _baseurl;
-	}
-
-	public void setBaseurl(String baseurl) {
-		_baseurl = baseurl;
-	}
-
 	public String getFolderName() {
 		return _folderName;
 	}
@@ -318,7 +309,6 @@ public class ApplicationInstanceSoap implements Serializable {
 	private String _instanceId;
 	private String _name;
 	private String _shortName;
-	private String _baseurl;
 	private String _folderName;
 	private String _application;
 	private String _version;

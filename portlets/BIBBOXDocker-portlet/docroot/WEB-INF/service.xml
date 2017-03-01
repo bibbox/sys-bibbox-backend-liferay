@@ -22,7 +22,6 @@
 		<column name="instanceId" type="String" />
 		<column name="name" type="String" />
 		<column name="shortName" type="String" />
-		<column name="baseurl" type="String" />
 		
 		<column name="folderName" type="String" />
 		<column name="application" type="String" />

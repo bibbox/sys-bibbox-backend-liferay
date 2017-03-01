@@ -68,7 +68,6 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 		attributes.put("instanceId", getInstanceId());
 		attributes.put("name", getName());
 		attributes.put("shortName", getShortName());
-		attributes.put("baseurl", getBaseurl());
 		attributes.put("folderName", getFolderName());
 		attributes.put("application", getApplication());
 		attributes.put("version", getVersion());
@@ -146,12 +145,6 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 
 		if (shortName != null) {
 			setShortName(shortName);
-		}
-
-		String baseurl = (String)attributes.get("baseurl");
-
-		if (baseurl != null) {
-			setBaseurl(baseurl);
 		}
 
 		String folderName = (String)attributes.get("folderName");
@@ -402,16 +395,6 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public java.lang.String getBaseInstallationConfigString() {
 		return _applicationInstance.getBaseInstallationConfigString();
-	}
-
-	/**
-	* Returns the baseurl of this application instance.
-	*
-	* @return the baseurl of this application instance
-	*/
-	@Override
-	public java.lang.String getBaseurl() {
-		return _applicationInstance.getBaseurl();
 	}
 
 	@Override
@@ -697,16 +680,6 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	@Override
 	public void setApplicationInstanceId(long applicationInstanceId) {
 		_applicationInstance.setApplicationInstanceId(applicationInstanceId);
-	}
-
-	/**
-	* Sets the baseurl of this application instance.
-	*
-	* @param baseurl the baseurl of this application instance
-	*/
-	@Override
-	public void setBaseurl(java.lang.String baseurl) {
-		_applicationInstance.setBaseurl(baseurl);
 	}
 
 	@Override
