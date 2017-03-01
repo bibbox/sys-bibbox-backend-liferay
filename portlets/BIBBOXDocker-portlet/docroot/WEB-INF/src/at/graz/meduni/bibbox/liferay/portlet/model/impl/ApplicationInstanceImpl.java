@@ -290,7 +290,7 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 	}
 	
 	public String getInstanceUrl() {
-		return "http://" + this.getInstanceId() + "." + this.getBaseurl();
+		return "http://" + this.getInstanceId() + "." + BibboxConfigReader.getBaseURL();
 	}
 	
 	public List<ApplicationInstanceContainer> getContainersNeedToRun() {
@@ -314,6 +314,7 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			if(!this.getStatus().equals("")) {
 				status = this.getStatus();
 			}
+			System.out.println("System Status: " + status + " - |" + this.getStatus() + "|");
 			return status;
 		}
 	}

@@ -635,8 +635,10 @@ public class ApplicationInstanceServiceImpl
 				ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", log);
 			}
 			finishActivity(activityId, "FINISHED", "SUCCESS");
+			System.out.println("3-> Starting Status: " + applicationinstance.getStatus());
 			applicationinstance.setStatus("");
 			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
+			System.out.println("4-> Starting Status: " + applicationinstance.getStatus());
 		}
 		return returnobject;
 	}

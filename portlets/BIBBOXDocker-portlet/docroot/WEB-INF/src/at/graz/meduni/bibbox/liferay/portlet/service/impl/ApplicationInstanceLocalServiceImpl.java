@@ -91,7 +91,6 @@ public class ApplicationInstanceLocalServiceImpl
 		applicationinstance.setInstanceId(instanceid);
 		applicationinstance.setName(instancename);
 		applicationinstance.setShortName(instancename);
-		applicationinstance.setBaseurl(BibboxConfigReader.getBaseURL());
 		applicationinstance.setIsmaintenance(true);
 		applicationinstance.setDeleted(false);
 		applicationinstance.setIsinstalling(true);
