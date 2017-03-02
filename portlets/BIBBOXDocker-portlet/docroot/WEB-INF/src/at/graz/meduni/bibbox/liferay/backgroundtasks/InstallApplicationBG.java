@@ -646,7 +646,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		Date curDate = new Date();
 		activity.put("finished_time", format_date.format(curDate) + "T" + format_time.format(curDate) + "Z");
 		ActivitiesProtocol.updateActivity(activityId_, activity.toJSONString());
-		System.out.println(Thread.currentThread().getName()+" Finished. install Application: " + instanceId_ + " SUCCESSFUL");
+		System.out.println(Thread.currentThread().getName()+" Finished. install Application: " + instanceId_ + " " + result_status_);
 		installapplicationinstance_.setInstalllog(FormatExceptionMessage.formatLogMessage("INFO", "installation finished", installapplicationinstance_.getInstalllog()));
 		installapplicationinstance_ = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(installapplicationinstance_);
 	}

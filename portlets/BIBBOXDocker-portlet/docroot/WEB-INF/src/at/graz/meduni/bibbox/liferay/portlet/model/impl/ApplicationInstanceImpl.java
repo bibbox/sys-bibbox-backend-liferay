@@ -314,7 +314,7 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			if(!this.getStatus().equals("")) {
 				status = this.getStatus();
 			}
-			System.out.println("System Status: " + status + " - |" + this.getStatus() + "|");
+			//System.out.println("System Status: " + status + " - |" + this.getStatus() + "|");
 			return status;
 		}
 	}

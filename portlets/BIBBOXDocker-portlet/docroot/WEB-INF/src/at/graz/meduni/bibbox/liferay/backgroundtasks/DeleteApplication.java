@@ -58,7 +58,27 @@ public class DeleteApplication extends BaseBackgroundTaskExecutor {
 			
 			dockerDown();
 			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "Deleting Folders and Files: " + applicationinstance_.getFolderPath());
-			deleteFolderStructure(new File(applicationinstance_.getFolderPath()));
+			File instancefolder = new File(applicationinstance_.getFolderPath());
+			try {
+			int counter = 30;
+				while(instancefolder.exists()) {
+					deleteFolderStructure(instancefolder);
+					counter --;
+					if(counter < 0) {
+						forceDeleteFolderStructure(instancefolder);
+						if(instancefolder.exists()) {
+							ActivitiesProtocol.addActivityLogEntry(activityId_, "ERROR", "Cound not delete all files.");
+							result_status_ = "ERROR";
+						}
+						break;
+					}
+				}
+			} catch (Exception ex) {
+				System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "execute(BackgroundTask backgroundTask)", "Error deleting files for: instanceId:" + instanceId_));
+				result_status_ = "ERROR";
+				ex.printStackTrace();
+				finishActivity();
+			}
 			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "Deleting Proxy Entry:");
 			deleteProxyEntry(applicationinstance_.getInstanceId());
 			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "Cleanup Portlist:");
@@ -71,7 +91,9 @@ public class DeleteApplication extends BaseBackgroundTaskExecutor {
 			finishActivity();
 		} catch (Exception ex) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "execute(BackgroundTask backgroundTask)", "Error running backgroundTask. instanceId:" + instanceId_));
+			result_status_ = "ERROR";
 			ex.printStackTrace();
+			finishActivity();
 		}
 		return new BackgroundTaskResult(BackgroundTaskConstants.STATUS_SUCCESSFUL);
 	}
@@ -114,8 +136,7 @@ public class DeleteApplication extends BaseBackgroundTaskExecutor {
 			String log;
 			while ((log = reader.readLine()) != null) 
 			{
-				String loglevel = "ERROR";
-				result_status_ = "ERROR";
+				String loglevel = "INFO";
 				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
 			}
 			
@@ -123,10 +144,6 @@ public class DeleteApplication extends BaseBackgroundTaskExecutor {
 			while ((log = reader.readLine()) != null) 
 			{
 				String loglevel = "INFO";
-				if(log.startsWith("ERROR")) {
-					loglevel = "ERROR";
-					result_status_ = "ERROR";
-				}
 				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
 			}			
 		} catch(IOException e) {
@@ -154,10 +171,48 @@ public class DeleteApplication extends BaseBackgroundTaskExecutor {
 		folder.delete();
 	}
 	
+	private void forceDeleteFolderStructure(File folder) {
+		try {
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "sudo ./delete_root_folder_applications.sh " + applicationinstance_.getFolderName());
+			processbuilder.directory(new File("/etc/bibbox"));
+			Process process = processbuilder.start();
+			process.waitFor();
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String log;
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR:")) {
+					loglevel = "ERROR";
+				}
+				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
+			}
+			
+			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			while ((log = reader.readLine()) != null) 
+			{
+				String loglevel = "INFO";
+				if(log.startsWith("ERROR:")) {
+					loglevel = "ERROR";
+				}
+				ActivitiesProtocol.addActivityLogEntry(activityId_, loglevel, log);
+			}			
+		} catch(IOException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "dockerDown(String applicationfolder)", "Error stopping containers and removes containers, networks, volumes, and images from Instance with ID: " + instanceId_));
+			e.printStackTrace();
+			result_status_ = "ERROR";
+		} catch (InterruptedException e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "dockerDown(String applicationfolder)", "Error stopping containers and removes containers, networks, volumes, and images from Instance with ID: " + instanceId_));
+			e.printStackTrace();
+			result_status_ = "ERROR";
+		}
+	}
+	
 	private void deleteProxyEntry(String instanceId) {
-		File sitesenabled = new File("/etc/apache2/sites-enabled/005-" + instanceId_ + ".conf");
+		File sitesenabled = new File("/etc/apache2/sites-enabled/005-" + instanceId_);
 		sitesenabled.delete();
-		File sitesavailable = new File("/etc/apache2/sites-available/005-" + instanceId_ + ".conf");
+		File sitesavailable = new File("/etc/apache2/sites-available/005-" + instanceId_);
 		ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "Deleting Link: " + sitesenabled.getName());
 		sitesavailable.delete();
 	}
