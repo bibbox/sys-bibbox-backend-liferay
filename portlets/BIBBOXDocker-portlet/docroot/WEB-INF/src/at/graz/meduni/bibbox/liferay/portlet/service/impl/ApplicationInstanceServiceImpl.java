@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.portlet.PortletClassLoaderUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
@@ -44,6 +45,9 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManagerUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 
 import aQute.bnd.annotation.ProviderType;
@@ -61,9 +65,11 @@ import at.graz.meduni.bibbox.liferay.backgroundtasks.InstallApplicationBG;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort;
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceStatus;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.base.ApplicationInstanceServiceBaseImpl;
 
 /**
@@ -491,6 +497,7 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("application", getApplicationStoreItem(applicationinstance.getApplication(), applicationinstance.getVersion()));
 			return returnobject;
 		}
+		applicationinstance = null;
 		return returnobject;
 	}
 	
@@ -508,6 +515,7 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("application", getApplicationStoreItem(applicationinstance.getApplication(), applicationinstance.getVersion()));
 			return returnobject;
 		}
+		applicationinstance = null;
 		return returnobject;
 	}
 	
@@ -523,6 +531,7 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("ismaintenance", applicationinstance.getIsmaintenance());
 			return returnobject;
 		}
+		applicationinstance = null;
 		return returnobject;
 	}
 	
@@ -613,33 +622,37 @@ public class ApplicationInstanceServiceImpl
 	}
 	
 	private JSONObject startInstance(String instanceId) {
-		String activityId = addMessageActivity("Starting Instance " + instanceId, "STARTAPP", "RUNNING", "UNKNOWN");
+		//String activityId = addMessageActivity("Starting Instance " + instanceId, "STARTAPP", "RUNNING", "UNKNOWN");
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
 		if(applicationinstance == null) {
 			returnobject.put("status", "error");
 			returnobject.put("error", "InstanceId dose not exist!");
-			ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
-			finishActivity(activityId, "FINISHED", "ERROR");
+			//ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
+			//finishActivity(activityId, "FINISHED", "ERROR");
 		} else {
 			applicationinstance.setStatus("starting");
 			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
+			ActivitiesProtocol.setStatusUpdate(applicationinstance.getApplicationInstanceId(), "starting");
 			
-			System.out.println("1-> Starting Status: " + applicationinstance.getStatus());
+			
+			System.out.println("1-> Starting Status: " + applicationinstance.getStatus() + "|" + applicationinstance.getApplicationStatus());
 			applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
-			System.out.println("2-> Starting Status12: " + applicationinstance.getStatus());
+			System.out.println("2-> Starting Status12: " + applicationinstance.getStatus() + "|" + applicationinstance.getApplicationStatus());
 			
 			String logs = applicationinstance.startApplicationInstance();
 			returnobject.put("log", logs);
 			for(String log : logs.split(newline)) {
-				ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", log);
+				//ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", log);
 			}
-			finishActivity(activityId, "FINISHED", "SUCCESS");
-			System.out.println("3-> Starting Status: " + applicationinstance.getStatus());
+			//finishActivity(activityId, "FINISHED", "SUCCESS");
+			System.out.println("3-> Starting Status: " + applicationinstance.getStatus() + "|" + applicationinstance.getApplicationStatus());
 			applicationinstance.setStatus("");
 			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
-			System.out.println("4-> Starting Status: " + applicationinstance.getStatus());
+			ActivitiesProtocol.setStatusUpdate(applicationinstance.getApplicationInstanceId(), "");
+			System.out.println("4-> Starting Status: " + applicationinstance.getStatus() + "|" + applicationinstance.getApplicationStatus());
 		}
+		applicationinstance = null;
 		return returnobject;
 	}
 	

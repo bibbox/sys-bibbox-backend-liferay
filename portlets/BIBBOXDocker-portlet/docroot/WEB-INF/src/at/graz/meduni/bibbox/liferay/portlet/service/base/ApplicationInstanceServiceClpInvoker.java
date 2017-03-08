@@ -27,202 +27,202 @@ import java.util.Arrays;
 @ProviderType
 public class ApplicationInstanceServiceClpInvoker {
 	public ApplicationInstanceServiceClpInvoker() {
-		_methodName36 = "getOSGiServiceIdentifier";
-
-		_methodParameterTypes36 = new String[] {  };
-
-		_methodName41 = "getVersionAPI";
-
-		_methodParameterTypes41 = new String[] {  };
-
-		_methodName42 = "getApplicationStoreListAPI";
+		_methodName42 = "getOSGiServiceIdentifier";
 
 		_methodParameterTypes42 = new String[] {  };
 
-		_methodName43 = "getUpdatedApplicationStoreListAPI";
+		_methodName47 = "getVersionAPI";
 
-		_methodParameterTypes43 = new String[] {  };
+		_methodParameterTypes47 = new String[] {  };
 
-		_methodName44 = "getApplicationStoreItemAPI";
+		_methodName48 = "getApplicationStoreListAPI";
 
-		_methodParameterTypes44 = new String[] {
-				"java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes48 = new String[] {  };
 
-		_methodName45 = "installApplicationAPI";
+		_methodName49 = "getUpdatedApplicationStoreListAPI";
 
-		_methodParameterTypes45 = new String[] {
-				"java.lang.String", "java.lang.String", "java.lang.String",
-				"java.lang.String", "java.lang.String"
-			};
+		_methodParameterTypes49 = new String[] {  };
 
-		_methodName46 = "getInstanceListAPI";
-
-		_methodParameterTypes46 = new String[] {  };
-
-		_methodName47 = "getInstanceInfoAPI";
-
-		_methodParameterTypes47 = new String[] { "java.lang.String" };
-
-		_methodName48 = "getInstanceDashboardAPI";
-
-		_methodParameterTypes48 = new String[] { "java.lang.String" };
-
-		_methodName49 = "getInstanceLogdAPI";
-
-		_methodParameterTypes49 = new String[] { "java.lang.String" };
-
-		_methodName50 = "getInstanceLogdAPI";
+		_methodName50 = "getApplicationStoreItemAPI";
 
 		_methodParameterTypes50 = new String[] {
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName51 = "getInstanceMaintenanceAPI";
+		_methodName51 = "installApplicationAPI";
 
-		_methodParameterTypes51 = new String[] { "java.lang.String" };
+		_methodParameterTypes51 = new String[] {
+				"java.lang.String", "java.lang.String", "java.lang.String",
+				"java.lang.String", "java.lang.String"
+			};
 
-		_methodName52 = "updateInstanceInfoAPI";
+		_methodName52 = "getInstanceListAPI";
 
-		_methodParameterTypes52 = new String[] {
+		_methodParameterTypes52 = new String[] {  };
+
+		_methodName53 = "getInstanceInfoAPI";
+
+		_methodParameterTypes53 = new String[] { "java.lang.String" };
+
+		_methodName54 = "getInstanceDashboardAPI";
+
+		_methodParameterTypes54 = new String[] { "java.lang.String" };
+
+		_methodName55 = "getInstanceLogdAPI";
+
+		_methodParameterTypes55 = new String[] { "java.lang.String" };
+
+		_methodName56 = "getInstanceLogdAPI";
+
+		_methodParameterTypes56 = new String[] {
+				"java.lang.String", "java.lang.String"
+			};
+
+		_methodName57 = "getInstanceMaintenanceAPI";
+
+		_methodParameterTypes57 = new String[] { "java.lang.String" };
+
+		_methodName58 = "updateInstanceInfoAPI";
+
+		_methodParameterTypes58 = new String[] {
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String", "java.lang.String",
 				"java.lang.String"
 			};
 
-		_methodName53 = "deleteInstanceStatusAPI";
+		_methodName59 = "deleteInstanceStatusAPI";
 
-		_methodParameterTypes53 = new String[] { "java.lang.String" };
+		_methodParameterTypes59 = new String[] { "java.lang.String" };
 
-		_methodName54 = "setInstanceStatusAPI";
+		_methodName60 = "setInstanceStatusAPI";
 
-		_methodParameterTypes54 = new String[] {
+		_methodParameterTypes60 = new String[] {
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName55 = "toggleInstanceMaintenanceStatusAPI";
+		_methodName61 = "toggleInstanceMaintenanceStatusAPI";
 
-		_methodParameterTypes55 = new String[] { "java.lang.String" };
+		_methodParameterTypes61 = new String[] { "java.lang.String" };
 
-		_methodName56 = "getIdMappingInfoAPI";
+		_methodName62 = "getIdMappingInfoAPI";
 
-		_methodParameterTypes56 = new String[] { "java.lang.String" };
+		_methodParameterTypes62 = new String[] { "java.lang.String" };
 
-		_methodName57 = "getTestAPI";
+		_methodName63 = "getTestAPI";
 
-		_methodParameterTypes57 = new String[] { "java.lang.String" };
+		_methodParameterTypes63 = new String[] { "java.lang.String" };
 
-		_methodName58 = "setPortletConfiguration";
+		_methodName64 = "setPortletConfiguration";
 
-		_methodParameterTypes58 = new String[] {
+		_methodParameterTypes64 = new String[] {
 				"long", "long", "java.lang.String", "java.lang.String"
 			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
 		Object[] arguments) throws Throwable {
-		if (_methodName36.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes36, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getOSGiServiceIdentifier();
-		}
-
-		if (_methodName41.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes41, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getVersionAPI();
-		}
-
 		if (_methodName42.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes42, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getApplicationStoreListAPI();
-		}
-
-		if (_methodName43.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes43, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getUpdatedApplicationStoreListAPI();
-		}
-
-		if (_methodName44.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes44, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getApplicationStoreItemAPI((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1]);
-		}
-
-		if (_methodName45.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes45, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.installApplicationAPI((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
-				(java.lang.String)arguments[3], (java.lang.String)arguments[4]);
-		}
-
-		if (_methodName46.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes46, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getInstanceListAPI();
+			return ApplicationInstanceServiceUtil.getOSGiServiceIdentifier();
 		}
 
 		if (_methodName47.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getInstanceInfoAPI((java.lang.String)arguments[0]);
+			return ApplicationInstanceServiceUtil.getVersionAPI();
 		}
 
 		if (_methodName48.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes48, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getInstanceDashboardAPI((java.lang.String)arguments[0]);
+			return ApplicationInstanceServiceUtil.getApplicationStoreListAPI();
 		}
 
 		if (_methodName49.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes49, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getInstanceLogdAPI((java.lang.String)arguments[0]);
+			return ApplicationInstanceServiceUtil.getUpdatedApplicationStoreListAPI();
 		}
 
 		if (_methodName50.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes50, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getInstanceLogdAPI((java.lang.String)arguments[0],
+			return ApplicationInstanceServiceUtil.getApplicationStoreItemAPI((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1]);
 		}
 
 		if (_methodName51.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
-			return ApplicationInstanceServiceUtil.getInstanceMaintenanceAPI((java.lang.String)arguments[0]);
+			return ApplicationInstanceServiceUtil.installApplicationAPI((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
+				(java.lang.String)arguments[3], (java.lang.String)arguments[4]);
 		}
 
 		if (_methodName52.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getInstanceListAPI();
+		}
+
+		if (_methodName53.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getInstanceInfoAPI((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName54.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getInstanceDashboardAPI((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName55.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getInstanceLogdAPI((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName56.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getInstanceLogdAPI((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1]);
+		}
+
+		if (_methodName57.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getInstanceMaintenanceAPI((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName58.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
 			return ApplicationInstanceServiceUtil.updateInstanceInfoAPI((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
 				(java.lang.String)arguments[3], (java.lang.String)arguments[4],
 				(java.lang.String)arguments[5], (java.lang.String)arguments[6]);
 		}
 
-		if (_methodName53.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
+		if (_methodName59.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
 			return ApplicationInstanceServiceUtil.deleteInstanceStatusAPI((java.lang.String)arguments[0]);
 		}
 
-		if (_methodName54.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
+		if (_methodName60.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes60, parameterTypes)) {
 			return ApplicationInstanceServiceUtil.setInstanceStatusAPI((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1]);
 		}
 
-		if (_methodName55.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
+		if (_methodName61.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes61, parameterTypes)) {
 			return ApplicationInstanceServiceUtil.toggleInstanceMaintenanceStatusAPI((java.lang.String)arguments[0]);
 		}
 
-		if (_methodName56.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
+		if (_methodName62.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
 			return ApplicationInstanceServiceUtil.getIdMappingInfoAPI((java.lang.String)arguments[0]);
 		}
 
-		if (_methodName57.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
+		if (_methodName63.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
 			ApplicationInstanceServiceUtil.getTestAPI((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName58.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
+		if (_methodName64.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
 			return ApplicationInstanceServiceUtil.setPortletConfiguration(((Long)arguments[0]).longValue(),
 				((Long)arguments[1]).longValue(),
 				(java.lang.String)arguments[2], (java.lang.String)arguments[3]);
@@ -231,20 +231,8 @@ public class ApplicationInstanceServiceClpInvoker {
 		throw new UnsupportedOperationException();
 	}
 
-	private String _methodName36;
-	private String[] _methodParameterTypes36;
-	private String _methodName41;
-	private String[] _methodParameterTypes41;
 	private String _methodName42;
 	private String[] _methodParameterTypes42;
-	private String _methodName43;
-	private String[] _methodParameterTypes43;
-	private String _methodName44;
-	private String[] _methodParameterTypes44;
-	private String _methodName45;
-	private String[] _methodParameterTypes45;
-	private String _methodName46;
-	private String[] _methodParameterTypes46;
 	private String _methodName47;
 	private String[] _methodParameterTypes47;
 	private String _methodName48;
@@ -269,4 +257,16 @@ public class ApplicationInstanceServiceClpInvoker {
 	private String[] _methodParameterTypes57;
 	private String _methodName58;
 	private String[] _methodParameterTypes58;
+	private String _methodName59;
+	private String[] _methodParameterTypes59;
+	private String _methodName60;
+	private String[] _methodParameterTypes60;
+	private String _methodName61;
+	private String[] _methodParameterTypes61;
+	private String _methodName62;
+	private String[] _methodParameterTypes62;
+	private String _methodName63;
+	private String[] _methodParameterTypes63;
+	private String _methodName64;
+	private String[] _methodParameterTypes64;
 }

@@ -51,3 +51,15 @@ create table bibboxdocker_ApplicationInstancePort (
 	subdomain VARCHAR(75) null,
 	applicationInstanceId LONG
 );
+
+create table bibboxdocker_ApplicationInstanceStatus (
+	applicationInstanceStatusId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	applicationInstanceId LONG,
+	status VARCHAR(75) null
+);

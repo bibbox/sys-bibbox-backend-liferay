@@ -4,7 +4,7 @@
 	<author>Robert Reihs</author>
 	<namespace>bibboxdocker</namespace>
 
-	<entity name="ApplicationInstance" local-service="true" remote-service="true">
+	<entity name="ApplicationInstance" local-service="true" remote-service="true" cache-enabled="false" >
 		<!-- PK fields -->
 		<column name="applicationInstanceId" type="long" primary="true" />
 
@@ -123,6 +123,35 @@
 		<finder name="ApplicationInstanceRunning" return-type="Collection">
 			<finder-column name="applicationInstanceId" />
 			<finder-column name="needrunning" />
+		</finder>
+	</entity>
+	
+	<entity name="ApplicationInstanceStatus" local-service="true" remote-service="true"  cache-enabled="false">
+		<!-- PK fields -->
+		<column name="applicationInstanceStatusId" type="long" primary="true" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="applicationInstanceId" type="long" />
+		<column name="status" type="String" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="applicationInstanceId" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="ApplicationInstance" return-type="ApplicationInstanceStatus">
+			<finder-column name="applicationInstanceId" />
 		</finder>
 	</entity>
 </service-builder>

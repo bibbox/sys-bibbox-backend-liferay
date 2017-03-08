@@ -11,6 +11,9 @@ import java.net.URL;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceStatus;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalServiceUtil;
+
 public class ActivitiesProtocol {
 	public static JSONObject createActivity(String input) {
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
@@ -123,5 +126,17 @@ public class ActivitiesProtocol {
 				conn.disconnect();
 			}
 		}
+	}
+	
+	public static ApplicationInstanceStatus setStatusUpdate(long applicationInstanceId, String status) {
+		ApplicationInstanceStatus applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.getApplicationInstanceStatusByInstanceId(applicationInstanceId);
+		applicationinstancestatus.setStatus(status);
+		applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.updateApplicationInstanceStatus(applicationinstancestatus);
+		return applicationinstancestatus;
+	}
+	
+	public static String getStatusUpdate(long applicationInstanceId) {
+		ApplicationInstanceStatus applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.getApplicationInstanceStatusByInstanceId(applicationInstanceId);
+		return applicationinstancestatus.getStatus();
 	}
 }

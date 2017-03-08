@@ -21,6 +21,7 @@ import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContaine
 import at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstanceContainerPersistence;
 import at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstancePersistence;
 import at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstancePortPersistence;
+import at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstanceStatusPersistence;
 
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
@@ -439,6 +440,44 @@ public abstract class ApplicationInstanceContainerLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the application instance status local service.
+	 *
+	 * @return the application instance status local service
+	 */
+	public at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalService getApplicationInstanceStatusLocalService() {
+		return applicationInstanceStatusLocalService;
+	}
+
+	/**
+	 * Sets the application instance status local service.
+	 *
+	 * @param applicationInstanceStatusLocalService the application instance status local service
+	 */
+	public void setApplicationInstanceStatusLocalService(
+		at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalService applicationInstanceStatusLocalService) {
+		this.applicationInstanceStatusLocalService = applicationInstanceStatusLocalService;
+	}
+
+	/**
+	 * Returns the application instance status persistence.
+	 *
+	 * @return the application instance status persistence
+	 */
+	public ApplicationInstanceStatusPersistence getApplicationInstanceStatusPersistence() {
+		return applicationInstanceStatusPersistence;
+	}
+
+	/**
+	 * Sets the application instance status persistence.
+	 *
+	 * @param applicationInstanceStatusPersistence the application instance status persistence
+	 */
+	public void setApplicationInstanceStatusPersistence(
+		ApplicationInstanceStatusPersistence applicationInstanceStatusPersistence) {
+		this.applicationInstanceStatusPersistence = applicationInstanceStatusPersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -640,6 +679,10 @@ public abstract class ApplicationInstanceContainerLocalServiceBaseImpl
 	protected at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalService applicationInstancePortLocalService;
 	@BeanReference(type = ApplicationInstancePortPersistence.class)
 	protected ApplicationInstancePortPersistence applicationInstancePortPersistence;
+	@BeanReference(type = at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalService.class)
+	protected at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalService applicationInstanceStatusLocalService;
+	@BeanReference(type = ApplicationInstanceStatusPersistence.class)
+	protected ApplicationInstanceStatusPersistence applicationInstanceStatusPersistence;
 	@BeanReference(type = com.liferay.counter.kernel.service.CounterLocalService.class)
 	protected com.liferay.counter.kernel.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.kernel.service.ClassNameLocalService.class)

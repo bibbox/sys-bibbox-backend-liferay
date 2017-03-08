@@ -22,6 +22,8 @@ import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalSer
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ClpSerializer;
 
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
@@ -52,6 +54,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			ApplicationInstancePortLocalServiceUtil.clearService();
 
 			ApplicationInstancePortServiceUtil.clearService();
+			ApplicationInstanceStatusLocalServiceUtil.clearService();
+
+			ApplicationInstanceStatusServiceUtil.clearService();
 		}
 	}
 }

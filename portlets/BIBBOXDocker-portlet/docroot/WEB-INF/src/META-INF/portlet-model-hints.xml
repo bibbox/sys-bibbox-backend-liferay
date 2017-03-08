@@ -72,4 +72,15 @@
 		<field name="subdomain" type="String" />
 		<field name="applicationInstanceId" type="long" />
 	</model>
+	<model name="at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceStatus">
+		<field name="applicationInstanceStatusId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="applicationInstanceId" type="long" />
+		<field name="status" type="String" />
+	</model>
 </model-hints>

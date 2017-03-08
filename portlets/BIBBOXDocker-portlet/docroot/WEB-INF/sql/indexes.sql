@@ -5,3 +5,5 @@ create index IX_710D7F80 on bibboxdocker_ApplicationInstance (instanceId[$COLUMN
 create index IX_12AA451A on bibboxdocker_ApplicationInstanceContainer (applicationInstanceId, needrunning);
 
 create index IX_FCCFF6C4 on bibboxdocker_ApplicationInstancePort (applicationInstanceId, primary_);
+
+create index IX_EAA8E762 on bibboxdocker_ApplicationInstanceStatus (applicationInstanceId);

@@ -26,12 +26,15 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
 import aQute.bnd.annotation.ProviderType;
+import at.graz.meduni.bibbox.helper.ActivitiesProtocol;
 import at.graz.meduni.bibbox.helper.BibboxConfigReader;
 import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort;
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceStatus;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceContainerLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalServiceUtil;
+import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalServiceUtil;
 
 /**
  * The extended model implementation for the ApplicationInstance service. Represents a row in the &quot;bibboxdocker_ApplicationInstance&quot; database table, with each column mapped to a property of this class.
@@ -314,7 +317,11 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			if(!this.getStatus().equals("")) {
 				status = this.getStatus();
 			}
-			//System.out.println("System Status: " + status + " - |" + this.getStatus() + "|");
+			String stu = ActivitiesProtocol.getStatusUpdate(this.getApplicationInstanceId());
+			if(!stu.equals("")) {
+				status = stu;
+			}
+			System.out.println("System Status: " + status + " - |" + this.getStatus() + "| " + stu + "--");
 			return status;
 		}
 	}

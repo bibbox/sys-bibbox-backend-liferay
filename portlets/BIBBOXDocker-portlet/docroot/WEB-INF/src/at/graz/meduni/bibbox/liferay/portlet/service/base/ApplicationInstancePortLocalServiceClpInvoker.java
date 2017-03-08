@@ -123,17 +123,17 @@ public class ApplicationInstancePortLocalServiceClpInvoker {
 				"at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort"
 			};
 
-		_methodName46 = "getOSGiServiceIdentifier";
+		_methodName50 = "getOSGiServiceIdentifier";
 
-		_methodParameterTypes46 = new String[] {  };
+		_methodParameterTypes50 = new String[] {  };
 
-		_methodName51 = "getPrimaryPortForInstance";
+		_methodName55 = "getPrimaryPortForInstance";
 
-		_methodParameterTypes51 = new String[] { "long" };
+		_methodParameterTypes55 = new String[] { "long" };
 
-		_methodName52 = "getApplicationInstancePortForInstance";
+		_methodName56 = "getApplicationInstancePortForInstance";
 
-		_methodParameterTypes52 = new String[] { "long" };
+		_methodParameterTypes56 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -240,18 +240,18 @@ public class ApplicationInstancePortLocalServiceClpInvoker {
 			return ApplicationInstancePortLocalServiceUtil.updateApplicationInstancePort((at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstancePort)arguments[0]);
 		}
 
-		if (_methodName46.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes46, parameterTypes)) {
+		if (_methodName50.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes50, parameterTypes)) {
 			return ApplicationInstancePortLocalServiceUtil.getOSGiServiceIdentifier();
 		}
 
-		if (_methodName51.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes51, parameterTypes)) {
+		if (_methodName55.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
 			return ApplicationInstancePortLocalServiceUtil.getPrimaryPortForInstance(((Long)arguments[0]).longValue());
 		}
 
-		if (_methodName52.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
+		if (_methodName56.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
 			return ApplicationInstancePortLocalServiceUtil.getApplicationInstancePortForInstance(((Long)arguments[0]).longValue());
 		}
 
@@ -296,10 +296,10 @@ public class ApplicationInstancePortLocalServiceClpInvoker {
 	private String[] _methodParameterTypes18;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
-	private String _methodName46;
-	private String[] _methodParameterTypes46;
-	private String _methodName51;
-	private String[] _methodParameterTypes51;
-	private String _methodName52;
-	private String[] _methodParameterTypes52;
+	private String _methodName50;
+	private String[] _methodParameterTypes50;
+	private String _methodName55;
+	private String[] _methodParameterTypes55;
+	private String _methodName56;
+	private String[] _methodParameterTypes56;
 }

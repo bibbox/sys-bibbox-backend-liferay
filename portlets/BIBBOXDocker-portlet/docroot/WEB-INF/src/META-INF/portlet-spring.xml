@@ -10,4 +10,7 @@
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstancePortLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortLocalService" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstancePortServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstancePortService" />
 	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.ApplicationInstancePortPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstancePortPersistence" parent="basePersistence" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceStatusLocalServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.impl.ApplicationInstanceStatusServiceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusService" />
+	<bean class="at.graz.meduni.bibbox.liferay.portlet.service.persistence.impl.ApplicationInstanceStatusPersistenceImpl" id="at.graz.meduni.bibbox.liferay.portlet.service.persistence.ApplicationInstanceStatusPersistence" parent="basePersistence" />
 </beans>
