@@ -509,7 +509,6 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("status", "error");
 			returnobject.put("error", "InstanceId dose not exist!");
 		} else {
-			System.out.println(instanceId + " status: " + applicationinstance.getStatus());
 			returnobject = applicationinstance.getInstanceJSONObject();
 			returnobject.put("maintenance", applicationinstance.getMaintenance());
 			returnobject.put("adminnode", applicationinstance.getAdminnode());
@@ -661,6 +660,7 @@ public class ApplicationInstanceServiceImpl
 			}
 		}
 		applicationinstance = null;
+		returnobject.put("status", "starting");
 		return returnobject;
 	}
 	
@@ -702,6 +702,7 @@ public class ApplicationInstanceServiceImpl
 				e.printStackTrace();
 			}
 		}
+		returnobject.put("status", "stopping");
 		return returnobject;
 	}
 	
@@ -743,6 +744,7 @@ public class ApplicationInstanceServiceImpl
 				e.printStackTrace();
 			}
 		}
+		returnobject.put("status", "restarting");
 		return returnobject;
 	}
 	

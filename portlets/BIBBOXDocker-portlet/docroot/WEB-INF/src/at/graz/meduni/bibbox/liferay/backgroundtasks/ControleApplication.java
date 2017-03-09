@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import at.graz.meduni.bibbox.helper.ActivitiesProtocol;
 import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance;
+import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceStatus;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceLocalServiceUtil;
 import at.graz.meduni.bibbox.liferay.portlet.service.ApplicationInstanceStatusLocalServiceUtil;
@@ -52,10 +53,13 @@ public class ControleApplication extends BaseBackgroundTaskExecutor {
 			applicationinstance_ = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId_);
 			if(command.equals("start")) {
 				startApplicationInstance();
+				waitForApplicationtoChangeStatus("running");
 			} else if(command.equals("stop")) {
 				stopApplicationInstance();
+				waitForApplicationtoChangeStatus("stopped");
 			} else if(command.equals("restart")) {
 				restartApplicationInstance();
+				waitForApplicationtoChangeStatus("running");
 			} else {
 				System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "execute(BackgroundTask backgroundTask)", "Error command task not set correctly: command: " + command + " InstanceId:" + instanceId_));
 				result_status_ = "ERROR";
@@ -129,6 +133,28 @@ public class ControleApplication extends BaseBackgroundTaskExecutor {
 		activity.put("start_time", format_date.format(curDate) + "T" + format_time.format(curDate) + "Z");
 		JSONObject activityresult = ActivitiesProtocol.createActivity(activity.toJSONString());
 		activityId_ = activityresult.getString("activitId");
+	}
+	
+	private void waitForApplicationtoChangeStatus(String status_needed) {
+		int retries = 10;
+		for(int tries = 0; tries < retries; tries++) {
+			String status = "running";
+			for(ApplicationInstanceContainer container : applicationinstance_.getContainersNeedToRun()) {
+				if(!container.getRunning()) {
+					status = "stopped";
+				}
+			}
+			if(status.equalsIgnoreCase(status_needed)) {
+				return;
+			}
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				System.err.println(FormatExceptionMessage.formatExceptionMessage("ERROR", log_portlet_, log_classname_, "waitForApplicationtoChangeStatus(String status_needed)", "Thread sleep error. InstanceId:" + instanceId_));
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	private void finishActivity() {
