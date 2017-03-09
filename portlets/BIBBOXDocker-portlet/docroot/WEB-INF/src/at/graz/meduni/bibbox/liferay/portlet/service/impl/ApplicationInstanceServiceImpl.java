@@ -239,11 +239,11 @@ public class ApplicationInstanceServiceImpl
 		}
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		if(status.equalsIgnoreCase("start")) {
-			startInstance(instanceId);
+			returnobject = startInstance(instanceId);
 		} else if(status.equalsIgnoreCase("stop")) {
-			stopInstance(instanceId);
+			returnobject = stopInstance(instanceId);
 		} else if(status.equalsIgnoreCase("restart")) {
-			restartInstance(instanceId);
+			returnobject = restartInstance(instanceId);
 		} else {
 			returnobject.put("status", "error");
 			returnobject.put("error", "Status not know!");
