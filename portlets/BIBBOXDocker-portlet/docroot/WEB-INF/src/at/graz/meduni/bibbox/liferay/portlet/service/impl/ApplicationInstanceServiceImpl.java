@@ -60,6 +60,7 @@ import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
 import at.graz.meduni.bibbox.helper.UpdateGitRepositoriesBackgroundTask;
 import at.graz.meduni.bibbox.helper.UpdateGitRepository;
 import at.graz.meduni.bibbox.liferay.backgroundtasks.BibboxBackgroundTaskExecutorNames;
+import at.graz.meduni.bibbox.liferay.backgroundtasks.ControleApplication;
 import at.graz.meduni.bibbox.liferay.backgroundtasks.DeleteApplication;
 import at.graz.meduni.bibbox.liferay.backgroundtasks.InstallApplicationBG;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance;
@@ -103,7 +104,7 @@ public class ApplicationInstanceServiceImpl
 	
 	private static SimpleDateFormat format_date = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat format_time = new SimpleDateFormat("HH:mm:ss.SSS");
-	public static String newline = System.getProperty("line.separator");
+	public static String newline_ = System.getProperty("line.separator");
 	
 	@JSONWebService("/version")
 	public JSONObject getVersionAPI() {
@@ -622,80 +623,125 @@ public class ApplicationInstanceServiceImpl
 	}
 	
 	private JSONObject startInstance(String instanceId) {
-		//String activityId = addMessageActivity("Starting Instance " + instanceId, "STARTAPP", "RUNNING", "UNKNOWN");
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
 		if(applicationinstance == null) {
 			returnobject.put("status", "error");
 			returnobject.put("error", "InstanceId dose not exist!");
-			//ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
-			//finishActivity(activityId, "FINISHED", "ERROR");
+			String activityId = addMessageActivity("Starting Instance " + instanceId, "STARTAPP", "RUNNING", "UNKNOWN");
+			ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
+			finishActivity(activityId, "FINISHED", "ERROR");
 		} else {
-			applicationinstance.setStatus("starting");
-			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
-			ActivitiesProtocol.setStatusUpdate(applicationinstance.getApplicationInstanceId(), "starting");
+			ApplicationInstanceStatus applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.getApplicationInstanceStatusByInstanceId(applicationinstance.getApplicationInstanceId());
+			applicationinstancestatus.setStatus("starting");
+			applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.updateApplicationInstanceStatus(applicationinstancestatus);
 			
-			
-			System.out.println("1-> Starting Status: " + applicationinstance.getStatus() + "|" + applicationinstance.getApplicationStatus());
-			applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
-			System.out.println("2-> Starting Status12: " + applicationinstance.getStatus() + "|" + applicationinstance.getApplicationStatus());
-			
-			String logs = applicationinstance.startApplicationInstance();
-			returnobject.put("log", logs);
-			for(String log : logs.split(newline)) {
-				//ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", log);
+			long userId = 0;
+			long groupId = 0;
+			try {
+				User user = this.getGuestOrUser();
+				Company company = CompanyLocalServiceUtil.getCompany(user.getCompanyId());
+				groupId = company.getGroupId();
+				userId = user.getUserId();
+			} catch (Exception e) {
+				System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startInstance(String instanceId)", "Error getting user from api call."));
+				e.printStackTrace();
 			}
-			//finishActivity(activityId, "FINISHED", "SUCCESS");
-			System.out.println("3-> Starting Status: " + applicationinstance.getStatus() + "|" + applicationinstance.getApplicationStatus());
-			applicationinstance.setStatus("");
-			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
-			ActivitiesProtocol.setStatusUpdate(applicationinstance.getApplicationInstanceId(), "");
-			System.out.println("4-> Starting Status: " + applicationinstance.getStatus() + "|" + applicationinstance.getApplicationStatus());
+			
+			Map<String, Serializable> taskContextMap = new HashMap<>();
+
+			taskContextMap.put("instanceId", instanceId);
+			taskContextMap.put("command", "start");
+			
+			try {
+				BackgroundTaskManagerUtil.addBackgroundTask(userId, groupId, BibboxBackgroundTaskExecutorNames.BIBBOX_INSTANCE_CONTROLE_BACKGROUND_TASK_EXECUTOR, new String[]{"BIBBOXDocker-portlet"}, ControleApplication.class, taskContextMap, new ServiceContext());
+			} catch (PortalException e) {
+				System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "startInstance(String instanceId)", "Error starting Background Task. For instance: " + instanceId));
+				e.printStackTrace();
+			}
 		}
 		applicationinstance = null;
 		return returnobject;
 	}
 	
 	private JSONObject stopInstance(String instanceId) {
-		String activityId = addMessageActivity("Stop Instance " + instanceId, "STOPAPP", "RUNNING", "UNKNOWN");
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
 		if(applicationinstance == null) {
 			returnobject.put("status", "error");
 			returnobject.put("error", "InstanceId dose not exist!");
+			String activityId = addMessageActivity("Stopping Instance " + instanceId, "STOPAPP", "RUNNING", "UNKNOWN");
 			ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
 			finishActivity(activityId, "FINISHED", "ERROR");
 		} else {
-			applicationinstance.setStatus("stopping");
-			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
-			String log = applicationinstance.stopApplicationInstance();
-			returnobject.put("log", log);
-			ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", log);
-			finishActivity(activityId, "FINISHED", "SUCCESS");
-			applicationinstance.setStatus("");
-			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
+			ApplicationInstanceStatus applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.getApplicationInstanceStatusByInstanceId(applicationinstance.getApplicationInstanceId());
+			applicationinstancestatus.setStatus("stopping");
+			applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.updateApplicationInstanceStatus(applicationinstancestatus);
+			
+			long userId = 0;
+			long groupId = 0;
+			try {
+				User user = this.getGuestOrUser();
+				Company company = CompanyLocalServiceUtil.getCompany(user.getCompanyId());
+				groupId = company.getGroupId();
+				userId = user.getUserId();
+			} catch (Exception e) {
+				System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "stopInstance(String instanceId)", "Error getting user from api call."));
+				e.printStackTrace();
+			}
+			
+			Map<String, Serializable> taskContextMap = new HashMap<>();
+
+			taskContextMap.put("instanceId", instanceId);
+			taskContextMap.put("command", "stop");
+			
+			try {
+				BackgroundTaskManagerUtil.addBackgroundTask(userId, groupId, BibboxBackgroundTaskExecutorNames.BIBBOX_INSTANCE_CONTROLE_BACKGROUND_TASK_EXECUTOR, new String[]{"BIBBOXDocker-portlet"}, ControleApplication.class, taskContextMap, new ServiceContext());
+			} catch (PortalException e) {
+				System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "stopInstance(String instanceId)", "Error starting Background Task. For instance: " + instanceId));
+				e.printStackTrace();
+			}
 		}
 		return returnobject;
 	}
 	
 	private JSONObject restartInstance(String instanceId) {
-		String activityId = addMessageActivity("Restart Instance " + instanceId, "RESTARTAPP", "RUNNING", "UNKNOWN");
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
 		if(applicationinstance == null) {
 			returnobject.put("status", "error");
 			returnobject.put("error", "InstanceId dose not exist!");
+			String activityId = addMessageActivity("Restart Instance " + instanceId, "RESTARTAPP", "RUNNING", "UNKNOWN");
 			ActivitiesProtocol.addActivityLogEntry(activityId, "ERROR", "InstanceId dose not exist!");
 			finishActivity(activityId, "FINISHED", "ERROR");
 		} else {
-			applicationinstance.setStatus("restarting");
-			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
-			String log = applicationinstance.restartApplicationInstance();
-			returnobject.put("log", log);
-			ActivitiesProtocol.addActivityLogEntry(activityId, "INFO", log);
-			finishActivity(activityId, "FINISHED", "SUCCESS");
-			applicationinstance.setStatus("");
-			applicationinstance = ApplicationInstanceLocalServiceUtil.updateApplicationInstance(applicationinstance);
+			ApplicationInstanceStatus applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.getApplicationInstanceStatusByInstanceId(applicationinstance.getApplicationInstanceId());
+			applicationinstancestatus.setStatus("restarting");
+			applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.updateApplicationInstanceStatus(applicationinstancestatus);
+			
+			long userId = 0;
+			long groupId = 0;
+			try {
+				User user = this.getGuestOrUser();
+				Company company = CompanyLocalServiceUtil.getCompany(user.getCompanyId());
+				groupId = company.getGroupId();
+				userId = user.getUserId();
+			} catch (Exception e) {
+				System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "restartInstance(String instanceId)", "Error getting user from api call."));
+				e.printStackTrace();
+			}
+			
+			Map<String, Serializable> taskContextMap = new HashMap<>();
+
+			taskContextMap.put("instanceId", instanceId);
+			taskContextMap.put("command", "restart");
+			
+			try {
+				BackgroundTaskManagerUtil.addBackgroundTask(userId, groupId, BibboxBackgroundTaskExecutorNames.BIBBOX_INSTANCE_CONTROLE_BACKGROUND_TASK_EXECUTOR, new String[]{"BIBBOXDocker-portlet"}, ControleApplication.class, taskContextMap, new ServiceContext());
+			} catch (PortalException e) {
+				System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "restartInstance(String instanceId)", "Error starting Background Task. For instance: " + instanceId));
+				e.printStackTrace();
+			}
 		}
 		return returnobject;
 	}

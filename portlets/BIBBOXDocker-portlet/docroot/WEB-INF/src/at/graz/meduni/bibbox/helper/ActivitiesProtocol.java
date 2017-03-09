@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -126,17 +127,5 @@ public class ActivitiesProtocol {
 				conn.disconnect();
 			}
 		}
-	}
-	
-	public static ApplicationInstanceStatus setStatusUpdate(long applicationInstanceId, String status) {
-		ApplicationInstanceStatus applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.getApplicationInstanceStatusByInstanceId(applicationInstanceId);
-		applicationinstancestatus.setStatus(status);
-		applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.updateApplicationInstanceStatus(applicationinstancestatus);
-		return applicationinstancestatus;
-	}
-	
-	public static String getStatusUpdate(long applicationInstanceId) {
-		ApplicationInstanceStatus applicationinstancestatus = ApplicationInstanceStatusLocalServiceUtil.getApplicationInstanceStatusByInstanceId(applicationInstanceId);
-		return applicationinstancestatus.getStatus();
 	}
 }

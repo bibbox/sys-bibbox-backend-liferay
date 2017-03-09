@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
 import java.util.List;
 
 import com.liferay.portal.kernel.json.JSONArray;
@@ -314,14 +315,11 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 					status = "stopped";
 				}
 			}
-			if(!this.getStatus().equals("")) {
-				status = this.getStatus();
+			ApplicationInstanceStatus status_application_controle = ApplicationInstanceStatusLocalServiceUtil.getApplicationInstanceStatusByInstanceId(this.getApplicationInstanceId());
+			if(!status_application_controle.getStatus().equals("")) {
+				status = status_application_controle.getStatus();
 			}
-			String stu = ActivitiesProtocol.getStatusUpdate(this.getApplicationInstanceId());
-			if(!stu.equals("")) {
-				status = stu;
-			}
-			System.out.println("System Status: " + status + " - |" + this.getStatus() + "| " + stu + "--");
+			//System.out.println("System Status: " + status + " - |" + this.getStatus() + "| " + stu + "--"  + " at: " + new Date());
 			return status;
 		}
 	}
