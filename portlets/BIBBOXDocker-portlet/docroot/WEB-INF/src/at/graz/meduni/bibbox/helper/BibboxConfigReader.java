@@ -111,6 +111,10 @@ public class BibboxConfigReader {
 		return "eB3kit";
 	}
 	
+	public static String getBibboxUsedInstanceIds() {
+		return readBibboxUsedInstanceIds();
+	}
+	
 	private static void getBibboxApplicationStorePWDfromConfig() {
 		try {
 			Properties bibboxproperties = new Properties();
@@ -187,5 +191,20 @@ public class BibboxConfigReader {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getAdminRolesfromConfig()", "Error reading bibbox config file."));
 			e.printStackTrace();
 		}
+	}
+	
+	private static String readBibboxUsedInstanceIds() {
+		String used_instance_ids = "";
+		try {
+			Properties bibboxproperties = new Properties();
+			InputStream is = new FileInputStream(getLiferayConfigForBibboxConfigFile());
+			bibboxproperties.load(is);
+			used_instance_ids = bibboxproperties.getProperty("usedinstanceids").replaceAll("\"", "");
+			is.close();
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBibboxApplicationStorePWDfromConfig()", "Error reading bibbox config file."));
+			e.printStackTrace();
+		}
+		return used_instance_ids;
 	}
 }

@@ -102,7 +102,10 @@ public class ApplicationInstanceLocalServiceImpl
 	
 	public JSONArray getUsedInstanceIds() {
 		JSONArray returnobject = JSONFactoryUtil.createJSONArray();
-		returnobject.put("activities");
+		String reservedids = BibboxConfigReader.getBibboxUsedInstanceIds();
+		for(String reservedid : reservedids.split(";")) {
+			returnobject.put(reservedid);
+		}
 		List<ApplicationInstance> applicationinstances = ApplicationInstanceLocalServiceUtil.getApplicationInstances(-1, -1);
 		for(ApplicationInstance applicationinstance : applicationinstances) {
 			returnobject.put(applicationinstance.getInstanceId());
