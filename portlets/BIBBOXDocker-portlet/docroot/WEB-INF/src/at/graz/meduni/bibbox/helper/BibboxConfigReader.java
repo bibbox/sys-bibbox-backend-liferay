@@ -1,6 +1,7 @@
 package at.graz.meduni.bibbox.helper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStream;
@@ -24,6 +25,7 @@ public class BibboxConfigReader {
 	private static String scriptfolder_ = null;
 	private static String baseurl_ = null;
 	private static String adminroles_ = null;
+	private static String vmadminroles_ = null;
 	
 	public static String getApplicationStorePWD() {
 		if(applicationstorefolder_ == null) {
@@ -91,6 +93,13 @@ public class BibboxConfigReader {
 		}
 		return adminroles_;
 	}
+	
+	public static String getVMAdminRoles() {
+		if(vmadminroles_ == null) {
+			getVmAdminRolesfromConfig();
+		}
+		return vmadminroles_;
+	}
 
 	public static String getApplicationFolder(String applicationname, String version) {
 		return getApplicationStorePWD() + "/" + applicationname + "/blob/" + version;
@@ -113,6 +122,10 @@ public class BibboxConfigReader {
 	
 	public static String getBibboxUsedInstanceIds() {
 		return readBibboxUsedInstanceIds();
+	}
+	
+	public static String getBibboxLockedAppsInstanceIds() {
+		return readBibboxLockedAppsInstanceIds();
 	}
 	
 	private static void getBibboxApplicationStorePWDfromConfig() {
@@ -193,6 +206,19 @@ public class BibboxConfigReader {
 		}
 	}
 	
+	private static void getVmAdminRolesfromConfig() {
+		try {
+			Properties bibboxproperties = new Properties();
+			InputStream is = new FileInputStream(getLiferayConfigForBibboxConfigFile());
+			bibboxproperties.load(is);
+			vmadminroles_ = bibboxproperties.getProperty("vmadminroles").replaceAll("\"", "");
+			is.close();
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getVmAdminRolesfromConfig()", "Error reading bibbox config file."));
+			e.printStackTrace();
+		}
+	}
+	
 	private static String readBibboxUsedInstanceIds() {
 		String used_instance_ids = "";
 		try {
@@ -202,9 +228,28 @@ public class BibboxConfigReader {
 			used_instance_ids = bibboxproperties.getProperty("usedinstanceids").replaceAll("\"", "");
 			is.close();
 		} catch (Exception e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBibboxApplicationStorePWDfromConfig()", "Error reading bibbox config file."));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "readBibboxUsedInstanceIds()", "Error reading bibbox config file."));
 			e.printStackTrace();
 		}
 		return used_instance_ids;
+	}
+	
+	private static String readBibboxLockedAppsInstanceIds() {
+		String applock_ids = "";
+		try {
+			Properties bibboxproperties = new Properties();
+			String configfile = getLiferayConfigForBibboxConfigFile().replaceAll("/bibbox.cfg", "/conf.d/applock.cfg");
+			File f = new File(configfile);
+			if(f.exists()) {
+				InputStream is = new FileInputStream(configfile);
+				bibboxproperties.load(is);
+				applock_ids = bibboxproperties.getProperty("applock").replaceAll("\"", "");
+				is.close();
+			}
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "readBibboxLockedAppsInstanceIds()", "Error reading bibbox applock config file."));
+			e.printStackTrace();
+		}
+		return applock_ids;
 	}
 }

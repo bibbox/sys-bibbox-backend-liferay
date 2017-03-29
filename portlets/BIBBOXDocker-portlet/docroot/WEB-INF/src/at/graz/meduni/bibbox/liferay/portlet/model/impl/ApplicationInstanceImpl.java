@@ -290,6 +290,7 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 		returnobject.put("version", this.getVersion());
 		returnobject.put("status", this.getApplicationStatus());
 		returnobject.put("ismaintenance", this.getIsmaintenance());
+		returnobject.put("locked", this.getLockStatus());
 		return returnobject;
 	}
 	
@@ -362,5 +363,13 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 		object.put("log", this.getInstalllog());
 		object.put("cmd", "");
 		return object;
+	}
+	
+	private boolean getLockStatus() {
+		String lockedids = BibboxConfigReader.getBibboxLockedAppsInstanceIds();
+		if(lockedids.contains(this.getInstanceId())) {
+			return true;
+		}
+		return false;
 	}
 }

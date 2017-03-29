@@ -144,7 +144,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/install-application", method = "POST")
 	public JSONObject installApplicationAPI(String applicationname, String version, String instanceid, String instancename, String data) {
-		if(!checkPermission()) {
+		if(!checkPermission(instanceid)) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -201,7 +201,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/update-instance-info", method = "POST")
 	public JSONObject updateInstanceInfoAPI(String instanceId, String instancename, String instanceshortname, String description, String shortdescription, String adminnode, String maintenance) {
-		if(!checkPermission()) {
+		if(!checkPermission(instanceId)) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -215,7 +215,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/delete-instance-status")
 	public JSONObject deleteInstanceStatusAPI(String instanceId) {
-		if(!checkPermission()) {
+		if(!checkPermission(instanceId)) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -230,7 +230,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/set-instance-status")
 	public JSONObject setInstanceStatusAPI(String instanceId, String status) {
-		if(!checkPermission()) {
+		if(!checkPermission(instanceId)) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -254,7 +254,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/toggle-instance-maintenance-status")
 	public JSONObject toggleInstanceMaintenanceStatusAPI(String instanceId) {
-		if(!checkPermission()) {
+		if(!checkPermission(instanceId)) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -467,20 +467,9 @@ public class ApplicationInstanceServiceImpl
 		JSONArray returnobject = JSONFactoryUtil.createJSONArray();
 		List<ApplicationInstance> applicationinstances = ApplicationInstanceLocalServiceUtil.getActiveApplicationInstances();
 		for(ApplicationInstance applicationinstance : applicationinstances) {
-			JSONObject instanceobject = JSONFactoryUtil.createJSONObject();
-			instanceobject.put("instanceid", applicationinstance.getInstanceId());
-			instanceobject.put("instancename", applicationinstance.getName());
-			instanceobject.put("instanceshortname", applicationinstance.getShortName());
+			JSONObject instanceobject = applicationinstance.getInstanceJSONObject();
 			instanceobject.put("description", applicationinstance.getShortdescription());
 			instanceobject.put("application", applicationinstance.getApplication());
-			instanceobject.put("version", applicationinstance.getVersion());
-			if(applicationinstance.getIsmaintenance()) {
-				instanceobject.put("status", "maintenance");
-			} else {
-				instanceobject.put("status", applicationinstance.getApplicationStatus());
-			}
-			instanceobject.put("url", applicationinstance.getInstanceUrl());
-			instanceobject.put("applicationname", applicationinstance.getApplicationname());
 			instanceobject.put("tags", applicationinstance.getApplicationTags());
 			returnobject.put(instanceobject);
 		}
@@ -777,11 +766,7 @@ public class ApplicationInstanceServiceImpl
 		try {
 			User user = this.getGuestOrUser();
 			returnobject.put("username", user.getFullName());
-			if(checkPermission()) {
-				returnobject.put("role", "admin");
-			} else {
-				returnobject.put("role", "user");
-			}
+			returnobject.put("role", getFrontendRole());
 		} catch (Exception e) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getUserObject()", "Error getting user from api call"));
 			e.printStackTrace();
@@ -789,7 +774,7 @@ public class ApplicationInstanceServiceImpl
 		return returnobject;
 	}
 	
-	private boolean checkPermission() {
+	private String getFrontendRole() {
 		try {
 			User user = this.getGuestOrUser();
 			List<Role> roles = user.getRoles();
@@ -799,10 +784,61 @@ public class ApplicationInstanceServiceImpl
 			for(String rolename : adminrolesstring.split(";")) {
 				adminroles.add(rolename);
 			}
+			ArrayList<String> vmadminroles = new ArrayList<String>();
+			String vmadminrolesstring = BibboxConfigReader.getVMAdminRoles(); 
+			for(String rolename : vmadminrolesstring.split(";")) {
+				vmadminroles.add(rolename);
+			}
+			boolean admin = false;
 			for(Role role : roles) {
 				if(adminroles.contains(role.getName())) {
+					admin = true;
+				}
+				if(vmadminroles.contains(role.getName())) {
+					return "vmadmin";
+				}
+			}
+			if(admin) {
+				return "admin";
+			}
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "checkPermission()", "Error getting user permission."));
+			e.printStackTrace();
+		}
+		return "user";
+	}
+	
+	// Umbauen
+	private boolean checkPermission(String instanceid) {
+		try {
+			User user = this.getGuestOrUser();
+			List<Role> roles = user.getRoles();
+			BibboxConfigReader.getAdminRoles();
+			ArrayList<String> adminroles = new ArrayList<String>();
+			String adminrolesstring = BibboxConfigReader.getAdminRoles();
+			for(String rolename : adminrolesstring.split(";")) {
+				adminroles.add(rolename);
+			}
+			ArrayList<String> vmadminroles = new ArrayList<String>();
+			String vmadminrolesstring = BibboxConfigReader.getVMAdminRoles(); 
+			for(String rolename : vmadminrolesstring.split(";")) {
+				vmadminroles.add(rolename);
+			}
+			boolean admin = false;
+			for(Role role : roles) {
+				if(adminroles.contains(role.getName())) {
+					admin = true;
+				}
+				if(vmadminroles.contains(role.getName())) {
 					return true;
 				}
+			}
+			if(admin) {
+				String lockedids = BibboxConfigReader.getBibboxLockedAppsInstanceIds();
+				if(lockedids.contains(instanceid)) {
+					return false;
+				}
+				return true;
 			}
 		} catch (Exception e) {
 			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "checkPermission()", "Error getting user permission."));
