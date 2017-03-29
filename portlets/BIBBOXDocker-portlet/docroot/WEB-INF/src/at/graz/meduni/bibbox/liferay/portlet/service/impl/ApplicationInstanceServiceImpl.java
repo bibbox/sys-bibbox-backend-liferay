@@ -144,7 +144,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/install-application", method = "POST")
 	public JSONObject installApplicationAPI(String applicationname, String version, String instanceid, String instancename, String data) {
-		if(!checkPermission(instanceid)) {
+		if(!checkPermission(instanceid, "edit")) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -173,6 +173,13 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/get-instance-dashboard")
 	public JSONObject getInstanceDashboardAPI(String instanceId) {
+		if(!checkPermission(instanceId, "view")) {
+			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+			returnobject.put("status", "error");
+			returnobject.put("error", "permission denied");
+			returnobject.put("user", getUserObject());
+			return returnobject;
+		}
 		JSONObject returnobject = getInstanceDashboard(instanceId);
 		returnobject.put("user", getUserObject());
 		return returnobject;
@@ -180,6 +187,13 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/get-instance-log")
 	public JSONObject getInstanceLogdAPI(String instanceId) {
+		if(!checkPermission(instanceId, "view")) {
+			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+			returnobject.put("status", "error");
+			returnobject.put("error", "permission denied");
+			returnobject.put("user", getUserObject());
+			return returnobject;
+		}
 		JSONObject returnobject = getInstanceLogd(instanceId, "200");
 		returnobject.put("user", getUserObject());
 		return returnobject;
@@ -187,6 +201,13 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/get-instance-log")
 	public JSONObject getInstanceLogdAPI(String instanceId, String lines) {
+		if(!checkPermission(instanceId, "view")) {
+			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+			returnobject.put("status", "error");
+			returnobject.put("error", "permission denied");
+			returnobject.put("user", getUserObject());
+			return returnobject;
+		}
 		JSONObject returnobject = getInstanceLogd(instanceId, lines);
 		returnobject.put("user", getUserObject());
 		return returnobject;
@@ -201,7 +222,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/update-instance-info", method = "POST")
 	public JSONObject updateInstanceInfoAPI(String instanceId, String instancename, String instanceshortname, String description, String shortdescription, String adminnode, String maintenance) {
-		if(!checkPermission(instanceId)) {
+		if(!checkPermission(instanceId, "edit")) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -215,7 +236,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/delete-instance-status")
 	public JSONObject deleteInstanceStatusAPI(String instanceId) {
-		if(!checkPermission(instanceId)) {
+		if(!checkPermission(instanceId, "edit")) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -230,7 +251,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/set-instance-status")
 	public JSONObject setInstanceStatusAPI(String instanceId, String status) {
-		if(!checkPermission(instanceId)) {
+		if(!checkPermission(instanceId, "edit")) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -254,7 +275,7 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/toggle-instance-maintenance-status")
 	public JSONObject toggleInstanceMaintenanceStatusAPI(String instanceId) {
-		if(!checkPermission(instanceId)) {
+		if(!checkPermission(instanceId, "edit")) {
 			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 			returnobject.put("status", "error");
 			returnobject.put("error", "permission denied");
@@ -809,7 +830,7 @@ public class ApplicationInstanceServiceImpl
 	}
 	
 	// Umbauen
-	private boolean checkPermission(String instanceid) {
+	private boolean checkPermission(String instanceid, String actions) {
 		try {
 			User user = this.getGuestOrUser();
 			List<Role> roles = user.getRoles();
@@ -835,7 +856,7 @@ public class ApplicationInstanceServiceImpl
 			}
 			if(admin) {
 				String lockedids = BibboxConfigReader.getBibboxLockedAppsInstanceIds();
-				if(lockedids.contains(instanceid)) {
+				if(lockedids.contains(instanceid) && actions.equals("edit")) {
 					return false;
 				}
 				return true;
