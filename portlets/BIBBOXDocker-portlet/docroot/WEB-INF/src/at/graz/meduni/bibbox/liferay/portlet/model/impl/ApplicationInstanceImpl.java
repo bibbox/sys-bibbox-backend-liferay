@@ -272,7 +272,9 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 	public JSONArray getComposeLog(String lines) {
 		JSONArray returnobject = JSONFactoryUtil.createJSONArray();
 		for(ApplicationInstanceContainer container : getContainers()) {
-			returnobject.put(container.getContainerLog(lines));
+			if(container.isNeedrunning()) {
+				returnobject.put(container.getContainerLog(lines));
+			}
 		}
 		returnobject.put(getInstallLog());
 		return returnobject;
