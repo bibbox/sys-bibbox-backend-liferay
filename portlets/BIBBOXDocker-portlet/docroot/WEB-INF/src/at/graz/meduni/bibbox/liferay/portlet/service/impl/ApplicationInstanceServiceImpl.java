@@ -166,7 +166,14 @@ public class ApplicationInstanceServiceImpl
 	
 	@JSONWebService(value = "/get-instance-info")
 	public JSONObject getInstanceInfoAPI(String instanceId) {
-		JSONObject returnobject = getInstanceInfo(instanceId);
+		if(!checkPermission(instanceId, "view")) {
+			JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+			returnobject.put("status", "error");
+			returnobject.put("error", "permission denied");
+			returnobject.put("user", getUserObject());
+			return returnobject;
+		}
+		JSONObject returnobject = getInstanceDashboard(instanceId);
 		returnobject.put("user", getUserObject());
 		return returnobject;
 	}
@@ -574,11 +581,9 @@ public class ApplicationInstanceServiceImpl
 			returnobject.put("status", "error");
 			returnobject.put("error", "InstanceId dose not exist!");
 		} else {
-			returnobject.put("instanceshortname", applicationinstance.getShortName());
-			returnobject.put("url", applicationinstance.getInstanceUrl());
+			returnobject = applicationinstance.getInstanceJSONObject();
+			returnobject.put("maintenance", applicationinstance.getMaintenance());
 			returnobject.put("application", applicationinstance.getApplication());
-			returnobject.put("applicationname", applicationinstance.getApplicationname());
-			returnobject.put("version", applicationinstance.getVersion());
 			returnobject.put("longname", applicationinstance.getName());
 			returnobject.put("logs", getComposeLog(applicationinstance, lines));
 			returnobject.put("log", "");
@@ -855,8 +860,8 @@ public class ApplicationInstanceServiceImpl
 				}
 			}
 			if(admin) {
-				String lockedids = BibboxConfigReader.getBibboxLockedAppsInstanceIds();
-				if(lockedids.contains(instanceid) && actions.equals("edit")) {
+				String lockedids = BibboxConfigReader.getBibboxLockedAppsInstanceIds() + ";";
+				if(lockedids.contains(instanceid + ";") && actions.equals("edit")) {
 					return false;
 				}
 				return true;
