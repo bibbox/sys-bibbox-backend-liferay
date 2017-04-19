@@ -2,18 +2,17 @@
 
 <%
 String baseportalurl_cfg = BibboxConfigReader.getBaseURL();
-String baseurl_cfg = "http://datastore." + baseportalurl_cfg + "/js";
-String baseactivityurl_cfg = "http://activities."+ baseportalurl_cfg;
+String baseurl_cfg = "http://" + baseportalurl_cfg + "/datastore/js";
+String baseactivityurl_cfg = "http://"+ baseportalurl_cfg + "/sys-activities";
 %>
 
-<link rel="stylesheet" type="text/css" href="<%=baseurl_cfg%>/css/apps.css">
+<link rel="stylesheet" type="text/css" href="/datastore/js/css/apps.css">
 
 <div id="activity-wrapper"></div>
 
 <script>
 	var activitydomain = "<%= baseactivityurl_cfg %>";
-	var datastore = "<%= "http://datastore." + baseportalurl_cfg %>";
 </script>
 
-<script type="text/javascript" src="<%=baseurl_cfg%>/js/helpers.js"></script>
-<script src="<%=baseurl_cfg%>/js/activity.js"></script>
+<script type="text/javascript" src="/datastore/js/js/helpers.js"></script>
+<script src="/datastore/js/js/activity.js"></script>

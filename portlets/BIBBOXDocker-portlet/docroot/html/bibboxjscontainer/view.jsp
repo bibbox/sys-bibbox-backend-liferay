@@ -3,7 +3,7 @@
 <%
 String firstparameter_cfg = GetterUtil.getString(portletPreferences.getValue("firstparameter", "%"));
 String baseportalurl_cfg = BibboxConfigReader.getBaseURL();
-String baseurl_cfg = "http://datastore." + baseportalurl_cfg + "/js";
+String baseurl_cfg = "http://" + baseportalurl_cfg + "/datastore/js";
 %>
 
 <link rel="stylesheet" type="text/css" href="<%=baseurl_cfg%>/css/apps.css">
@@ -14,7 +14,6 @@ String baseurl_cfg = "http://datastore." + baseportalurl_cfg + "/js";
  
 <script>
 	var basedomain = "<%= baseportalurl_cfg %>";
-	var datastore = "<%= "http://datastore." + baseportalurl_cfg %>";
    	var params = {
 		<% 
 		int parcounter = 1;
@@ -42,6 +41,6 @@ String baseurl_cfg = "http://datastore." + baseportalurl_cfg + "/js";
 </script>
 
 <script type="text/javascript" src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
-<script type="text/javascript" src="<%=baseurl_cfg%>/js/helpers.js"></script>
-<script src="<%=baseurl_cfg%>/js/apps.js"></script>
+<script type="text/javascript" src="/datastore/js/js/helpers.js"></script>
+<script src="/datastore/js/js/apps.js"></script>
 

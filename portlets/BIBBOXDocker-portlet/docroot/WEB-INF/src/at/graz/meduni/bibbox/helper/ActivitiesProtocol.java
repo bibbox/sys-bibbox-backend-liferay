@@ -20,7 +20,9 @@ public class ActivitiesProtocol {
 		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
 		HttpURLConnection conn = null;
 		try {
-			URL url = new URL("http://activities." + BibboxConfigReader.getBaseURL() + "/activities/api/v1.0/activities");
+			URL url = new URL("http://" + BibboxConfigReader.getBaseURL() + "/sys-activities/activities/api/v1.0/activities");
+			System.out.println(url);
+			System.out.println(input);
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -65,7 +67,7 @@ public class ActivitiesProtocol {
 	public static void updateActivity(String activitId, String input) {
 		HttpURLConnection conn = null;
 		try {
-			URL url = new URL("http://activities." + BibboxConfigReader.getBaseURL() + "/activities/api/v1.0/activities/" + activitId);
+			URL url = new URL("http://" + BibboxConfigReader.getBaseURL() + "/sys-activities/activities/api/v1.0/activities/" + activitId);
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("PUT");
 			conn.setRequestProperty("Content-Type", "application/json");
@@ -96,7 +98,7 @@ public class ActivitiesProtocol {
 	public static void addActivityLogEntry(String activitId, String type, String log) {
 		HttpURLConnection conn = null;
 		try {
-			URL url = new URL("http://activities." + BibboxConfigReader.getBaseURL() + "/activities/api/v1.0/activities/" + activitId + "/logs");
+			URL url = new URL("http://" + BibboxConfigReader.getBaseURL() + "/sys-activities/activities/api/v1.0/activities/" + activitId + "/logs");
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json");
