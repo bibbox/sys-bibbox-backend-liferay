@@ -94,6 +94,33 @@ public class ApplicationInstanceServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getMetaDataInformationAppAPI(
+		java.lang.String instanceId) {
+		return _applicationInstanceService.getMetaDataInformationAppAPI(instanceId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getMetaDataInformationDomainAPI() {
+		return _applicationInstanceService.getMetaDataInformationDomainAPI();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getMetaDataInformationMachineAPI() {
+		return _applicationInstanceService.getMetaDataInformationMachineAPI();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getOpenApplicationInfo(
+		java.lang.String instanceId) {
+		return _applicationInstanceService.getOpenApplicationInfo(instanceId);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getOpenApplicationListAPI() {
+		return _applicationInstanceService.getOpenApplicationListAPI();
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUpdatedApplicationStoreListAPI() {
 		return _applicationInstanceService.getUpdatedApplicationStoreListAPI();
 	}
@@ -165,6 +192,22 @@ public class ApplicationInstanceServiceWrapper
 	@Override
 	public void getTestAPI(java.lang.String string) {
 		_applicationInstanceService.getTestAPI(string);
+	}
+
+	@Override
+	public void updateMetadataInfoAppAPI(java.lang.String instanceId,
+		java.lang.String data) {
+		_applicationInstanceService.updateMetadataInfoAppAPI(instanceId, data);
+	}
+
+	@Override
+	public void updateMetadataInfoDomainAPI(java.lang.String data) {
+		_applicationInstanceService.updateMetadataInfoDomainAPI(data);
+	}
+
+	@Override
+	public void updateMetadataInfoMachineAPI(java.lang.String data) {
+		_applicationInstanceService.updateMetadataInfoMachineAPI(data);
 	}
 
 	@Override

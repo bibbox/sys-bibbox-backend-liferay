@@ -6,9 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.util.List;
 
+import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.api.PullResult;
+import org.eclipse.jgit.api.ResetCommand;
 import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.DetachedHeadException;
@@ -25,6 +27,8 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+
+import com.liferay.portal.kernel.json.JSONArray;
 
 public class UpdateGitRepository {
 	/**
@@ -91,12 +95,12 @@ public class UpdateGitRepository {
 			Git git = new Git(repository);
 			git.checkout().setName(version).call();
 			String sourcefolder = applicationfolderdevelopment;
-			String destfolder = applicationfolder;
-			ProcessBuilder processbuilder = new ProcessBuilder("bash", "-c", "cp -r " + sourcefolder + " " + destfolder);
+			String destfolder = applicationfolder;		
+			ProcessBuilder processbuilder = new ProcessBuilder("bash", "-c", "rsync -av --exclude='.git' " + sourcefolder + "/ " + destfolder);
 			Process process = processbuilder.start();
-			git.close();
 			process.waitFor();
 			git.checkout().setName("master").call();
+			git.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,6 +132,8 @@ public class UpdateGitRepository {
 			FileRepositoryBuilder builder = new FileRepositoryBuilder();
 			Repository repository = builder.setGitDir(repositoryfolder).readEnvironment().findGitDir().build();
 			Git git = new Git(repository);
+			ResetCommand resetCmd = git.reset();
+			resetCmd.call();
 			PullCommand pullCmd = git.pull();
 			pullCmd.setRemoteBranchName("master");
 			PullResult result = pullCmd.call();

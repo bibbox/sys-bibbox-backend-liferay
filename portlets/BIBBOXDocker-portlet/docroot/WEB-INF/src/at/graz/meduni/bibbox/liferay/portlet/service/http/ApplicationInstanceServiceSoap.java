@@ -330,5 +330,112 @@ public class ApplicationInstanceServiceSoap {
 		}
 	}
 
+	public static java.lang.String getMetaDataInformationAppAPI(
+		java.lang.String instanceId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getMetaDataInformationAppAPI(instanceId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getMetaDataInformationMachineAPI()
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getMetaDataInformationMachineAPI();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getMetaDataInformationDomainAPI()
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getMetaDataInformationDomainAPI();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void updateMetadataInfoAppAPI(java.lang.String instanceId,
+		java.lang.String data) throws RemoteException {
+		try {
+			ApplicationInstanceServiceUtil.updateMetadataInfoAppAPI(instanceId,
+				data);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void updateMetadataInfoMachineAPI(java.lang.String data)
+		throws RemoteException {
+		try {
+			ApplicationInstanceServiceUtil.updateMetadataInfoMachineAPI(data);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static void updateMetadataInfoDomainAPI(java.lang.String data)
+		throws RemoteException {
+		try {
+			ApplicationInstanceServiceUtil.updateMetadataInfoDomainAPI(data);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getOpenApplicationListAPI()
+		throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getOpenApplicationListAPI();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static java.lang.String getOpenApplicationInfo(
+		java.lang.String instanceId) throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue = ApplicationInstanceServiceUtil.getOpenApplicationInfo(instanceId);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(ApplicationInstanceServiceSoap.class);
 }

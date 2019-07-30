@@ -90,6 +90,28 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getInstanceMaintenanceAPI(java.lang.String instanceId);
 
+	@JSONWebService(value = "/get-meta-data-information-app")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getMetaDataInformationAppAPI(java.lang.String instanceId);
+
+	@JSONWebService(value = "/get-meta-data-information-domain")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getMetaDataInformationDomainAPI();
+
+	@JSONWebService(value = "/get-meta-data-information-machine")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getMetaDataInformationMachineAPI();
+
+	@AccessControlled(guestAccessEnabled = true)
+	@JSONWebService(value = "/get-open-application-info")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getOpenApplicationInfo(java.lang.String instanceId);
+
+	@AccessControlled(guestAccessEnabled = true)
+	@JSONWebService(value = "/get-open-application-list")
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getOpenApplicationListAPI();
+
 	@JSONWebService(value = "/get-updated-application-store-list")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getUpdatedApplicationStoreListAPI();
@@ -136,4 +158,14 @@ public interface ApplicationInstanceService extends BaseService, InvokableServic
 	@JSONWebService(value = "/test")
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public void getTestAPI(java.lang.String string);
+
+	@JSONWebService(value = "/update-metadata-info-app", method = "POST")
+	public void updateMetadataInfoAppAPI(java.lang.String instanceId,
+		java.lang.String data);
+
+	@JSONWebService(value = "/update-metadata-info-domain", method = "POST")
+	public void updateMetadataInfoDomainAPI(java.lang.String data);
+
+	@JSONWebService(value = "/update-metadata-info-machine", method = "POST")
+	public void updateMetadataInfoMachineAPI(java.lang.String data);
 }

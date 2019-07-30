@@ -2,6 +2,7 @@ package at.graz.meduni.bibbox.liferay.backgroundtasks;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
 import at.graz.meduni.bibbox.helper.ActivitiesProtocol;
+import at.graz.meduni.bibbox.helper.BibboxConfigReader;
 import at.graz.meduni.bibbox.helper.FormatExceptionMessage;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance;
 import at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstanceContainer;
@@ -79,6 +81,7 @@ public class DeleteApplication extends BaseBackgroundTaskExecutor {
 				ex.printStackTrace();
 				finishActivity();
 			}
+			deleteMedatData();
 			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "Deleting Proxy Entry:");
 			deleteProxyEntry(applicationinstance_.getInstanceId());
 			ActivitiesProtocol.addActivityLogEntry(activityId_, "INFO", "Cleanup Portlist:");
@@ -207,6 +210,11 @@ public class DeleteApplication extends BaseBackgroundTaskExecutor {
 			e.printStackTrace();
 			result_status_ = "ERROR";
 		}
+	}
+	
+	private void deleteMedatData() {
+		File file = new File("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general/" + instanceId_  + "." + BibboxConfigReader.getBaseURL() + ".json");
+		file.delete();
 	}
 	
 	private void deleteProxyEntry(String instanceId) {

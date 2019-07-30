@@ -18,6 +18,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
@@ -202,21 +204,22 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 	public String composeUpApplicationInstance() {
 		String installlog = "";
 		try {
-			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose up -d");
+			ProcessBuilder processbuilder = new ProcessBuilder("/bin/bash", "-c", "docker-compose up -d > compose-up.log");
 			processbuilder.directory(new File(this.getFolderPath()));
 			Process process = processbuilder.start();
 			process.waitFor();
 			
+			String compose_up = new String(Files.readAllBytes(Paths.get(this.getFolderPath() + "/compose-up.log")));
+			installlog = FormatExceptionMessage.formatLogMessage("INFO", compose_up, installlog);
+			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			String log;
-			
 			while ((log = reader.readLine()) != null) 
 			{
 				// TODO: Filter for errors
 				String loglevel = "INFO";
 				installlog = FormatExceptionMessage.formatLogMessage(loglevel, log, installlog);
 			}
-			
 			reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			while ((log = reader.readLine()) != null) 
 			{
@@ -293,6 +296,11 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 		returnobject.put("status", this.getApplicationStatus());
 		returnobject.put("ismaintenance", this.getIsmaintenance());
 		returnobject.put("locked", this.getLockStatus());
+		JSONArray containers = JSONFactoryUtil.createJSONArray();
+		for(ApplicationInstanceContainer container : getContainers()) {
+			containers.put(container.getContainerName());
+		}
+		returnobject.put("containers", containers);
 		return returnobject;
 	}
 	
@@ -344,6 +352,79 @@ public class ApplicationInstanceImpl extends ApplicationInstanceBaseImpl {
 			tags_ = application.getJSONArray("tags");
 		}
 		return tags_;
+	}
+	
+	public JSONObject getMetadataInformationAPP() {
+		JSONObject object = JSONFactoryUtil.createJSONObject();
+		JSONObject forms = JSONFactoryUtil.createJSONObject();
+		
+		JSONObject general = JSONFactoryUtil.createJSONObject();
+		JSONObject general_schema = getSchemaJson("/opt/bibbox/metadata/general/schema.json");
+		if(general_schema != null) {
+			general.put("schema.json", general_schema);
+		}
+		JSONObject general_ui_schema = getSchemaJson("/opt/bibbox/metadata/general/ui-schema.json");
+		if(general_ui_schema != null) {
+			general.put("ui_schema.json", general_ui_schema);
+		}
+		JSONObject general_form_data = getSchemaJson("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general/" + this.getInstanceId() + "." + BibboxConfigReader.getBaseURL() + ".json");
+		if(general_form_data != null) {
+			general.put("form_data.json", general_form_data);
+		}
+		
+		boolean set_specific = false;
+		JSONObject specific = JSONFactoryUtil.createJSONObject();
+		JSONObject specific_schema = getSchemaJson("/opt/bibbox/metadata/" + this.getApplication() + "/schema.json");
+		if(specific_schema != null) {
+			specific.put("schema.json", specific_schema);
+			set_specific = true;
+		}
+		JSONObject specific_ui_schema = getSchemaJson("/opt/bibbox/metadata/" + this.getApplication() + "/ui-schema.json");
+		if(specific_ui_schema != null) {
+			specific.put("ui_schema.json", specific_ui_schema);
+			set_specific = true;
+		}
+		JSONObject specific_form_data = getSchemaJson("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general/" + this.getInstanceId() + "." + BibboxConfigReader.getBaseURL() + ".json");
+		if(specific_form_data != null) {
+			specific.put("form_data.json", specific_form_data);
+		}
+		if(set_specific) {
+			forms.put("specific", specific);
+		} else {
+			forms.put("general", general);
+		}
+		
+		object.put("form", forms);
+		
+		
+		object.put("machine_id", BibboxConfigReader.getBaseURL());
+		object.put("instance_id", this.getInstanceId());
+		JSONObject appdata = getApplicationfile();
+		object.put("app_name", appdata.get("name"));
+		object.put("appversion", appdata.get("version"));
+		object.put("app_id", this.getApplication());
+		object.put("created", this.getCreateDate());
+		object.put("version", this.getVersion());
+		object.put("short_name", this.getShortName());
+		object.put("long_name", this.getName());
+		object.put("url", this.getInstanceUrl());
+		return object;
+	}
+	
+	private JSONObject getSchemaJson(String path) {
+		JSONObject general_schema = JSONFactoryUtil.createJSONObject();
+		File f = new File(path);
+		if(!f.exists()) { 
+		    return null;
+		}
+		String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(path);
+		try {
+			general_schema = JSONFactoryUtil.createJSONObject(jsonstring);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return general_schema;
 	}
 	
 	private JSONObject getApplicationfile() {

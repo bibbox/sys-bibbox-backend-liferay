@@ -327,6 +327,11 @@ public class ApplicationInstanceWrapper implements ApplicationInstance,
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getMetadataInformationAPP() {
+		return _applicationInstance.getMetadataInformationAPP();
+	}
+
+	@Override
 	public com.liferay.portal.kernel.model.CacheModel<at.graz.meduni.bibbox.liferay.portlet.model.ApplicationInstance> toCacheModel() {
 		return _applicationInstance.toCacheModel();
 	}

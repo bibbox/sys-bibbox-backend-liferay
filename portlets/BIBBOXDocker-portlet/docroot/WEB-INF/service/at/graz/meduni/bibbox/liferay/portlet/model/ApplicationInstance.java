@@ -92,4 +92,6 @@ public interface ApplicationInstance extends ApplicationInstanceModel,
 	public java.lang.String getApplicationname();
 
 	public com.liferay.portal.kernel.json.JSONArray getApplicationTags();
+
+	public com.liferay.portal.kernel.json.JSONObject getMetadataInformationAPP();
 }

@@ -1136,6 +1136,25 @@ public class ApplicationInstanceClp extends BaseModelImpl<ApplicationInstance>
 		}
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getMetadataInformationAPP() {
+		try {
+			String methodName = "getMetadataInformationAPP";
+
+			Class<?>[] parameterTypes = new Class<?>[] {  };
+
+			Object[] parameterValues = new Object[] {  };
+
+			com.liferay.portal.kernel.json.JSONObject returnObj = (com.liferay.portal.kernel.json.JSONObject)invokeOnRemoteModel(methodName,
+					parameterTypes, parameterValues);
+
+			return returnObj;
+		}
+		catch (Exception e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
 	public BaseModel<?> getApplicationInstanceRemoteModel() {
 		return _applicationInstanceRemoteModel;
 	}

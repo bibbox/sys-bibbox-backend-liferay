@@ -5,9 +5,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +17,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.sonar.runner.commonsio.FileUtils;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
@@ -85,6 +89,7 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 				createFolder();
 				// Copy files (2)
 				copyFiles();
+				copyMetaDataFormFiles();
 				// Register Port (3)
 				registerPorts();
 				// Register Containers (4)
@@ -208,6 +213,61 @@ public class InstallApplicationBG extends BaseBackgroundTaskExecutor {
 		} catch(Exception e){
 			System.err.println(e);
 		}
+	}
+	
+	private void copyMetaDataFormFiles() {
+		try { 
+			File f = new File("/opt/bibbox/metadata/" + installapplicationinstance_.getApplication() + "/form_data.json");
+			
+			String jsonstring = "";
+			
+			if(f.exists()) {
+				jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile("/opt/bibbox/metadata/" + installapplicationinstance_.getApplication() + "/form_data.json");
+			} else {
+				jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile("/opt/bibbox/metadata/general/form_data.json");
+				
+			}
+			jsonstring = replaceParameters(jsonstring);
+			
+			try{
+				
+				boolean success = (new File("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general")).mkdirs();
+				PrintWriter out = new PrintWriter(new FileWriter("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general/" + installapplicationinstance_.getInstanceId()  + "." + BibboxConfigReader.getBaseURL() + ".json", false));
+				
+				out.println(jsonstring);
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		} catch(Exception e){
+			System.err.println(e);
+		}
+	}
+	
+	private String replaceParameters(String jsonstring) {
+		JSONObject appdata = getApplicationfile();
+		jsonstring = jsonstring.replaceAll("§§MACHINE_ID", "\"" + BibboxConfigReader.getBaseURL() +  "\"");
+		jsonstring = jsonstring.replaceAll("§§INSTANCE_ID", installapplicationinstance_.getInstanceId());
+		jsonstring = jsonstring.replaceAll("§§APP_ID", installapplicationinstance_.getApplication());
+		jsonstring = jsonstring.replaceAll("§§APP_NAME", appdata.get("name").toString());
+		jsonstring = jsonstring.replaceAll("§§VESRION", installapplicationinstance_.getVersion());
+		jsonstring = jsonstring.replaceAll("§§URL", installapplicationinstance_.getInstanceUrl());
+		jsonstring = jsonstring.replaceAll("§§CREATED", installapplicationinstance_.getCreateDate().toString());
+		return jsonstring;
+	}
+	
+	private JSONObject getApplicationfile() {
+		String applicationfolder = BibboxConfigReader.getApplicationFolder(installapplicationinstance_.getApplication(), installapplicationinstance_.getVersion());
+		String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(applicationfolder + "/appinfo.json");
+		JSONObject object = JSONFactoryUtil.createJSONObject();
+		try {
+			object = JSONFactoryUtil.createJSONObject(jsonstring);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return object;
 	}
 	
 	private void registerPorts() {

@@ -16,8 +16,10 @@ package at.graz.meduni.bibbox.liferay.portlet.service.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletClassLoaderUtil;
+import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
@@ -132,6 +135,7 @@ public class ApplicationInstanceServiceImpl
 		returnobject.put("user", getUserObject());
 		UpdateGitRepositoriesBackgroundTask updategitrepositoriesbackgroundtask = new UpdateGitRepositoriesBackgroundTask("Update Application Store");
 		updategitrepositoriesbackgroundtask.start();
+		updateMachinePerformanceMetricData();
 		return returnobject;
 	}
 	
@@ -365,6 +369,69 @@ public class ApplicationInstanceServiceImpl
 			}
 		}
 		System.out.println("PortletConfiguration ... end");
+		return returnobject;
+	}
+	
+	@JSONWebService(value = "/get-meta-data-information-app")
+	public JSONObject getMetaDataInformationAppAPI(String instanceId) {
+		//UpdateGitRepository updategitrepository = new UpdateGitRepository();
+		//String gitstatus = updategitrepository.updateLocalGitRepository(BibboxConfigReader.getApplicationStorePWD() + "/application-store");
+		
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		ApplicationInstance applicationinstance = ApplicationInstanceLocalServiceUtil.getApplicationInstance(instanceId);
+		if(applicationinstance == null) {
+			returnobject.put("status", "error");
+			returnobject.put("error", "InstanceId dose not exist!");
+		} else {
+			return applicationinstance.getMetadataInformationAPP();
+		}
+		return returnobject;
+	}
+	
+	@JSONWebService(value = "/get-meta-data-information-machine")
+	public JSONObject getMetaDataInformationMachineAPI() {
+		//UpdateGitRepository updategitrepository = new UpdateGitRepository();
+		//String gitstatus = updategitrepository.updateLocalGitRepository(BibboxConfigReader.getApplicationStorePWD() + "/application-store");
+		
+		return getMetaDataInformationMachine();
+	}
+	
+	@JSONWebService(value = "/get-meta-data-information-domain")
+	public JSONObject getMetaDataInformationDomainAPI() {
+		//UpdateGitRepository updategitrepository = new UpdateGitRepository();
+		//String gitstatus = updategitrepository.updateLocalGitRepository(BibboxConfigReader.getApplicationStorePWD() + "/application-store");
+		
+		return getMetaDataInformationDomain();
+	}
+	
+	@JSONWebService(value = "/update-metadata-info-app", method = "POST")
+	public void updateMetadataInfoAppAPI(String instanceId, String data) {
+		updateMetadataInfoApp(instanceId, data);
+	}
+	
+	@JSONWebService(value = "/update-metadata-info-machine", method = "POST")
+	public void updateMetadataInfoMachineAPI(String data) {
+		updateMetadataInfoMachine(data);
+	}
+	
+	@JSONWebService(value = "/update-metadata-info-domain", method = "POST")
+	public void updateMetadataInfoDomainAPI(String data) {
+		updateMetadataInfoDomain(data);
+	}
+	
+	@AccessControlled(guestAccessEnabled=true)
+	@JSONWebService(value = "/get-open-application-list")
+	public JSONObject getOpenApplicationListAPI() {
+		JSONObject returnobject = JSONFactoryUtil.createJSONObject();
+		returnobject.put("instances", getInstanceList());
+		returnobject.put("user", getUserObject());
+		return returnobject;
+	}
+	
+	@AccessControlled(guestAccessEnabled=true)
+	@JSONWebService(value = "/get-open-application-info")
+	public JSONObject getOpenApplicationInfo(String instanceId) {
+		JSONObject returnobject = getInstanceDashboard(instanceId);
 		return returnobject;
 	}
 	
@@ -895,5 +962,217 @@ public class ApplicationInstanceServiceImpl
 		Date curDate = new Date();
 		activity.put("finished_time", format_date.format(curDate) + "T" + format_time.format(curDate) + "Z");
 		ActivitiesProtocol.updateActivity(activityId, activity.toJSONString());
+	}
+	
+	private void updateMetadataInfoApp(String instanceId, String data) {
+		try{
+			
+			boolean success = (new File("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general")).mkdirs();
+			PrintWriter out = new PrintWriter(new FileWriter("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general/" + instanceId  + "." + BibboxConfigReader.getBaseURL() + ".json", false));
+			
+			JSONObject app_data = JSONFactoryUtil.createJSONObject();
+			try {
+				app_data = JSONFactoryUtil.createJSONObject(data);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			out.println(app_data.toJSONString());
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		updateMachinePerformanceMetricData();
+	}
+	
+	private void updateMetadataInfoMachine(String data) {
+		try{
+			boolean success = (new File("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine")).mkdirs();
+			PrintWriter out = new PrintWriter(new FileWriter("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine/" + BibboxConfigReader.getBaseURL() + ".json", false));
+			
+			JSONObject app_data = JSONFactoryUtil.createJSONObject();
+			try {
+				app_data = JSONFactoryUtil.createJSONObject(data);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("1 Medatadat: " + app_data.toJSONString());
+			out.println(app_data.toJSONString());
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		updateMachinePerformanceMetricData();
+	}
+	
+	private void updateMetadataInfoDomain(String data) {
+		try{
+			boolean success = (new File("/opt/bibbox/sys-bibbox-sync/data/sync-biobank/" + BibboxConfigReader.getBibboxSyncIndexDomain() + "/general-domain")).mkdirs();
+			PrintWriter out = new PrintWriter(new FileWriter("/opt/bibbox/sys-bibbox-sync/data/sync-biobank/" + BibboxConfigReader.getBibboxSyncIndexDomain() + "/general-domain/" + BibboxConfigReader.getBaseURL() + ".json", false));
+			
+			JSONObject app_data = JSONFactoryUtil.createJSONObject();
+			try {
+				app_data = JSONFactoryUtil.createJSONObject(data);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			out.println(app_data.toJSONString());
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		updateMachinePerformanceMetricData();
+	}
+	
+	private JSONObject getMetaDataInformationMachine() {
+		JSONObject jsonobject = JSONFactoryUtil.createJSONObject();
+		JSONObject forms = JSONFactoryUtil.createJSONObject();
+		
+		boolean set_general = false;
+		JSONObject general = JSONFactoryUtil.createJSONObject();
+		JSONObject general_schema = getSchemaJson("/opt/bibbox/metadata/general-machine/schema.json");
+		if(general_schema != null) {
+			general.put("schema.json", general_schema);
+			set_general = true;
+		}
+		JSONObject general_ui_schema = getSchemaJson("/opt/bibbox/metadata/general-machine/ui-schema.json");
+		if(general_ui_schema != null) {
+			general.put("ui_schema.json", general_ui_schema);
+			set_general = true;
+		}
+		File test = new File("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine/" + BibboxConfigReader.getBaseURL() + ".json");
+		if(!test.exists()) {
+			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile("/opt/bibbox/metadata/general-machine/form_data.json");
+			jsonstring = replaceParameters(jsonstring);
+			try{
+				boolean success = (new File("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine")).mkdirs();
+				PrintWriter out = new PrintWriter(new FileWriter("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine/" + BibboxConfigReader.getBaseURL() + ".json", false));
+				
+				out.println(jsonstring);
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		JSONObject general_form_data = getSchemaJson("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine/" + BibboxConfigReader.getBaseURL() + ".json");
+		if(general_form_data != null) {
+			general.put("form_data.json", general_form_data);
+			set_general = true;
+		}
+		if(set_general) {
+			forms.put("general", general);
+		}
+		
+		jsonobject.put("form", forms);
+		jsonobject.put("machine_id", BibboxConfigReader.getBaseURL());
+		return jsonobject;
+	}
+	
+	private String replaceParameters(String jsonstring) {
+		jsonstring = jsonstring.replaceAll("\"§§MACHINE_ID\"", "\"" + BibboxConfigReader.getBaseURL() + "\"");
+		jsonstring = jsonstring.replaceAll("\"§§CPUS\"", BibboxConfigReader.getMachineCPUs());
+		jsonstring = jsonstring.replaceAll("\"§§MEMORY\"", BibboxConfigReader.getTotalMemory());
+		jsonstring = jsonstring.replaceAll("\"§§STORAGE\"", BibboxConfigReader.getMachineMemoryUsed());
+		return jsonstring;
+	}
+	
+	private JSONObject getMetaDataInformationDomain() {
+		JSONObject jsonobject = JSONFactoryUtil.createJSONObject();
+		JSONObject forms = JSONFactoryUtil.createJSONObject();
+		
+		boolean set_general = false;
+		JSONObject general = JSONFactoryUtil.createJSONObject();
+		JSONObject general_schema = getSchemaJson("/opt/bibbox/metadata/general-domain/schema.json");
+		if(general_schema != null) {
+			general.put("schema.json", general_schema);
+			set_general = true;
+		}
+		JSONObject general_ui_schema = getSchemaJson("/opt/bibbox/metadata/general-domain/ui-schema.json");
+		if(general_ui_schema != null) {
+			general.put("ui_schema.json", general_ui_schema);
+			set_general = true;
+		}
+		File test = new File("/opt/bibbox/sys-bibbox-sync/data/sync-biobank/" + BibboxConfigReader.getBibboxSyncIndexDomain() + "/general-domain/" + BibboxConfigReader.getBaseURL() + ".json");
+		if(!test.exists()) {
+			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile("/opt/bibbox/metadata/general-domain/form_data.json");
+			jsonstring = replaceParameters(jsonstring);
+			try{
+				boolean success = (new File("/opt/bibbox/sys-bibbox-sync/data/sync-biobank/" + BibboxConfigReader.getBibboxSyncIndexDomain() + "/general-domain")).mkdirs();
+				PrintWriter out = new PrintWriter(new FileWriter("/opt/bibbox/sys-bibbox-sync/data/sync-biobank/" + BibboxConfigReader.getBibboxSyncIndexDomain() + "/general-domain/" + BibboxConfigReader.getBaseURL() + ".json", false));
+				
+				out.println(jsonstring);
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		JSONObject general_form_data = getSchemaJson("/opt/bibbox/sys-bibbox-sync/data/sync-biobank/" + BibboxConfigReader.getBibboxSyncIndexDomain() + "/general-domain/" + BibboxConfigReader.getBaseURL() + ".json");
+		if(general_form_data != null) {
+			general.put("form_data.json", general_form_data);
+			set_general = true;
+		}
+		if(set_general) {
+			forms.put("general", general);
+		}
+		
+		jsonobject.put("form", forms);
+		jsonobject.put("machine_id", BibboxConfigReader.getBaseURL());
+		return jsonobject;
+	}
+	
+	private JSONObject getSchemaJson(String path) {
+		JSONObject general_schema = JSONFactoryUtil.createJSONObject();
+		File f = new File(path);
+		if(!f.exists()) { 
+		    return null;
+		}
+		String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile(path);
+		try {
+			general_schema = JSONFactoryUtil.createJSONObject(jsonstring);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return general_schema;
+	}
+	
+	private void updateMachinePerformanceMetricData() {
+		File test = new File("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine/" + BibboxConfigReader.getBaseURL() + ".json");
+		if(!test.exists()) {
+			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile("/opt/bibbox/metadata/general-machine/form_data.json");
+			jsonstring = replaceParameters(jsonstring);
+			try{
+				boolean success = (new File("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine")).mkdirs();
+				PrintWriter out = new PrintWriter(new FileWriter("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine/" + BibboxConfigReader.getBaseURL() + ".json", false));
+					
+				out.println(jsonstring);
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			String jsonstring = BibboxConfigReader.readApplicationsStoreJsonFile("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine/" + BibboxConfigReader.getBaseURL() + ".json");
+			jsonstring = updateParameters(jsonstring);
+			try{
+				boolean success = (new File("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine")).mkdirs();
+				PrintWriter out = new PrintWriter(new FileWriter("/opt/bibbox/sys-bibbox-sync/data/sync/" + BibboxConfigReader.getBibboxSyncIndexMachine() + "/general-machine/" + BibboxConfigReader.getBaseURL() + ".json", false));
+					
+				out.println(jsonstring);
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private String updateParameters(String jsonstring) {
+		jsonstring = jsonstring.replaceAll("\"cpus\":\"?\\d*\"?,", "\"cpus\":" + BibboxConfigReader.getMachineCPUs()+ ",");
+		jsonstring = jsonstring.replaceAll("\"memory\":\"?\\d*\"?,",  "\"memory\":" + BibboxConfigReader.getTotalMemory()+ ",");
+		jsonstring = jsonstring.replaceAll("\"storage\":\"?\\d*\"?",  "\"storage\":" + BibboxConfigReader.getMachineMemoryUsed()+ "");
+		return jsonstring;
 	}
 }

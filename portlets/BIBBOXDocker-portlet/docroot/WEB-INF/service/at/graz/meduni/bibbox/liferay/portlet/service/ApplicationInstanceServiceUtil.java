@@ -89,6 +89,28 @@ public class ApplicationInstanceServiceUtil {
 		return getService().getInstanceMaintenanceAPI(instanceId);
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getMetaDataInformationAppAPI(
+		java.lang.String instanceId) {
+		return getService().getMetaDataInformationAppAPI(instanceId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getMetaDataInformationDomainAPI() {
+		return getService().getMetaDataInformationDomainAPI();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getMetaDataInformationMachineAPI() {
+		return getService().getMetaDataInformationMachineAPI();
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getOpenApplicationInfo(
+		java.lang.String instanceId) {
+		return getService().getOpenApplicationInfo(instanceId);
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getOpenApplicationListAPI() {
+		return getService().getOpenApplicationListAPI();
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getUpdatedApplicationStoreListAPI() {
 		return getService().getUpdatedApplicationStoreListAPI();
 	}
@@ -152,6 +174,19 @@ public class ApplicationInstanceServiceUtil {
 
 	public static void getTestAPI(java.lang.String string) {
 		getService().getTestAPI(string);
+	}
+
+	public static void updateMetadataInfoAppAPI(java.lang.String instanceId,
+		java.lang.String data) {
+		getService().updateMetadataInfoAppAPI(instanceId, data);
+	}
+
+	public static void updateMetadataInfoDomainAPI(java.lang.String data) {
+		getService().updateMetadataInfoDomainAPI(data);
+	}
+
+	public static void updateMetadataInfoMachineAPI(java.lang.String data) {
+		getService().updateMetadataInfoMachineAPI(data);
 	}
 
 	public static void clearService() {

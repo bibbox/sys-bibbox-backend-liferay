@@ -117,6 +117,40 @@ public class ApplicationInstanceServiceClpInvoker {
 		_methodParameterTypes64 = new String[] {
 				"long", "long", "java.lang.String", "java.lang.String"
 			};
+
+		_methodName65 = "getMetaDataInformationAppAPI";
+
+		_methodParameterTypes65 = new String[] { "java.lang.String" };
+
+		_methodName66 = "getMetaDataInformationMachineAPI";
+
+		_methodParameterTypes66 = new String[] {  };
+
+		_methodName67 = "getMetaDataInformationDomainAPI";
+
+		_methodParameterTypes67 = new String[] {  };
+
+		_methodName68 = "updateMetadataInfoAppAPI";
+
+		_methodParameterTypes68 = new String[] {
+				"java.lang.String", "java.lang.String"
+			};
+
+		_methodName69 = "updateMetadataInfoMachineAPI";
+
+		_methodParameterTypes69 = new String[] { "java.lang.String" };
+
+		_methodName70 = "updateMetadataInfoDomainAPI";
+
+		_methodParameterTypes70 = new String[] { "java.lang.String" };
+
+		_methodName71 = "getOpenApplicationListAPI";
+
+		_methodParameterTypes71 = new String[] {  };
+
+		_methodName72 = "getOpenApplicationInfo";
+
+		_methodParameterTypes72 = new String[] { "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -228,6 +262,53 @@ public class ApplicationInstanceServiceClpInvoker {
 				(java.lang.String)arguments[2], (java.lang.String)arguments[3]);
 		}
 
+		if (_methodName65.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getMetaDataInformationAppAPI((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName66.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getMetaDataInformationMachineAPI();
+		}
+
+		if (_methodName67.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getMetaDataInformationDomainAPI();
+		}
+
+		if (_methodName68.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
+			ApplicationInstanceServiceUtil.updateMetadataInfoAppAPI((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1]);
+
+			return null;
+		}
+
+		if (_methodName69.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
+			ApplicationInstanceServiceUtil.updateMetadataInfoMachineAPI((java.lang.String)arguments[0]);
+
+			return null;
+		}
+
+		if (_methodName70.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes70, parameterTypes)) {
+			ApplicationInstanceServiceUtil.updateMetadataInfoDomainAPI((java.lang.String)arguments[0]);
+
+			return null;
+		}
+
+		if (_methodName71.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes71, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getOpenApplicationListAPI();
+		}
+
+		if (_methodName72.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes72, parameterTypes)) {
+			return ApplicationInstanceServiceUtil.getOpenApplicationInfo((java.lang.String)arguments[0]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -269,4 +350,20 @@ public class ApplicationInstanceServiceClpInvoker {
 	private String[] _methodParameterTypes63;
 	private String _methodName64;
 	private String[] _methodParameterTypes64;
+	private String _methodName65;
+	private String[] _methodParameterTypes65;
+	private String _methodName66;
+	private String[] _methodParameterTypes66;
+	private String _methodName67;
+	private String[] _methodParameterTypes67;
+	private String _methodName68;
+	private String[] _methodParameterTypes68;
+	private String _methodName69;
+	private String[] _methodParameterTypes69;
+	private String _methodName70;
+	private String[] _methodParameterTypes70;
+	private String _methodName71;
+	private String[] _methodParameterTypes71;
+	private String _methodName72;
+	private String[] _methodParameterTypes72;
 }

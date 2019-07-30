@@ -4,8 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.Method;
 import java.util.Properties;
+
+import org.apache.commons.io.FileSystemUtils;
 
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -26,6 +33,7 @@ public class BibboxConfigReader {
 	private static String baseurl_ = null;
 	private static String adminroles_ = null;
 	private static String vmadminroles_ = null;
+	private static String baseurlschema_ = null;
 	
 	public static String getApplicationStorePWD() {
 		if(applicationstorefolder_ == null) {
@@ -87,6 +95,13 @@ public class BibboxConfigReader {
 		return baseurl_;
 	}
 	
+	public static String getBaseURLSchema() {
+		if(baseurlschema_ == null) {
+			getBaseURLSchemafromConfig();
+		}
+		return baseurlschema_;
+	}
+	
 	public static String getAdminRoles() {
 		if(adminroles_ == null) {
 			getAdminRolesfromConfig();
@@ -126,6 +141,46 @@ public class BibboxConfigReader {
 	
 	public static String getBibboxLockedAppsInstanceIds() {
 		return readBibboxLockedAppsInstanceIds();
+	}
+	
+	public static String getBibboxSyncIndexDomain() {
+		return readBibboxSyncIndex("elasticDomainIndex");
+	}
+	
+	public static String getBibboxSyncIndexMachine() {
+		return readBibboxSyncIndex("elasticMachineIndex");
+	}
+	
+	public static String getMachineCPUs() {
+		Integer cpus = ((java.lang.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getAvailableProcessors();	
+		return cpus.toString();
+	}
+	
+	public static String getMachineMemoryUsed() {
+		File root = new File("/");
+		Long diskSize = root.getTotalSpace() - root.getFreeSpace();
+		return diskSize.toString();
+	}
+	
+	public static String getTotalMemory() {
+		try {
+			String s;
+		    try {
+		        Process ps = Runtime.getRuntime().exec("cat /proc/meminfo");
+		        BufferedReader br = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+		        while((s = br.readLine()) != null) {
+		        	if(s.contains("MemTotal:")) {
+		        		//System.out.println("Memory: " + s.replaceAll("MemTotal:\\s*", "").replaceAll(" kB", ""));
+		        		return s.replaceAll("MemTotal:\\s*", "").replaceAll(" kB", "");
+		        	}
+		        }
+		    }
+		    catch( Exception ex ) {
+		        System.out.println(ex.toString());
+		    }
+		} catch (Exception e) {
+		}
+		return "0";
 	}
 	
 	private static void getBibboxApplicationStorePWDfromConfig() {
@@ -175,7 +230,7 @@ public class BibboxConfigReader {
 			scriptfolder_ = basepwd + "/" + folder;
 			is.close();
 		} catch (Exception e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBibboxInstancePWDfromConfig()", "Error reading bibbox config file."));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getScriptFolderFromConfig()", "Error reading bibbox config file."));
 			e.printStackTrace();
 		}
 	}
@@ -188,7 +243,21 @@ public class BibboxConfigReader {
 			baseurl_ = bibboxproperties.getProperty("bibboxbaseurl").replaceAll("\"", "");
 			is.close();
 		} catch (Exception e) {
-			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBibboxApplicationStorePWDfromConfig()", "Error reading bibbox config file."));
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBaseURLfromConfig()", "Error reading bibbox config file."));
+			e.printStackTrace();
+		}
+	}
+	
+	private static void getBaseURLSchemafromConfig() {
+		baseurlschema_ = "http://";
+		try {
+			Properties bibboxproperties = new Properties();
+			InputStream is = new FileInputStream(getLiferayConfigForBibboxConfigFile());
+			bibboxproperties.load(is);
+			baseurlschema_ = bibboxproperties.getProperty("bibboxbaseurlschema").replaceAll("\"", "");
+			is.close();
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBaseURLSchemafromConfig()", "Error reading bibbox config file."));
 			e.printStackTrace();
 		}
 	}
@@ -251,5 +320,20 @@ public class BibboxConfigReader {
 			e.printStackTrace();
 		}
 		return applock_ids;
+	}
+	
+	private static String readBibboxSyncIndex(String indexconfig) {
+		String el_index = "bibbox";
+		try {
+			Properties bibboxproperties = new Properties();
+			InputStream is = new FileInputStream(getLiferayConfigForBibboxConfigFile());
+			bibboxproperties.load(is);
+			el_index = bibboxproperties.getProperty(indexconfig).replaceAll("\"", "");
+			is.close();
+		} catch (Exception e) {
+			System.err.println(FormatExceptionMessage.formatExceptionMessage("error", log_portlet_, log_classname_, "getBibboxApplicationStorePWDfromConfig()", "Error reading bibbox config file."));
+			e.printStackTrace();
+		}
+		return el_index;
 	}
 }

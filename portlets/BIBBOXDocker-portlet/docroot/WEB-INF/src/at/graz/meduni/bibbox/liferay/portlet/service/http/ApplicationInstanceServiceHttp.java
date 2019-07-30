@@ -553,6 +553,213 @@ public class ApplicationInstanceServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getMetaDataInformationAppAPI(
+		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getMetaDataInformationAppAPI",
+					_getMetaDataInformationAppAPIParameterTypes18);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getMetaDataInformationMachineAPI(
+		HttpPrincipal httpPrincipal) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getMetaDataInformationMachineAPI",
+					_getMetaDataInformationMachineAPIParameterTypes19);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getMetaDataInformationDomainAPI(
+		HttpPrincipal httpPrincipal) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getMetaDataInformationDomainAPI",
+					_getMetaDataInformationDomainAPIParameterTypes20);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static void updateMetadataInfoAppAPI(HttpPrincipal httpPrincipal,
+		java.lang.String instanceId, java.lang.String data) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"updateMetadataInfoAppAPI",
+					_updateMetadataInfoAppAPIParameterTypes21);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId, data);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static void updateMetadataInfoMachineAPI(
+		HttpPrincipal httpPrincipal, java.lang.String data) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"updateMetadataInfoMachineAPI",
+					_updateMetadataInfoMachineAPIParameterTypes22);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, data);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static void updateMetadataInfoDomainAPI(
+		HttpPrincipal httpPrincipal, java.lang.String data) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"updateMetadataInfoDomainAPI",
+					_updateMetadataInfoDomainAPIParameterTypes23);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, data);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getOpenApplicationListAPI(
+		HttpPrincipal httpPrincipal) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getOpenApplicationListAPI",
+					_getOpenApplicationListAPIParameterTypes24);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONObject getOpenApplicationInfo(
+		HttpPrincipal httpPrincipal, java.lang.String instanceId) {
+		try {
+			MethodKey methodKey = new MethodKey(ApplicationInstanceServiceUtil.class,
+					"getOpenApplicationInfo",
+					_getOpenApplicationInfoParameterTypes25);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					instanceId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(ApplicationInstanceServiceHttp.class);
 	private static final Class<?>[] _getVersionAPIParameterTypes0 = new Class[] {  };
 	private static final Class<?>[] _getApplicationStoreListAPIParameterTypes1 = new Class[] {
@@ -608,6 +815,25 @@ public class ApplicationInstanceServiceHttp {
 		};
 	private static final Class<?>[] _setPortletConfigurationParameterTypes17 = new Class[] {
 			long.class, long.class, java.lang.String.class,
+			java.lang.String.class
+		};
+	private static final Class<?>[] _getMetaDataInformationAppAPIParameterTypes18 =
+		new Class[] { java.lang.String.class };
+	private static final Class<?>[] _getMetaDataInformationMachineAPIParameterTypes19 =
+		new Class[] {  };
+	private static final Class<?>[] _getMetaDataInformationDomainAPIParameterTypes20 =
+		new Class[] {  };
+	private static final Class<?>[] _updateMetadataInfoAppAPIParameterTypes21 = new Class[] {
+			java.lang.String.class, java.lang.String.class
+		};
+	private static final Class<?>[] _updateMetadataInfoMachineAPIParameterTypes22 =
+		new Class[] { java.lang.String.class };
+	private static final Class<?>[] _updateMetadataInfoDomainAPIParameterTypes23 =
+		new Class[] { java.lang.String.class };
+	private static final Class<?>[] _getOpenApplicationListAPIParameterTypes24 = new Class[] {
+			
+		};
+	private static final Class<?>[] _getOpenApplicationInfoParameterTypes25 = new Class[] {
 			java.lang.String.class
 		};
 }
